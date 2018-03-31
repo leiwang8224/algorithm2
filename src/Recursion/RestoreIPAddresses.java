@@ -24,8 +24,8 @@ public class RestoreIPAddresses {
         for(int i = 1; i<4 && i<len-2; i++){
             for(int j = i+1; j<i+4 && j<len-1; j++){
                 for(int k = j+1; k<j+4 && k<len; k++){
-                    String s1 = givenString.substring(0,i),
-                            s2 = givenString.substring(i,j),
+                    String s1 = givenString.substring(0,i),     // 1 to 4
+                            s2 = givenString.substring(i,j),    //
                             s3 = givenString.substring(j,k),
                             s4 = givenString.substring(k,len);
                     if(isValid(s1) && isValid(s2) && isValid(s3) && isValid(s4)){
