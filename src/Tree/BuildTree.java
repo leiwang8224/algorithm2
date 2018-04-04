@@ -131,6 +131,11 @@ public class BuildTree {
         return Math.min(getDepth(head.left),getDepth(head.right))+1;
     }
 
+    /**
+     * Invert binary tree
+     * @param head
+     * @return
+     */
     private static ListNode inverseTree(ListNode head) {
         if (head == null)
             return null;
@@ -423,6 +428,23 @@ public class BuildTree {
         if (head == null)
             return 0;
         return 1 + countNodesInTree(head.left) + countNodesInTree(head.right);
+    }
+
+    private static void printRange(ListNode head, int leftRange, int rightRange) {
+        if (head == null)
+            return;
+
+        if (leftRange < head.getVal()) {
+            printRange(head.left, leftRange, rightRange);
+        }
+
+        if (leftRange <= head.getVal() && rightRange >= head.getVal()) {
+            System.out.print(head.getVal() + " ");
+        }
+
+        if (rightRange > head.getVal()) {
+            printRange(head.right, leftRange, rightRange);
+        }
     }
 
 
