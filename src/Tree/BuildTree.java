@@ -447,6 +447,42 @@ public class BuildTree {
         }
     }
 
+    /**
+     * Find lowest common ancestor for node1 and node2
+     * @param head
+     * @param node1
+     * @param node2
+     * @return
+     */
+    private static ListNode findLowestCommonAncestor(ListNode head, ListNode node1, ListNode node2) {
+        if(head == null || head == node1 || head == node2)  return head;
+        ListNode left = findLowestCommonAncestor(head.left, node1, node2);
+        ListNode right = findLowestCommonAncestor(head.right, node1, node2);
+        if(left != null && right != null)   return head;
+        return left != null ? left : right;
+    }
+
+    private static List<List<Integer>> zigzagTraversal(ListNode head) {
+        List<List<Integer>> sol = new ArrayList<>();
+        travel(head, sol, 0);
+        return sol;
+    }
+
+    private static void travel(ListNode head, List<List<Integer>> sol, int level) {
+        if (head == null) return;
+
+        if (sol.size() <= level) {
+            List<Integer> newLevel = new LinkedList<>();
+            sol.add(newLevel);
+        }
+
+        List<Integer> collection = sol.get(level);
+        if (level % 2 == 0) collection.add(head.getVal());
+        else collection.add(0, head.getVal());
+
+        travel(head.left, sol, level + 1);
+        travel(head.right, sol, level + 1);
+    }
 
 
 }
