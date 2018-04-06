@@ -26,30 +26,37 @@ public class MergeSort {
         if (startIndex < endIndex) {
             int m = (startIndex + endIndex) / 2;
 
+            // sort the first half of the array
             sort(intArray, startIndex, m);
+
+            // sort the second half of the array
             sort(intArray, m+1, endIndex);
 
+            // merge the results
             merge(intArray, startIndex, m, endIndex);
         }
     }
     private static void merge(int[] intArray, int startIndex, int middleIndex, int endIndex) {
+        // first half size always add 1 because start index is 0
         int n1 = middleIndex - startIndex + 1;
+        // second half size = end - middle
         int n2 = endIndex - middleIndex;
 
         int leftArray[] = new int[n1];
         int rightArray[] = new int[n2];
 
         // copy data to temp array
+        // copy first half all the way up to middle index
         for (int i = 0; i < n1; i ++) {
             leftArray[i] = intArray[startIndex + i];
         }
 
+        // copy second half starting from middle + 1
         for (int j = 0; j < n2; j ++) {
             rightArray[j] = intArray[middleIndex + 1 + j];
         }
 
         // merge the temp arrays
-
         int i = 0; int j = 0;
 
         // initial index of the merged array
