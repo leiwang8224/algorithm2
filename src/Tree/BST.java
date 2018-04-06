@@ -1,5 +1,7 @@
 package Tree;
 
+import java.util.Stack;
+
 /**
  * Created by leiwang on 4/4/18.
  */
@@ -96,6 +98,41 @@ public class BST {
             head = head.left;
         }
         return minv;
+    }
+
+    /**
+     * BSTIterator initializes with the root node of a BST
+     * Calling next() will return the next smallest number in the
+     * BST. Note next() and hasNext() runs in O(1) and uses O(h)
+     * memory, where h is the height of the tree.
+     */
+    private class BSTIterator {
+        Stack<ListNode> stack;
+
+        public BSTIterator(ListNode root) {
+            stack = new Stack<ListNode>();
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+        }
+
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        public int next() {
+            ListNode node = stack.pop();
+            int result = node.getVal();
+            if (node.right != null) {
+                node = node.right;
+                while (node != null) {
+                    stack.push(node);
+                    node = node.left;
+                }
+            }
+            return result;
+        }
     }
 
 }
