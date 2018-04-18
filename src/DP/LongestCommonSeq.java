@@ -12,7 +12,7 @@ public class LongestCommonSeq {
         getLCS(str1, str2, str1.length(), str2.length());
     }
 
-    private static int getLCS(String str1, String str2, int str1Length, int str2Length) {
+    public static int getLCS(String str1, String str2, int str1Length, int str2Length) {
         if (str1Length == 0 || str2Length == 0)
             return 0;
 
