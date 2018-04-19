@@ -6,7 +6,10 @@ package Arrays;
 //For example, in array [1, 2, 3, 1], 3 is a peak element and your function should return the index number 2.
 public class FindPeakElement {
     public static void main(String[] args) {
-
+        int[] nums = new int[] { 34,65,23,1,2,32,1,2};
+        System.out.println("first method = "+ findPeakElement(nums));
+        System.out.println("binary search method = " + findPeakElementBinarySearch(nums));
+        System.out.println("iterative method = " + findPeakElementIterative(nums));
     }
 //
 //    Case 1: All the numbers appear in a descending order. In this case, the first element
@@ -24,7 +27,10 @@ public class FindPeakElement {
 // sufficient condition to ensure that nums[i]nums[i]nums[i] isn't the peak element.
 
 //    Case 3: The peak appears somewhere in the middle. In this case, when we are traversing on the
-// rising edge, as in Case 2, none of the elements will satisfy nums[i]>nums[i+1]nums[i] > nums[i + 1]nums[i]>nums[i+1].
+// rising edge, as in Case 2, none of the elements will satisfy
+// nums[i]>nums[i+1]
+// nums[i]>nums[i + 1]
+// nums[i]>nums[i+1].
 // We need not compare nums[i]nums[i]nums[i] with nums[i−1]nums[i-1]nums[i−1] on the rising slope as discussed above.
 // When we finally reach the peak element, the condition nums[i]>nums[i+1]nums[i] > nums[i + 1]nums[i]>nums[i+1] is satisfied.
 // We again, need not compare nums[i]nums[i]nums[i] with nums[i−1]nums[i-1]nums[i−1]. This is because, we could reach
@@ -33,7 +39,7 @@ public class FindPeakElement {
 // Thus, we are able to identify the peak element correctly in this case as well.
     //Time Complexity O(n)
     //Space Complexity O(1)
-    private int findPeakElement(int[] nums) {
+    private static int findPeakElement(int[] nums) {
         for (int i = 0; i < nums.length-1; i++) {
             if (nums[i] > nums[i+1])
                 return i;
@@ -54,11 +60,11 @@ public class FindPeakElement {
     // element correctly.
     //Time O(log2(n))
     //Space O(log2(n))
-    private int findPeakElementBinarySearch(int[] nums) {
+    private static int findPeakElementBinarySearch(int[] nums) {
         return search(nums, 0, nums.length -1);
     }
 
-    private int search(int[] nums, int l, int r) {
+    private static int search(int[] nums, int l, int r) {
         if (l == r)
             return l;
         int mid = (l + r)/2;
@@ -69,11 +75,13 @@ public class FindPeakElement {
 
     // Time O(log2(n))
     // Space O(1)
-    private int findPeakElementIterative(int[] nums) {
+    private static int findPeakElementIterative(int[] nums) {
         int l = 0, r = nums.length -1;
         while (l < r) {
             int mid = (l + r) / 2;
+            // if mid point is greater than mid point + 1 then set r = mid
             if (nums[mid] > nums[mid+1]) r = mid;
+            // else set l = mid + 1
             else l = mid + 1;
         }
         return l;

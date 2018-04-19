@@ -69,7 +69,7 @@ public class GroupAnagrams {
             if (!ans.containsKey(key)) ans.put(key, new ArrayList());
             ans.get(key).add(s);
         }
-        return new ArrayList<>(ans.values());
+        return new ArrayList(ans.values());
     }
 
 
