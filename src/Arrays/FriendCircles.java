@@ -22,20 +22,20 @@ public class FriendCircles {
 //    Output: 2
 //    Explanation:The 0th and 1st students are direct friends, so they are in a friend circle.
 //            The 2nd student himself is in a friend circle. So return 2.
-    public static void main() {
+    public static void main(String args[]) {
         int[][] nums = new int[][] {{1,1,0}, {1,1,0}, {0,0,1}};
 
+        System.out.println("Find circle number = " + findCircleNum(nums));
+        System.out.println("Find circle number 2 = " + findCircleNum2(nums));
+
     }
 
-    private void dfs(int[][] M, int[] visited, int i) {
-        for (int j = 0; j < M.length; j++) {
-            if (M[i][j] == 1 && visited[j] == 0) {
-                visited[j] = 1;
-                dfs(M, visited, j);
-            }
-        }
-    }
-    private int findCircleNum(int[][] M) {
+    /**
+     * DFS method
+     * @param M
+     * @return
+     */
+    private static int findCircleNum(int[][] M) {
         int[] visited = new int[M.length];
         int count = 0;
         for (int i = 0; i < M.length; i++) {
@@ -47,15 +47,31 @@ public class FriendCircles {
         return count;
     }
 
+    private static void dfs(int[][] M, int[] visited, int i) {
+        for (int j = 0; j < M.length; j++) {
+            if (M[i][j] == 1 && visited[j] == 0) {
+                visited[j] = 1;
+                dfs(M, visited, j);
+            }
+        }
+    }
 
-    public int findCircleNum2(int[][] M) {
+    /**
+     * BFS method
+     * @param M
+     * @return
+     */
+    public static int findCircleNum2(int[][] M) {
         int count = 0;
         for (int i=0; i<M.length; i++)
-            if (M[i][i] == 1) { count++; BFS(i, M); }
+            if (M[i][i] == 1) {
+                count++;
+                BFS(i, M);
+            }
         return count;
     }
 
-    public void BFS(int student, int[][] M) {
+    public static void BFS(int student, int[][] M) {
         Queue<Integer> queue = new LinkedList<>();
         queue.add(student);
         while (queue.size() > 0) {

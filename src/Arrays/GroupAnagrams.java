@@ -16,6 +16,17 @@ import java.util.*;
 public class GroupAnagrams {
     public static void main(String[] args) {
         String[] str = new String[]{"eat", "tea", "tan", "ate", "nat", "bat"};
+        List<List<String>> result1 = groupAnagrams(str);
+        System.out.println("first result");
+        for (List<String> list : result1) {
+            System.out.println(Arrays.toString(list.toArray()));
+        }
+
+        System.out.println("second result");
+        List<List<String>> result2 = groupAnagrams2(str);
+        for (List<String> list : result2) {
+            System.out.println(Arrays.toString(list.toArray()));
+        }
 
     }
 
@@ -26,13 +37,12 @@ public class GroupAnagrams {
 //    Algorithm
 //    Maintain a map ans : {String -> List} where each key K\text{K}K is a sorted string,
 //    and each value is the list of strings from the initial input that when sorted, are equal to K\text{K}K.
-//    In Java, we will store the key as a string, eg. code. In Python,
-//    we will store the key as a hashable tuple, eg. ('c', 'o', 'd', 'e').
+//    In Java, we will store the key as a string, eg. code.
     // Time Complexity O(NKlog(K)), where N is the length of strs, K is the max length of a string in strs
     // The outer loop has complexity O(N) as we iterate through each string.
     // Then we sort each string in O(KlogK) time
     // Space Complexity O(N*K)
-    private List<List<String>> groupAnagrams(String[] strs) {
+    private static List<List<String>> groupAnagrams(String[] strs) {
         if (strs.length == 0) return new ArrayList<>();
         Map<String, List> ans = new HashMap<>();
         for (String s : strs) {
@@ -51,7 +61,7 @@ public class GroupAnagrams {
 //    (respective number of occurrences of each character) are the same.
     // Time Complexity O(N*K)
     // Space Complexity O(N*K)
-    private List<List<String>> groupAnagrams2(String[] strs) {
+    private static List<List<String>> groupAnagrams2(String[] strs) {
         if (strs.length == 0) return new ArrayList<>();
         Map<String, List> ans = new HashMap<>();
         int[] count = new int[26];

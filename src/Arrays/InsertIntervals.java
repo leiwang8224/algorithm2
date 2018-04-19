@@ -22,10 +22,19 @@ import java.util.List;
 
 public class InsertIntervals {
     public static void main(String[] args) {
+        Interval interval1 = new Interval(1,5);
+        Interval interval2 = new Interval(2,6);
+        Interval interval3 = new Interval(2,4);
+
+        List<Interval> list = new ArrayList<>();
+        list.add(interval1);
+        list.add(interval2);
+        System.out.println(java.util.Arrays.toString(insert(list, interval3).toArray()));
+        System.out.println(java.util.Arrays.toString(insert2(list, interval3).toArray()));
 
     }
 
-    private class Interval {
+    public static class Interval {
         int start;
         int end;
         Interval() {
@@ -36,9 +45,13 @@ public class InsertIntervals {
             start = s;
             end = e;
         }
+        @Override
+        public String toString() {
+            return start + "," + end;
+        }
     }
 
-    private List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+    private static List<Interval> insert(List<Interval> intervals, Interval newInterval) {
         List<Interval> result = new LinkedList<>();
         int i = 0;
         // add all the intervals ending before newInterval starts
@@ -57,7 +70,7 @@ public class InsertIntervals {
         return result;
     }
 
-    private List<Interval> insert2(List<Interval> intervals, Interval newInterval) {
+    private static List<Interval> insert2(List<Interval> intervals, Interval newInterval) {
         List<Interval> result = new ArrayList<Interval>();
         for (Interval i : intervals) {
             if (newInterval == null || i.end < newInterval.start)
