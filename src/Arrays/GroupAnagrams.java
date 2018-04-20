@@ -46,12 +46,23 @@ public class GroupAnagrams {
         if (strs.length == 0) return new ArrayList<>();
         Map<String, List> ans = new HashMap<>();
         for (String s : strs) {
+            // sort chars based on alphabetic order
             char[] ca = s.toCharArray();
             java.util.Arrays.sort(ca);
+            // key is the sorted char array
             String key = String.valueOf(ca);
+            // value is the original string
             if (!ans.containsKey(key)) ans.put(key, new ArrayList());
             ans.get(key).add(s);
         }
+
+        for (Map.Entry<String, List> entry : ans.entrySet()) {
+            System.out.println(entry.getKey() + " " + Arrays.toString(entry.getValue().toArray()));
+        }
+        //map output
+//        aet [eat, tea, ate]
+//        abt [bat]
+//        ant [tan, nat]
         return new ArrayList(ans.values());
     }
 
@@ -64,7 +75,7 @@ public class GroupAnagrams {
     private static List<List<String>> groupAnagrams2(String[] strs) {
         if (strs.length == 0) return new ArrayList<>();
         Map<String, List> ans = new HashMap<>();
-        int[] count = new int[26];
+        int[] count = new int[26];  // 26 letters in alphabet
 
         for (String s : strs) {
             Arrays.fill(count, 0);
@@ -75,10 +86,20 @@ public class GroupAnagrams {
                 sb.append('#');
                 sb.append(count[i]);
             }
+            // map key is an array with all 26 alphabet chars and freq
+            // map value is the original array char values
             String key = sb.toString();
             if (!ans.containsKey(key)) ans.put(key, new ArrayList());
             ans.get(key).add(s);
         }
+
+        for (Map.Entry<String, List> entry : ans.entrySet()) {
+            System.out.println(entry.getKey() + " " + Arrays.toString(entry.getValue().toArray()));
+        }
+        //map output
+//        #1#1#0#0#0#0#0#0#0#0#0#0#0#0#0#0#0#0#0#1#0#0#0#0#0#0 [bat]
+//        #1#0#0#0#0#0#0#0#0#0#0#0#0#1#0#0#0#0#0#1#0#0#0#0#0#0 [tan, nat]
+//        #1#0#0#0#1#0#0#0#0#0#0#0#0#0#0#0#0#0#0#1#0#0#0#0#0#0 [eat, tea, ate]
         return new ArrayList(ans.values());
     }
 

@@ -22,21 +22,25 @@ public class HouseRobber {
         // for ex: first number is 32, if steal, we have value of 32, if not we have 0
         int nums[] = new int[] { 32,43,2,3,2,4,3,232,43,23,3,43,23};
         // DP table
-        //     steal | not steal
+        //not steal | steal                   nums      steal col       not steal col
         //        [0, 0]
-        //        [0, 32] <- nums[0] + dp[0]
-        //        [32, 43]
-        //        [43, 34]
-        //        [43, 46]
-        //        [46, 45]
-        //        [46, 50]
-        //        [50, 49]
-        //        [50, 282]
-        //        [282, 93]
-        //        [282, 305]
-        //        [305, 285]
-        //        [305, 348]
-        //        [348, 328]
+        //        [0, 32] <- nums[0] + dp[0]   32       32 + 0 = 32     max(0, 0) = 0
+        //        [32, 43]                     43       43 + 0 = 43     max(0, 32) = 32
+        //        [43, 34]                      2       2 + 32 = 34     max(32,43) = 43
+        //        [43, 46]                      3       3 + 43 = 46     max(43,34) = 43
+        //        [46, 45]                      2       2 + 43 = 45     max(43,46) = 46
+        //        [46, 50]                      4
+        //        [50, 49]                      3
+        //        [50, 282]                   232
+        //        [282, 93]                    43
+        //        [282, 305]                   23
+        //        [305, 285]                    3
+        //        [305, 348]                   43
+        //        [348, 328]                   23
+
+        // The logical thought process is:
+        // If I don't steal from current house, I get the max value from the prev house (steal or not steal)
+        // If I steal from the current house, I get the value of the current house + the value I get from not stealing prev house
         System.out.println("max profit from stealing house = " + rob(nums));
 
     }
