@@ -11,18 +11,23 @@ package Arrays;
 //
 
 public class ReverseWordsInString {
-    public static void main() {
-
+    public static void main(String args[]) {
+        String str = "the sky is blue";
+        System.out.println("reversed string = " + reverseWordsInPlace(str));
+        System.out.println("reversed string = " + reverseWords(str));
     }
 
     public static String reverseWordsInPlace(String s) {
         if (s.length() < 1) return s; // empty string
         int startIdx = 0;
         char[] str = s.toCharArray();
-        // reverse whole string
+        // reverse whole string based on chars
         reverseString(str, 0, str.length - 1);
+        // [e, u, l, b,  , s, i,  , y, k, s,  , e, h, t]
+        System.out.println("reverseWordsInPlace1 = " + java.util.Arrays.toString(str));
         // reverse word one by one
         for (int i = 0; i < str.length; i++) {
+            // if letter is valid and not 0 index, replace with space
             if (str[i] != ' ') {
                 if (startIdx != 0) str[startIdx++] = ' ';
                 int j = i;
@@ -33,6 +38,9 @@ public class ReverseWordsInString {
                 i = j;
             }
         }
+        // [b, l, u, e,  , i, s,  , s, k, y,  , t, h, e]
+        System.out.println("reverseWordsInPlace2 = " + java.util.Arrays.toString(str));
+
         return new String(str, 0, startIdx);
     }
 
@@ -49,7 +57,7 @@ public class ReverseWordsInString {
      * @param s
      * @return
      */
-    public String reverseWords(String s) {
+    public static String reverseWords(String s) {
         if (s == null) return null;
 
         char[] a = s.toCharArray();
@@ -63,7 +71,7 @@ public class ReverseWordsInString {
         return cleanSpaces(a, n);
     }
 
-    void reverseWords(char[] a, int n) {
+    private static void reverseWords(char[] a, int n) {
         int i = 0, j = 0;
 
         while (i < n) {
@@ -74,7 +82,7 @@ public class ReverseWordsInString {
     }
 
     // trim leading, trailing and multiple spaces
-    String cleanSpaces(char[] a, int n) {
+    private static String cleanSpaces(char[] a, int n) {
         int i = 0, j = 0;
 
         while (j < n) {
@@ -88,7 +96,7 @@ public class ReverseWordsInString {
     }
 
     // reverse a[] from a[i] to a[j]
-    private void reverse(char[] a, int i, int j) {
+    private static void reverse(char[] a, int i, int j) {
         while (i < j) {
             char t = a[i];
             a[i++] = a[j];

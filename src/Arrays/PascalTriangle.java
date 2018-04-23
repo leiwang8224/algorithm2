@@ -17,14 +17,23 @@ import java.util.List;
 
 public class PascalTriangle {
     public static void main(String args[]) {
+        System.out.println("getRow = " + getRow(5));
+        System.out.println("getRow2 = " + getRow2(5));
+        System.out.println("getRow3 = " + getRow3(5));
 
     }
 
-    private List<Integer> getRow(int rowIndex) {
+    private static List<Integer> getRow(int rowIndex) {
         List<Integer> ret = new ArrayList<Integer>();
         ret.add(1);
+        //        i = 2 j = 1
+        //        i = 3 j = 2
+        //        i = 3 j = 1
+        // start from first row
         for (int i = 1; i <= rowIndex; i++) {
+            // for each column going backwards from greatest to least
             for (int j = i - 1; j >= 1; j--) {
+                System.out.println("i = " + i + " j = " + j);
                 int tmp = ret.get(j - 1) + ret.get(j);
                 ret.set(j, tmp);
             }
@@ -33,7 +42,7 @@ public class PascalTriangle {
         return ret;
     }
 
-    private List<Integer> getRow2(int rowIndex) {
+    private static List<Integer> getRow2(int rowIndex) {
         List<Integer> list = new ArrayList<Integer>();
         if (rowIndex < 0)
             return list;
@@ -41,13 +50,14 @@ public class PascalTriangle {
         for (int i = 0; i < rowIndex + 1; i++) {
             list.add(0, 1);
             for (int j = 1; j < list.size() - 1; j++) {
+                System.out.println("i = " + i + " j = " + j);
                 list.set(j, list.get(j) + list.get(j + 1));
             }
         }
         return list;
     }
 
-    private List<Integer> getRow3(int rowIndex) {
+    private static List<Integer> getRow3(int rowIndex) {
         List<Integer> res = new ArrayList<Integer>();
         for(int i = 0;i<rowIndex+1;i++) {
             res.add(1);

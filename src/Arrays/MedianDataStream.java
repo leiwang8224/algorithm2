@@ -1,9 +1,6 @@
 package Arrays;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Created by leiwang on 4/15/18.
@@ -22,13 +19,13 @@ public class MedianDataStream {
         medianFinder.addNum(3);
         System.out.println("median = " + medianFinder.findMedian());
 
-//        medianFinder2.addNum(1);
-//        System.out.println("median2 = " + medianFinder2.findMedian());
-//        medianFinder2.addNum(10);
-//        medianFinder2.addNum(100);
-//        medianFinder2.addNum(23);
-//        medianFinder2.addNum(3);
-//        System.out.println("median2 = " + medianFinder2.findMedian());
+        medianFinder2.addNum(1);
+        System.out.println("median2 = " + medianFinder2.findMedian());
+        medianFinder2.addNum(10);
+        medianFinder2.addNum(100);
+        medianFinder2.addNum(23);
+        medianFinder2.addNum(3);
+        System.out.println("median2 = " + medianFinder2.findMedian());
         MedianFinder3 medianFinder3 = new MedianFinder3();
 
         medianFinder3.addNum(1);
@@ -59,26 +56,34 @@ public class MedianDataStream {
             list.add(num);
         }
         public double findMedian() {
-            return list.size() % 2 == 0 ? (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2 : list.get(list.size() / 2);
+            Collections.sort(list);
+            return list.size() % 2 == 0 ?
+                    // take average of the two center points
+                    (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2 :
+                    // take the midpoint
+                    list.get(list.size() / 2);
         }
     }
 
     /**
      * Time O(n)
      * Space O(n)
+     * Use Binary search to find the index to insert the new value
+     * so that it's always sorted after insertion
      */
     private static class MedianFinder2 {
         List<Integer> list = new ArrayList<>();
 
         public void addNum(int num) {
+            list.add(num);
             Collections.sort(list);
             list.add(Collections.binarySearch(list,num), num);
         }
 
         public double findMedian() {
-            return list.size() % 2 == 0 ?
-                    (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2 :
-                    list.get(list.size() / 2);
+                return list.size() % 2 == 0 ?
+                        (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2 :
+                        list.get(list.size() / 2);
         }
     }
 
@@ -118,7 +123,13 @@ public class MedianDataStream {
         }
     }
 
+    /**
+     * Find median using BST
+     */
     static class MedianFinderBST {
+        /**
+         * TreeNode keeps track of parent, left, right nodes
+         */
         class TreeNode{
             int val;
             TreeNode parent,left,right;
@@ -144,10 +155,15 @@ public class MedianDataStream {
             TreeNode next(){
                 TreeNode ret;
                 if(right!=null){
+                    // traverse to the right then all the way left
+                    // finds the next greatest value
                     ret=right;
                     while(ret.left!=null)
                         ret=ret.left;
                 }else{
+                    // right node does not exist
+                    // traverse to the parent node to find
+                    // the next greatest value
                     ret=this;
                     while(ret.parent.right==ret)
                         ret=ret.parent;
@@ -158,10 +174,14 @@ public class MedianDataStream {
             TreeNode prev(){
                 TreeNode ret;
                 if(left!=null){
+                    // prev is the value that is less than the
+                    // current value
+                    // traverse left then all the way to right
                     ret=left;
                     while(ret.right!=null)
                         ret=ret.right;
                 }else{
+                    // left node is null so traverse up parent
                     ret=this;
                     while(ret.parent.left==ret)
                         ret=ret.parent;
