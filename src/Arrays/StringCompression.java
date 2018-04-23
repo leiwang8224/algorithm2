@@ -10,7 +10,12 @@ public class StringCompression {
     public static void main(String args[]){
         String str = "abbcifbdbfss";
         System.out.println(compressString(str));
-        System.out.println(compressChars(str.toCharArray()));
+        char[] charArray = compressChars(str.toCharArray());
+        for (int i = 0; i < charArray.length; i ++) {
+            System.out.print(charArray[i]);
+        }
+        System.out.println();
+        compress(charArray);
     }
 //
 //    Intuition
@@ -30,7 +35,7 @@ public class StringCompression {
 //    When we are at the end of a group, we will write the result of that group down using our write head.
 //    chars[anchor] will be the correct character, and the length (if greater than 1) will be read - anchor + 1.
 //    We will write the digits of that number to the array.
-    private int compress(char[] chars) {
+    private static int compress(char[] chars) {
         int anchor = 0, write = 0;
         for (int read = 0; read < chars.length; read++) {
             if (read + 1 == chars.length || chars[read + 1] != chars[read]) {
@@ -42,6 +47,9 @@ public class StringCompression {
                 }
                 anchor = read + 1;
             }
+        }
+        for (int i = 0; i < chars.length; i ++) {
+            System.out.print(chars[i]);
         }
         return write;
     }

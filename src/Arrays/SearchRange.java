@@ -17,14 +17,18 @@ package Arrays;
 //        Output: [-1,-1]
 //
 
+import java.util.Arrays;
+
 public class SearchRange {
     public static void main(String[] args) {
-
+        int nums[] = new int[] {5,7,7,8,8,10};
+        System.out.println(java.util.Arrays.toString(searchRange(nums, 7)));
+        System.out.println(java.util.Arrays.toString(searchRangeBinarySearch(nums, 7)));
     }
 
     //Time O(n)
     //Space O(1)
-    private int[] searchRange(int[] nums, int target) {
+    private static int[] searchRange(int[] nums, int target) {
         int[] targetRange = {-1, -1};
 
         // find the index of the leftmost appearance of `target`.
@@ -56,7 +60,7 @@ public class SearchRange {
     // inserted in sorted array `nums` via binary search.
     // Time O(logN)
     // Space O(1)
-    private int extremeInsertionIndex(int[] nums, int target, boolean left) {
+    private static int extremeInsertionIndex(int[] nums, int target, boolean left) {
         int lo = 0;
         int hi = nums.length;
 
@@ -73,7 +77,7 @@ public class SearchRange {
         return lo;
     }
 
-    public int[] searchRangeBinarySearch(int[] nums, int target) {
+    public static int[] searchRangeBinarySearch(int[] nums, int target) {
         int[] targetRange = {-1, -1};
 
         int leftIdx = extremeInsertionIndex(nums, target, true);

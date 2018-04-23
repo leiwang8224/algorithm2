@@ -12,7 +12,25 @@ package Arrays;
 //F(k) = 0 * Bk[0] + 1 * Bk[1] + ... + (n-1) * Bk[n-1].
 //
 //Calculate the maximum value of F(0), F(1), ..., F(n-1).
-
+//        F(0) = 0A + 1B + 2C +3D
+//
+//        F(1) = 0D + 1A + 2B +3C
+//        F(1) = (0A + 1B + 2C + 3D) + sum - 4D
+//
+//        F(2) = 0C + 1D + 2A +3B
+//
+//        F(3) = 0B + 1C + 2D +3A
+// by observation we can get the following
+    //    F(1) = 0A + 1B + 2C + 3D + A + B + C + D - 4D
+    //    sum = A + B + C + D
+//        F(1) = F(0) + sum - 4D
+//
+//        F(2) = F(1) + sum - 4C
+//
+//        F(3) = F(2) + sum - 4B
+//
+//        F(i) = F(i-1) + sum - n*A[n-i]
+//
 //A = [4, 3, 2, 6]
 //
 //F(0) = (0 * 4) + (1 * 3) + (2 * 2) + (3 * 6) = 0 + 3 + 4 + 18 = 25
@@ -23,6 +41,10 @@ package Arrays;
 //        So the maximum value of F(0), F(1), F(2), F(3) is F(3) = 26.
 public class RotateFunction {
     public static void main(String[] args) {
+        int[] nums = new int[]{4,3,2,6};
+        System.out.println(maxRotateFunction(nums));
+        System.out.println(maxRotateFunction2(nums));
+        System.out.println(maxRotateFunction3(nums));
 
     }
 
@@ -43,11 +65,12 @@ public class RotateFunction {
 //    k = 1; B[0] = A[len-1];
 //    k = 2; B[0] = A[len-2];
 //    ...
-    private int maxRotateFunction(int[] A) {
+    private static int maxRotateFunction(int[] A) {
         int allSum = 0;
         int len = A.length;
         int F = 0;
         for (int i = 0; i < len; i++) {
+            //0 * Bk[0] + 1 * Bk[1] + ... + (n-1) * Bk[n-1]
             F += i * A[i];
             allSum += A[i];
         }
@@ -62,7 +85,7 @@ public class RotateFunction {
 //    Consider we have 5 coins A,B,C,D,E
 //
 //    According to the problem statement
-//                             F(0) = (0A) + (1B) + (2C) + (3D) + (4E)
+//    F(0) = (0A) + (1B) + (2C) + (3D) + (4E)
 //    F(1) = (4A) + (0B) + (1C) + (2D) + (3E)
 //    F(2) = (3A) + (4B) + (0C) + (1D) + (2*E)
 //
@@ -83,7 +106,7 @@ public class RotateFunction {
 //
 //    Hope this explanation helps, cheers!
 
-    public int maxRotateFunction2(int[] A) {
+    public static int maxRotateFunction2(int[] A) {
         if(A.length == 0){
             return 0;
         }
@@ -97,7 +120,8 @@ public class RotateFunction {
 
         int max = iteration;
         for(int j=1; j<len; j++){
-            // for next iteration lets remove one entry value of each entry and the prev 0 * k
+            // for next iteration lets remove one entry
+            // value of each entry and the prev 0 * k
             iteration = iteration - sum + A[j-1]*len;
             max = Math.max(max, iteration);
         }
@@ -116,7 +140,7 @@ public class RotateFunction {
 //    We can see from above that:
 //    f(0) -> f(1) -> f(2) -> f(3)
 //    f(i) = f(i - 1) - SUM(A -> D) + N * A[i - 1]
-    public int maxRotateFunction3(int[] A) {
+    public static int maxRotateFunction3(int[] A) {
         int n = A.length;
         int sum = 0;
         int candidate = 0;

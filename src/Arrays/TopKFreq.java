@@ -15,28 +15,43 @@ import java.util.*;
  */
 public class TopKFreq {
     public static void main(String args[]) {
+        int[] nums = new int[]{1,1,1,2,2,3};
+        System.out.println(topKFrequent(nums,2));
+        System.out.println(topKFrequent2(nums, 2));
+        System.out.println(topKFrequent3(nums, 2));
+        System.out.println(topKFrequent4(nums, 2));
 
     }
 
-    private List<Integer> topKFrequent(int[] nums, int k) {
-
+    private static List<Integer> topKFrequent(int[] nums, int k) {
+        // array of integer list
         List<Integer>[] bucket = new List[nums.length + 1];
         Map<Integer, Integer> frequencyMap = new HashMap<Integer, Integer>();
 
         for (int n : nums) {
+            // key is the num, value is the frequency
             frequencyMap.put(n, frequencyMap.getOrDefault(n, 0) + 1);
         }
 
+        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
+            System.out.println(entry.getKey() + "," + entry.getValue());
+        }
+
+        // for each key(value), get frequency and put in bucket array
+        // this sorts the values by frequency, starting from lowest to highest freq
         for (int key : frequencyMap.keySet()) {
             int frequency = frequencyMap.get(key);
+            // array of frequencies
             if (bucket[frequency] == null) {
                 bucket[frequency] = new ArrayList<>();
             }
+            // for a certain frequency, add corresponding value
             bucket[frequency].add(key);
         }
 
         List<Integer> res = new ArrayList<>();
 
+        // starting from the largest bucket, which means the most frequent k values
         for (int pos = bucket.length - 1; pos >= 0 && res.size() < k; pos--) {
             if (bucket[pos] != null) {
                 res.addAll(bucket[pos]);
@@ -51,12 +66,14 @@ public class TopKFreq {
      * @param k
      * @return
      */
-    public List<Integer> topKFrequent2(int[] nums, int k) {
+    public static List<Integer> topKFrequent2(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         for(int n: nums){
             map.put(n, map.getOrDefault(n,0)+1);
         }
 
+        // priority queue has the value with highest freq on top,
+        // so polling gets the most freq to least freq
         PriorityQueue<Map.Entry<Integer, Integer>> maxHeap =
                 new PriorityQueue<>((a,b)->(b.getValue()-a.getValue()));
         for(Map.Entry<Integer,Integer> entry: map.entrySet()){
@@ -77,7 +94,7 @@ public class TopKFreq {
      * @param k
      * @return
      */
-    public List<Integer> topKFrequent3(int[] nums, int k) {
+    public static List<Integer> topKFrequent3(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         for(int n: nums){
             map.put(n, map.getOrDefault(n,0)+1);
@@ -85,7 +102,9 @@ public class TopKFreq {
 
         TreeMap<Integer, List<Integer>> freqMap = new TreeMap<>();
         for(int num : map.keySet()){
+            // map of num and freq
             int freq = map.get(num);
+            // map of freq and list of nums
             if(!freqMap.containsKey(freq)){
                 freqMap.put(freq, new LinkedList<>());
             }
@@ -121,7 +140,7 @@ public class TopKFreq {
      * @param k
      * @return
      */
-    public List<Integer> topKFrequent4(int[] nums, int k) {
+    public static List<Integer> topKFrequent4(int[] nums, int k) {
 
         int len = nums.length;
         int maxFreq = 0;
@@ -130,8 +149,10 @@ public class TopKFreq {
         Map<Integer, Integer> map = new HashMap<>();
 
         for(int i=0; i<len; i++) {
+            // map of nums and freq
             map.put(nums[i], map.getOrDefault(nums[i],0) + 1);
 
+            // get max freq
             maxFreq = Math.max(maxFreq, map.get(nums[i]));
         }
 

@@ -9,9 +9,9 @@ import java.util.List;
 // For example, given the following triangle
 //
 // [
-// [2],
-// [3,4],
-// [6,5,7],
+//    [2],
+//   [3,4],
+//  [6,5,7],
 // [4,1,8,3]
 // ]
 //
@@ -40,8 +40,9 @@ public class Triangle {
         triangleInput.add(thirdRow);
         triangleInput.add(fourthRow);
 
-        System.out.println(minTotal(triangleInput));
-        System.out.println(minTotal2(triangleInput));
+//        System.out.println("minTotal1 = " + minTotal(triangleInput));
+        System.out.println("minTotal2 = " + minTotal2(triangleInput));
+        System.out.println("minimumTotal = " + minimumTotal(triangleInput));
 
     }
 //    This problem is quite well-formed in my opinion. The triangle has a tree-like structure,
@@ -73,15 +74,19 @@ public class Triangle {
 //    For the kth level:
 //    minpath[i] = min( minpath[i], minpath[i+1]) + triangle[k][i];
 //
-//    Thus, we have the following solution
+//    Thus, we have the following solution (modifying the original triangle)
     private static int minTotal(List<List<Integer>> triangle) {
         if (triangle.size() == 0)
             return 0;
 
+        // starting from the last row of the triangle
         for (int i = triangle.size() - 2; i >= 0; i --) {
             for (int j = 0; j <= i; j ++) {
+                // get the last row
                 List<Integer> nextRow = triangle.get(i+1);
+                // sum = min(cur element, next element) + triangle.get(row).get(col)
                 int sum = Math.min(nextRow.get(j), nextRow.get(j+1))+ triangle.get(i).get(j);
+                // set row i, col j to be sum
                 triangle.get(i).set(j,sum);
             }
         }
@@ -90,6 +95,7 @@ public class Triangle {
 
     }
 
+    // using a separate dp matrix
     private static int minTotal2(List<List<Integer>> triangle) {
         int[] dp = new int[triangle.size()+1];
         for(int i=triangle.size()-1;i>=0;i--){
@@ -100,27 +106,12 @@ public class Triangle {
         return dp[0];
     }
 
-    // transform top to bottom to bottom to top
-    private int minimumTotal1(List<List<Integer>> triangle) {
-        int rowNum = triangle.size();
-        int[] dp = new int[rowNum];
-        for (int i = 0; i < triangle.get(rowNum - 1).size(); i++) {
-            dp[i] = triangle.get(rowNum - 1).get(i);
-        }
-        for (int row = rowNum - 2; row >= 0; row--) {// for each layer
-            for (int col = 0; col <= row; col++) {
-                dp[col] = Math.min(dp[col], dp[col + 1])
-                          + triangle.get(row).get(col);
-            }
-        }
-        return dp[0];
-    }
-
-    private int minimumTotal(List<List<Integer>> triangle) {
+    private static int minimumTotal(List<List<Integer>> triangle) {
         int rowNum = triangle.get(triangle.size() - 1).size();
         int colNum = triangle.size();
         int[][] dp = new int[rowNum][colNum];
         int i = 0;
+        // for each element in the row
         for (Integer n : triangle.get(colNum - 1)) {
             dp[rowNum - 1][i++] = n;
         }

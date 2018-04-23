@@ -5,6 +5,13 @@ import java.util.PriorityQueue;
 /**
  * Created by leiwang on 4/13/18.
  */
+/*
+You have k lists of sorted integers in ascending order.
+Find the smallest range that includes at least one number from each of the k lists.
+
+We define the range [a,b] is smaller than range [c,d] if b-a < d-c or a < c if b-a == d-c.
+
+ */
 public class SmallestRange {
 //    Input:[[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
 //    Output: [20,24]
@@ -12,8 +19,13 @@ public class SmallestRange {
 //    List 1: [4, 10, 15, 24,26], 24 is in range [20,24].
 //    List 2: [0, 9, 12, 20], 20 is in range [20,24].
 //    List 3: [5, 18, 22, 30], 22 is in range [20,24].
-    public static void main() {
+    public static void main(String[] args) {
         int[][] nums = new int[][]{{4,10,15,24,26}, {0,9,12,20}, {5,18,22,30}};
+        System.out.println(java.util.Arrays.toString(smallestRange(nums)));
+        System.out.println(java.util.Arrays.toString(smallestRange2(nums)));
+        System.out.println(java.util.Arrays.toString(smallestRange3(nums)));
+        System.out.println(java.util.Arrays.toString(smallestRange4(nums)));
+
 
     }
 
@@ -28,7 +40,7 @@ public class SmallestRange {
 //    Once all the element pairs have been considered as the ranges, we can obtain the required minimum range.
     // Time O(n3)
     // Space O(1)
-    private int[] smallestRange(int[][] nums) {
+    private static int[] smallestRange(int[][] nums) {
         int minx = 0, miny = Integer.MAX_VALUE;
         for (int i = 0; i < nums.length; i++) {
             for (int j = 0; j < nums[i].length; j++) {
@@ -76,7 +88,7 @@ public class SmallestRange {
     //    found so far to determine the required minimum range.
     // Time: O(N2log(k))
     // Space: O(1)
-    private int[] smallestRange2(int[][] nums) {
+    private static int[] smallestRange2(int[][] nums) {
         int minx = 0, miny = Integer.MAX_VALUE;
         for (int i = 0; i < nums.length; i++) {
             for (int j = 0; j < nums[i].length; j++) {
@@ -159,7 +171,7 @@ public class SmallestRange {
 //    The animation below illustrates the process for a visual understanding of the process.
     // Time O(n*m)
     // Space O(m)
-    private int[] smallestRange3(int[][] nums) {
+    private static int[] smallestRange3(int[][] nums) {
         int minx = 0, miny = Integer.MAX_VALUE;
         int[] next = new int[nums.length];
         boolean flag = true;
@@ -210,7 +222,7 @@ public class SmallestRange {
 //    The rest of the process remains the same as the last approach.
     // Time: O(N * log(M))
     // Space: O(M)
-    private int[] smallestRange4(int[][] nums) {
+    private static int[] smallestRange4(int[][] nums) {
         int minx = 0, miny = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
         int[] next = new int[nums.length];
         boolean flag = true;

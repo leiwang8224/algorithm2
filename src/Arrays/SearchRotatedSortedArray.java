@@ -4,7 +4,8 @@ package Arrays;
 //
 //        (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
 //
-//        You are given a target value to search. If found in the array return its index, otherwise return -1.
+//        You are given a target value to search. If found in the array return its index,
+//        otherwise return -1.
 //
 //        You may assume no duplicate exists in the array.
 //
@@ -23,10 +24,12 @@ package Arrays;
 
 public class SearchRotatedSortedArray {
     public static void main(String[] args) {
-
+        int nums[] = new int[]{3,4,54,2,34,2,2,3,23,1,14,2,34,23,34,4};
+        System.out.println(search(nums, nums.length, 3));
+        System.out.println(search(nums, 3));
     }
 
-    private int search(int[] A, int n, int target) {
+    private static int search(int[] A, int n, int target) {
         int lo=0,hi=n-1;
         // find the index of the smallest value using binary search.
         // Loop will terminate since mid < hi, and lo or hi will shrink by at least 1.
@@ -50,7 +53,7 @@ public class SearchRotatedSortedArray {
         return -1;
     }
 
-    public int search(int[] nums, int target) {
+    public static int search(int[] nums, int target) {
         int start = 0;
         int end = nums.length - 1;
         while (start <= end){

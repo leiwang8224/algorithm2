@@ -19,12 +19,15 @@ import java.util.Map;
 //        'e' appears twice while 'r' and 't' both appear once.
 //        So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
 public class SortCharsByFreq {
-    public static void main() {
+    public static void main(String args[]) {
         String str = "beicbdifdff";
-
+        System.out.println(frequencySort(str));
+        String str2 = "beicbdifdff";
+        System.out.println(frequencySort2(str2));
     }
 
-    private String frequencySort(String s) {
+    private static String frequencySort(String s) {
+        // build frequency map
         Map<Character, Integer> map = new HashMap<>();
         for (char c : s.toCharArray()) {
             if (map.containsKey(c)) {
@@ -33,6 +36,8 @@ public class SortCharsByFreq {
                 map.put(c, 1);
             }
         }
+
+        // build bucket for storing the freq (array of list)
         List<Character>[] bucket = new List[s.length() + 1];
         for (char key : map.keySet()) {
             int frequency = map.get(key);
@@ -60,7 +65,7 @@ public class SortCharsByFreq {
 //    character occurred in the String
 //    Iterate from the end of the array to the beginning, and at each index, append each
 //    character to the return string that number of times.
-    public String frequencySort2(String s) {
+    public static String frequencySort2(String s) {
         if (s == null) {
             return null;
         }
@@ -80,7 +85,7 @@ public class SortCharsByFreq {
         return buildString(array);
     }
 
-    private List<Character>[] buildArray(Map<Character, Integer> map, int maxCount) {
+    private static List<Character>[] buildArray(Map<Character, Integer> map, int maxCount) {
         List<Character>[] array = new List[maxCount + 1];
         for (Character c : map.keySet()) {
             int count = map.get(c);
@@ -92,7 +97,7 @@ public class SortCharsByFreq {
         return array;
     }
 
-    private String buildString(List<Character>[] array) {
+    private static String buildString(List<Character>[] array) {
         StringBuilder sb = new StringBuilder();
         for (int i = array.length - 1; i > 0; i--) {
             List<Character> list = array[i];
