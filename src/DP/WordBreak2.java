@@ -1,16 +1,40 @@
 package DP;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Created by leiwang on 3/28/18.
- */
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words,
+ add spaces in s to construct a sentence where each word is a valid dictionary word. Return
+ all such possible sentences.
+
+        Note:
+
+        The same word in the dictionary may be reused multiple times in the segmentation.
+        You may assume the dictionary does not contain duplicate words.
+
+        Example 1:
+
+        Input:
+        s = "catsanddog"
+        wordDict = ["cat", "cats", "and", "sand", "dog"]
+        Output:
+        [
+        "cats and dog",
+        "cat sand dog"
+        ]
+**/
 public class WordBreak2 {
     public static void main(String[] args) {
-
+        String str = "catsanddog";
+        Set<String> dict = new HashSet<>();
+        dict.add("cat");
+        dict.add("cats");
+        dict.add("and");
+        dict.add("sand");
+        dict.add("dog");
+        List<String> result = wordBreak(str, dict);
+        for (String s : result)
+            System.out.println(s);
     }
 
     private static List<String> wordBreak(String str, Set<String> dict) {

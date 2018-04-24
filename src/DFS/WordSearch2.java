@@ -41,8 +41,11 @@ public class WordSearch2 {
 
         // Inserts a word into the trie.
         public void insert(String word) {
+            // save the root to buffer
             TrieNode node = root;
             for (char c : word.toCharArray()) {
+                // if the children does not exist, create
+                // new TrieNode
                 if (node.children[c - 'a'] == null) {
                     node.children[c - 'a'] = new TrieNode();
                 }
@@ -55,6 +58,7 @@ public class WordSearch2 {
         public boolean search(String word) {
             TrieNode node = root;
             for (char c : word.toCharArray()) {
+                // return false if not in children
                 if (node.children[c - 'a'] == null) return false;
                 node = node.children[c - 'a'];
             }
@@ -100,10 +104,13 @@ public class WordSearch2 {
     }
 
     public static void dfs(char[][] board, boolean[][] visited, String str, int x, int y, Trie trie) {
+        // return if x or y is out of range
         if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) return;
+        // if visited return
         if (visited[x][y]) return;
 
         str += board[x][y];
+        System.out.println("str accumulation " + str);
         if (!trie.startsWith(str)) return;
 
         if (trie.search(str)) {

@@ -11,9 +11,7 @@ public class IsInterleaved {
         String str2 = "df";
         String strCombo = "adbfc";
 
-//        System.out.println(isInterleaved(str1, str2, strCombo));
         System.out.println(isInterleavedDP(str1, str2, strCombo));
-//        isInterleaved(str1, str2, strCombo);
     }
 
     //TODO not working

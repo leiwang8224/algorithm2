@@ -4,8 +4,10 @@ package DFS;
  * Created by leiwang on 3/25/18.
  */
 public class MaxSubstringLength {
-    public static void main() {
+    public static void main(String[] args) {
 
+        String str = "123456789987654321";
+        System.out.println(maxSubstringLength(str));
     }
 
     /**

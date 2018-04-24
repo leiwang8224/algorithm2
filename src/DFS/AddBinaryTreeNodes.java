@@ -20,7 +20,11 @@ public class AddBinaryTreeNodes {
         head.left.right = new ListNode(4);
         head.right.left = new ListNode(5);
         head.right.right = new ListNode(6);
+        System.out.println("before processing ");
+        printTreeNodes(head);
         addChildSum(head);
+        System.out.println("result:");
+        printTreeNodes(head);
     }
 
     private static void addChildSum(ListNode head) {
@@ -29,15 +33,25 @@ public class AddBinaryTreeNodes {
         addChildSum(head.right);
 
         int finalSum = head.getVal();
-        System.out.println(finalSum);
         if (head.left != null) {
             finalSum += head.left.getVal();
         }
         if (head.right != null) {
             finalSum += head.right.getVal();
         }
+        // calculate finalSum then set it to the current node
         head.setVal(finalSum);
-        System.out.println("headVal = " + head.getVal() + "finalSum = " + finalSum);
+    }
+
+    private static void printTreeNodes(ListNode head) {
+        if (head == null)
+            return;
+        if (head.left== null && head.right == null)
+            System.out.println("leaf node " + head.getVal());
+        else
+            System.out.println("node " + head.getVal());
+        printTreeNodes(head.left);
+        printTreeNodes(head.right);
     }
 
 }

@@ -1,5 +1,17 @@
 package BitManip;
+/**
+ * Given a non-empty array of integers, every element appears three times except for one, which appears exactly once. Find that single one.
 
+ Note:
+
+ Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+
+ Example 1:
+
+ Input: [2,2,3,2]
+ Output: 3
+
+ */
 public class SingleNumber2 {
     public static void main(String args[]) {
         int[] nums = new int[]{1,1,1,2,2,2,3,3,3,4,5,5,5,6,6,6};

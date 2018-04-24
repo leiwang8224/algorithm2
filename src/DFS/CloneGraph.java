@@ -1,8 +1,6 @@
 package DFS;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by leiwang on 3/31/18.
@@ -11,8 +9,11 @@ public class CloneGraph {
     public static void main(String[] args) {
         UndirectedGraphNode head = new UndirectedGraphNode(0);
 
-        cloneGraph(head);
-
+//        printGraph(head.label,head);
+        UndirectedGraphNode clonedHead = cloneGraph(head);
+//        printGraph(clonedHead.label,clonedHead);
+        UndirectedGraphNode clonedHead2 = cloneGraph2(head);
+//        printGraph(clonedHead2.label,clonedHead2);
     }
 
     private static HashMap<Integer, UndirectedGraphNode> map = new HashMap<>();
@@ -42,6 +43,18 @@ public class CloneGraph {
             label = x;
             neighbors = new ArrayList<>();
         }
+
+//        void printGraph(int v) {
+//            boolean visited[] = new boolean[neighbors.size()];
+//            dfsUtil(v,visited);
+//        }
+//
+//        private void dfsUtil(int v, boolean[] visited) {
+//            visited[v] = true;
+//            System.out.println(v);
+//
+//            ListIterator<Integer> i = neighbors.get(v).listI();
+//        }
     }
 
     /**
@@ -49,11 +62,11 @@ public class CloneGraph {
      * @param node
      * @return
      */
-    public UndirectedGraphNode cloneGraph2(UndirectedGraphNode node) {
+    public static UndirectedGraphNode cloneGraph2(UndirectedGraphNode node) {
         HashMap<Integer,UndirectedGraphNode> map = new HashMap<Integer,UndirectedGraphNode>();
         return dfs(node,map);
     }
-    private UndirectedGraphNode dfs(UndirectedGraphNode node, HashMap<Integer,UndirectedGraphNode> map) {
+    private static UndirectedGraphNode dfs(UndirectedGraphNode node, HashMap<Integer,UndirectedGraphNode> map) {
         if (node == null) return null;
         if (map.containsKey(node.label)) {
             return map.get(node.label);
@@ -66,4 +79,21 @@ public class CloneGraph {
             return clone;
         }
     }
+
+//    private static void printGraph(int startingNode, UndirectedGraphNode node) {
+//        boolean visited[] = new boolean[startingNode];
+//        dfsUtil(startingNode, visited, node);
+//    }
+//
+//    private static void dfsUtil(int startingNode, boolean[] visited, UndirectedGraphNode node) {
+//        visited[startingNode] = true;
+//        System.out.println(startingNode);
+//
+//        ListIterator<UndirectedGraphNode> i = node.neighbors.listIterator();
+//        while(i.hasNext()) {
+//            int n = i.next().label;
+//            if (!visited[n])
+//                dfsUtil(n, visited, i.next());
+//        }
+//    }
 }

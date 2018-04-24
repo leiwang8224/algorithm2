@@ -3,8 +3,25 @@ package DP;
 /**
  * Created by leiwang on 4/17/18.
  */
+
+/**
+ * Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+
+ Example 1:
+
+ Input: "babad"
+ Output: "bab"
+ Note: "aba" is also a valid answer.
+
+ Example 2:
+
+ Input: "cbbd"
+ Output: "bb"
+ */
 public class LongestPalinSubstring {
     public static void main(String[] args) {
+        String str = "babad";
+        System.out.println(longestPalin2(str));
 
     }
 //    Algorithm
@@ -38,7 +55,8 @@ public class LongestPalinSubstring {
         {
             return 1 + getLCS(str1, str2, str1Length - 1, str2Length - 1);
         } else {
-            return getMax(getLCS(str1, str2, str1Length, str2Length-1), getLCS(str1, str2, str1Length-1, str2Length));
+            return getMax(getLCS(str1, str2, str1Length, str2Length-1),
+                          getLCS(str1, str2, str1Length-1, str2Length));
         }
     }
 

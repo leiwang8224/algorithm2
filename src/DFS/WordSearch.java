@@ -10,6 +10,8 @@ public class WordSearch {
                 {'S','F','C','S'},
                 {'A','D','E','E'}
         };
+        System.out.println("word exists = " + wordExists(board, "SEE"));
+        System.out.println("word exists2 = " + wordExists2(board, "SEE"));
         wordExists(board, "SEE");
     }
 
@@ -44,7 +46,7 @@ public class WordSearch {
      * @param word
      * @return
      */
-    public boolean wordExists2(char[][] board, String word) {
+    public static boolean wordExists2(char[][] board, String word) {
         visited = new boolean[board.length][board[0].length];
 
         for(int i = 0; i < board.length; i++){
@@ -58,7 +60,7 @@ public class WordSearch {
         return false;
     }
 
-    private boolean search(char[][]board, String word, int i, int j, int index){
+    private static boolean search(char[][]board, String word, int i, int j, int index){
         if(index == word.length()){
             return true;
         }
