@@ -13,6 +13,7 @@ public class SortByStack {
         for (int num : arr) {
             s1.push(num);
         }
+        // prints out the result here
         sortByStack(s1);
     }
 

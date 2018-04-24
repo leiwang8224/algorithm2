@@ -9,7 +9,14 @@ import java.util.Set;
  */
 public class GenerateParens {
     public static void main(String args[]) {
-        generateParens(3);
+        Set<String> set1 = generateParens(3);
+        ArrayList<String> set2 = generateParens2(3);
+        System.out.println("generate paren 1");
+        for (String str : set1)
+            System.out.println(str);
+        System.out.println("generate paren 2");
+        for (String str : set2)
+            System.out.println(str);
     }
 
     /**

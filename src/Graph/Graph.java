@@ -9,7 +9,9 @@ import java.util.Stack;
  */
 
 /**
- * Topological sorting for Directed Acyclic Graph (DAG) is a linear ordering of vertices such that for every directed edge uv, vertex u comes before v in the ordering. Topological Sorting for a graph is not possible if the graph is not a DAG.
+ * Topological sorting for Directed Acyclic Graph (DAG) is a linear ordering of
+ * vertices such that for every directed edge uv, vertex u comes before v in the
+ * ordering. Topological Sorting for a graph is not possible if the graph is not a DAG.
 
  For example, a topological sorting of the following graph is “5 4 2 3 1 0”.
  There can be more than one topological sorting for a graph. For example,

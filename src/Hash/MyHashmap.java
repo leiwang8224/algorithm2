@@ -1,9 +1,6 @@
 package Hash;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Created by leiwang on 4/2/18.
@@ -11,10 +8,15 @@ import java.util.NoSuchElementException;
 //TODO needs more work
 public class MyHashmap {
     public static void main(String args[]) {
+        HashMapImpl hashMap = new HashMapImpl();
+        hashMap.put(1,1);
+        hashMap.put(1,2);
+        hashMap.put(1,3);
+        hashMap.put(1,4);
 
     }
 
-    private class HashEntry
+    private static class HashEntry
     {
         private int key;
         private int value;
@@ -24,7 +26,7 @@ public class MyHashmap {
         }
     }
 
-    private class HashMapImpl {
+    private static class HashMapImpl {
         final int SIZE_OF_TABLE = 128;
         List<List<HashEntry>> table;// = new ArrayList<>();
 

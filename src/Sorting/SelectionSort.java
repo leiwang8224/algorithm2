@@ -26,6 +26,7 @@ public class SelectionSort {
     public static void main(String args[]) {
         int[] intArray = new int[]{2, 4, 5, 6, 3, 4, 2, 3432, 3543, 43, 54, 432, 123, 54, 65, 35, 234, 234, 46, 234, 45, 435, 56, 576, 67, 765, 87, 657, 6, 7, 5};
         sort(intArray);
+        System.out.println("result " + java.util.Arrays.toString(intArray));
     }
 
     private static void sort(int[] intArray) {

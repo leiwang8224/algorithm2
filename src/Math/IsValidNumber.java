@@ -13,6 +13,8 @@ package Math;
 //        You should gather all requirements up front before implementing one.
 public class IsValidNumber {
     public static void main(String[] args) {
+        System.out.println(isNumber("f"));
+        System.out.println(isNumber("21"));
 
     }
 
@@ -29,7 +31,7 @@ public class IsValidNumber {
 //    So basically the number should match this regular expression:
 //
 //            [-+]?(([0-9]+(.[0-9]*)?)|.[0-9]+)(e[-+]?[0-9]+)?
-    public boolean isNumber(String s) {
+    public static boolean isNumber(String s) {
         s = s.trim();
 
         boolean pointSeen = false;

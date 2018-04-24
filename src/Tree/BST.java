@@ -27,6 +27,11 @@ public class BST {
         System.out.println("afterDeletion");
         printBST(delete(head, 3));
         printBST(head);
+
+        BSTIterator bstIterator = new BSTIterator(head);
+        System.out.println("using BST Iterator");
+        while (bstIterator.hasNext())
+            System.out.println(bstIterator.next());
     }
 
     private static void printBST(ListNode head) {
@@ -106,7 +111,7 @@ public class BST {
      * BST. Note next() and hasNext() runs in O(1) and uses O(h)
      * memory, where h is the height of the tree.
      */
-    private class BSTIterator {
+    private static class BSTIterator {
         Stack<ListNode> stack;
 
         public BSTIterator(ListNode root) {

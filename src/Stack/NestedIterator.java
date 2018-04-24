@@ -16,41 +16,43 @@ import java.util.Stack;
  * Given the list [1,1],2,[1,1]],
  * calling next() should return 1,1,2,1,1,
  */
-public class NestedIterator implements Iterator<Integer> {
+public class NestedIterator {
+    public static class NestedIteratorImpl implements Iterator<Integer> {
 
-    private interface NestedInteger{
-        public boolean isInteger();
-        public Integer getInteger();
-        public List<NestedInteger> getList();
-    }
+        private interface NestedIntegerImpl {
+            public boolean isInteger();
 
-    Stack<NestedInteger> stack = new Stack<>();
+            public Integer getInteger();
 
-    public NestedIterator(List<NestedInteger> nestedList) {
-        for (int i = nestedList.size() - 1; i >=0; i--) {
-            stack.push(nestedList.get(i));
+            public List<NestedIntegerImpl> getList();
         }
-    }
 
-    @Override
-    public boolean hasNext() {
-        while (!stack.isEmpty()) {
-            NestedInteger curr = stack.peek();
-            if (curr.isInteger()) {
-                return true;
+        Stack<NestedIntegerImpl> stack = new Stack<>();
+
+        public NestedIteratorImpl(List<NestedIntegerImpl> nestedList) {
+            for (int i = nestedList.size() - 1; i >= 0; i--) {
+                stack.push(nestedList.get(i));
             }
-            stack.pop();
-
-            for (int i = curr.getList().size() - 1; i >= 0; i--) {
-                stack.push(curr.getList().get(i));
-            }
-
         }
-        return false;
-    }
 
-    @Override
-    public Integer next() {
-        return stack.pop().getInteger();
+        @Override public boolean hasNext() {
+            while (!stack.isEmpty()) {
+                NestedIntegerImpl curr = stack.peek();
+                if (curr.isInteger()) {
+                    return true;
+                }
+                stack.pop();
+
+                for (int i = curr.getList().size() - 1; i >= 0; i--) {
+                    stack.push(curr.getList().get(i));
+                }
+
+            }
+            return false;
+        }
+
+        @Override public Integer next() {
+            return stack.pop().getInteger();
+        }
     }
 }

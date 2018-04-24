@@ -1,6 +1,23 @@
 package DP;
 
 public class Knapsack {
+    private static int knapSackBruteForce(int W, int wt[], int val[], int n) {
+        // base case
+        if (n == 0 || W == 0)
+            return 0;
+
+        // if weight of the nth item is more than knapsack capacity W,
+        // then this item cannot be included in the optimal solution
+        if (wt[n-1] > W)
+            return knapSackBruteForce(W, wt, val, n-1);
+
+        // return the max of the two cases:
+        // 1. nth item not included
+        // 2. not included
+        else return max(val[n-1] + knapSackBruteForce(W-wt[n-1], wt, val, n-1), knapSackBruteForce(W,wt,val,n-1));
+    }
+
+
     // A utility function that returns maximum of two integers
     private static int max(int a, int b) { return (a > b)? a : b; }
 
@@ -33,5 +50,6 @@ public class Knapsack {
         int W = 50;
         int n = val.length;
         System.out.println(knapSack(W,weight,val,n));
+        System.out.println(knapSackBruteForce(W,weight,val,n));
     }
 }

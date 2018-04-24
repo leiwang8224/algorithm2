@@ -11,7 +11,10 @@ package Recursion;
  */
 public class WaysToWin {
     public static void main(String[] args) {
-        waysToWin(13);
+        System.out.println(waysToWin(13)); //returns 5
+        System.out.println(waysToWinDP(13)); //returns 2
+        // 10 + 3
+        // 3 + 5 + 5
     }
 
     /**
@@ -27,4 +30,34 @@ public class WaysToWin {
                 waysToWin(n - 5) +
                 waysToWin(n - 3);
     }
+
+    private static int waysToWinDP(int n) {
+        int table[] = new int[n+1], i;
+
+        // init all table values to be 0
+        java.util.Arrays.fill(table, 0);
+
+        // base case(if given value is 0)
+        table[0] = 1; // only 1 way to win if final score is 0
+
+        // one by one consider given 3
+        // moves and update the table[]
+        // values after the index greater
+        // than or equal to the value of
+        // the picked move
+        for (i = 3; i <= n; i ++)
+            table[i] += table[i-3];
+        for (i = 5; i <= n; i ++)
+            table[i] += table[i-5];
+        for (i = 10; i <= n; i ++)
+            table[i] += table[i-10];
+        System.out.println(java.util.Arrays.toString(table));
+        //[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13]
+//        [1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 2, 1, 1, 2]
+        return table[n];
+    }
+
+    // 3  | 0
+    // 5  | 0
+    // 10 | 0
 }

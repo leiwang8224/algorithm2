@@ -5,8 +5,21 @@ import java.util.Stack;
 /**
  * Created by leiwang on 3/31/18.
  */
+//Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+//
+//        Example 1:
+//
+//        Input: "(()"
+//        Output: 2
+//        Explanation: The longest valid parentheses substring is "()"
+
 public class LongestValidParen {
     public static void main(String[] args) {
+        String str = "(()";
+        System.out.println(longestValidParentheses(str));
+        System.out.println(longestValidParenthesesDP(str));
+        System.out.println(longestValidParenthesesPtr(str));
+        System.out.println(longestValidParenthesesStack(str));
 
     }
 
@@ -18,7 +31,7 @@ public class LongestValidParen {
      * @param s
      * @return
      */
-    public boolean isValid(String s) {
+    public static boolean isValid(String s) {
         Stack<Character> stack = new Stack<Character>();
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '(') {
@@ -31,7 +44,7 @@ public class LongestValidParen {
         }
         return stack.empty();
     }
-    public int longestValidParentheses(String s) {
+    public static int longestValidParentheses(String s) {
         int maxlen = 0;
         for (int i = 0; i < s.length(); i++) {
             for (int j = i + 2; j <= s.length(); j+=2) {
@@ -50,7 +63,7 @@ public class LongestValidParen {
      * @param s
      * @return
      */
-    public int longestValidParenthesesDP(String s) {
+    public static int longestValidParenthesesDP(String s) {
         int maxans = 0;
         int dp[] = new int[s.length()];
         for (int i = 1; i < s.length(); i++) {
@@ -71,7 +84,7 @@ public class LongestValidParen {
      * @param s
      * @return
      */
-    public int longestValidParenthesesStack(String s) {
+    public static int longestValidParenthesesStack(String s) {
         int maxans = 0;
         Stack<Integer> stack = new Stack<>();
         stack.push(-1);
@@ -95,7 +108,7 @@ public class LongestValidParen {
      * @param s
      * @return
      */
-    public int longestValidParenthesesPtr(String s) {
+    public static int longestValidParenthesesPtr(String s) {
         int left = 0, right = 0, maxlength = 0;
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '(') {

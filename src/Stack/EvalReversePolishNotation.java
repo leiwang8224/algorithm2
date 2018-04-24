@@ -11,7 +11,7 @@ public class EvalReversePolishNotation {
     public static void main(String[] args)
     {
         String[] expression = {"2", "1", "+", "3", "*"};
-        evalExpression(expression);
+        System.out.println(evalExpression(expression));
     }
 
     private static int evalExpression(String[] expression) {

@@ -10,7 +10,7 @@ public class LargestRectangleHistogram {
 //    where the width of each bar is 1, find the area of largest rectangle in the histogram.
     public static void main(String args[]) {
         int[] histogramArr = new int[] {2,3,5,2,4,5,6,4,2,2};
-        findLargestRect(histogramArr);
+        System.out.println(findLargestRect(histogramArr));
     }
 
     /**

@@ -11,8 +11,15 @@ public class PhoneNumberLetterCombos {
     private static final String[] KEYS =
             {"","", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
     public static void main(String args[]) {
+        System.out.println("result 1");
         List<String> res = letterCombo("123");
         for (String result : res) {
+            System.out.println(result);
+        }
+
+        System.out.println("result 2");
+        List<String> res2 = letterCombos2("123");
+        for (String result :res2) {
             System.out.println(result);
         }
     }
@@ -40,7 +47,7 @@ public class PhoneNumberLetterCombos {
      * @param digits
      * @return
      */
-    private List<String> letterCombos2(String digits) {
+    private static List<String> letterCombos2(String digits) {
         LinkedList<String> ans = new LinkedList<>();
         if (digits.isEmpty()) return ans;
         String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};

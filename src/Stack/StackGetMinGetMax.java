@@ -5,11 +5,28 @@ import java.util.Stack;
 /**
  * Created by leiwang on 3/31/18.
  */
+
+/**
+ * Question: Design a Data Structure SpecialStack that supports all the stack
+ * operations like push(), pop(), isEmpty(), isFull() and an additional operation
+ * getMin() which should return minimum element from the SpecialStack. All these
+ * operations of SpecialStack must be O(1). To implement SpecialStack, you should
+ * only use standard Stack data structure and no other data structure like arrays,
+ * list, .. etc.
+ */
 public class StackGetMinGetMax {
     public static void main(String[] args) {
+        MyStack stack = new MyStack();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+        stack.push(5);
+        stack.peek();
+        System.out.println(stack.minEle);
 
     }
-    class MyStack
+    static class MyStack
     {
         Stack<Integer> s;
         Integer minEle;

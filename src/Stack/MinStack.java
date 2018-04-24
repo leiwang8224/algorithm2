@@ -18,9 +18,35 @@ public class MinStack {
         impl.push(12);
         impl.push(32);
 
-        System.out.println("top value = " + impl.top());
-        System.out.println("min value = " + impl.getMin());
+        System.out.println("first result");
+        System.out.println("top value for impl = " + impl.top());
+        System.out.println("min value for impl = " + impl.getMin());
 
+        MinStackImpl2 impl2 = new MinStackImpl2();
+        impl2.push(2);
+        impl2.push(1);
+        impl2.push(4);
+        impl2.push(25);
+        impl2.push(24);
+        impl2.push(12);
+        impl2.push(32);
+
+        System.out.println("second result");
+        System.out.println("top value for impl2 = " + impl2.top());
+        System.out.println("min value for impl2 = " + impl2.getMin());
+
+        MinStackImpl3 impl3 = new MinStackImpl3();
+        impl3.push(2);
+        impl3.push(1);
+        impl3.push(4);
+        impl3.push(25);
+        impl3.push(24);
+        impl3.push(12);
+        impl3.push(32);
+
+        System.out.println("third result");
+        System.out.println("top value for impl3 = " + impl3.top());
+        System.out.println("min value for impl3 = " + impl3.getMin());
 
     }
 
@@ -64,7 +90,7 @@ public class MinStack {
         }
     }
 
-    class MinStackImpl2 {
+    static class MinStackImpl2 {
         int min = Integer.MAX_VALUE;
         Stack<Integer> stack = new Stack<Integer>();
 
@@ -95,7 +121,7 @@ public class MinStack {
         }
     }
 
-    class MinStackImpl3 {
+    static class MinStackImpl3 {
         class ListNode {
             int value;
             int min;

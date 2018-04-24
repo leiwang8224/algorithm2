@@ -27,10 +27,33 @@ import java.util.List;
 // combine them in all possible ways with the root.
 public class UniqueBST {
     public static void main(String[] args) {
+        System.out.println("genTrees");
+        List<ListNode> res = genTrees(1, 3);
+        for (ListNode node : res)
+            System.out.println(node.getVal());
 
+        System.out.println("genTrees");
+        List<ListNode> res2 = generateTrees(1,3);
+        for (ListNode node : res2)
+            System.out.println(node.getVal());
+
+        System.out.println("genTrees");
+        List<ListNode> res3 = generateTrees(3);
+        for (ListNode node : res3)
+            System.out.println(node.getVal());
+
+        System.out.println("genTrees");
+        List<ListNode> res4 = generateTreesDP(3);
+        for (ListNode node : res4)
+            System.out.println(node.getVal());
+
+        System.out.println("genTrees");
+        List<ListNode> res5 = generateSubtrees(1,3);
+        for (ListNode node : res5)
+            System.out.println(node.getVal());
     }
 
-    public List<ListNode> genTrees (int start, int end)
+    public static List<ListNode> genTrees (int start, int end)
     {
 
         List<ListNode> list = new ArrayList<ListNode>();
@@ -109,7 +132,7 @@ public class UniqueBST {
      * @param e
      * @return
      */
-    private List<ListNode> generateSubtrees(int s, int e) {
+    private static List<ListNode> generateSubtrees(int s, int e) {
         List<ListNode> res = new LinkedList<ListNode>();
         if (s > e) {
             res.add(null); // empty tree
@@ -138,7 +161,7 @@ public class UniqueBST {
      * @param end
      * @return
      */
-    public List<ListNode> generateTrees(int start,int end){
+    public static List<ListNode> generateTrees(int start,int end){
         List<ListNode> trees = new ArrayList<ListNode>();
         if(start>end){  trees.add(null); return trees;}
 
@@ -163,7 +186,7 @@ public class UniqueBST {
      * @param n
      * @return
      */
-    public List<ListNode> generateTrees(int n) {
+    public static List<ListNode> generateTrees(int n) {
         List<ListNode> res = new ArrayList<>();
         res.add(null);
         for(; n > 0; n--) {
@@ -195,7 +218,7 @@ public class UniqueBST {
         }
         return res;
     }
-    private ListNode getValNode(ListNode n, int val) { //find the cutoff node in the new tree
+    private static ListNode getValNode(ListNode n, int val) { //find the cutoff node in the new tree
         while(n != null) {
             if(n.getVal() == val) break;
             n = n.left;
@@ -203,7 +226,7 @@ public class UniqueBST {
         return n;
     }
 
-    private ListNode copyTree(ListNode root) { //clone the right subtree
+    private static ListNode copyTree(ListNode root) { //clone the right subtree
         if(root == null) return null;
         ListNode cRoot = new ListNode(root.getVal());
         cRoot.left = copyTree(root.left);

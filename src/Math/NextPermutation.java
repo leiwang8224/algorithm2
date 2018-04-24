@@ -11,7 +11,15 @@ package Math;
 
 public class NextPermutation {
     public static void main(String[] args) {
+        int[] nums = new int[]{1,2,3};
+        nextPermutation(nums);
+        System.out.println(java.util.Arrays.toString(nums));
 
+        nextPermutation2(nums);
+        System.out.println(java.util.Arrays.toString(nums));
+
+        nextPermutation3(nums);
+        System.out.println(java.util.Arrays.toString(nums));
     }
 
 
@@ -23,7 +31,7 @@ public class NextPermutation {
     // the smallest number between num[i,n-1] that is larger than num[i-1]. For example, original number is 121543321,
     // we want to swap the ‘1’ at position 2 with ‘2’ at position 7.
     // The last step is to make the remaining higher position part as small as possible, we just have to reversely sort the num[i,n-1]
-    private void nextPermutation(int[] num) {
+    private static void nextPermutation(int[] num) {
         int n=num.length;
         if(n<2)
             return;
@@ -51,14 +59,14 @@ public class NextPermutation {
         }
     }
 
-    public void swap(int[] num, int i, int j){
+    public static void swap(int[] num, int i, int j){
         int temp=0;
         temp=num[i];
         num[i]=num[j];
         num[j]=temp;
     }
 
-    public void reverseSort(int[] num, int start, int end){
+    public static void reverseSort(int[] num, int start, int end){
         if(start>end)
             return;
         for(int i=start;i<=(end+start)/2;i++)
@@ -69,7 +77,7 @@ public class NextPermutation {
      *
      * @param nums
      */
-    public void nextPermutation2(int[] nums) {
+    public static void nextPermutation2(int[] nums) {
         if(nums.length<=1){
             return;
         }
@@ -90,7 +98,7 @@ public class NextPermutation {
         reverse(nums,i);
     }
 
-    private void swap(int[] a,int i){
+    private static void swap(int[] a,int i){
         for(int j = a.length-1;j>i;j--){
             if(a[j]>a[i]){
                 int t = a[j];
@@ -101,7 +109,7 @@ public class NextPermutation {
         }
     }
 
-    private void reverse(int[] a,int i){//reverse the number after the number we have found
+    private static void reverse(int[] a,int i){//reverse the number after the number we have found
         int first = i;
         int last = a.length-1;
         while(first<last){
@@ -117,7 +125,7 @@ public class NextPermutation {
      *
      * @param A
      */
-    public void nextPermutation3(int[] A) {
+    public static void nextPermutation3(int[] A) {
         if(A == null || A.length <= 1) return;
         int i = A.length - 2;
         while(i >= 0 && A[i] >= A[i + 1]) i--; // Find 1st id i that breaks descending order
@@ -129,13 +137,13 @@ public class NextPermutation {
         reverse3(A, i + 1, A.length - 1);       // Reverse the descending sequence
     }
 
-    public void swap3(int[] A, int i, int j) {
+    public static void swap3(int[] A, int i, int j) {
         int tmp = A[i];
         A[i] = A[j];
         A[j] = tmp;
     }
 
-    public void reverse3(int[] A, int i, int j) {
+    public static void reverse3(int[] A, int i, int j) {
         while(i < j) swap(A, i++, j--);
     }
 }

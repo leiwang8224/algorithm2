@@ -20,10 +20,13 @@ package Math;
 
 public class Pow {
     public static void main(String[] args) {
+        System.out.println(myPow(2,2));
+        System.out.println(myPow2(2,2));
+        System.out.println(myPow3(2,2));
 
     }
 
-    double myPow(double x, int n) {
+    static double myPow(double x, int n) {
         if(n<0) return 1/x * myPow(1/x, -(n+1));
         if(n==0) return 1;
         if(n==2) return x*x;
@@ -31,14 +34,14 @@ public class Pow {
         else return x*myPow( myPow(x, n/2), 2);
     }
 
-    double myPow2(double x, int n) {
+    static double myPow2(double x, int n) {
         if(n==0) return 1;
         double t = myPow2(x,n/2);
         if(n%2>0) return n<0 ? 1/x*t*t : x*t*t;
         else return t*t;
     }
 
-    double myPow3(double x, int n) {
+    static double myPow3(double x, int n) {
         if(n==0) return 1;
         if(n<0){
             n = -n;

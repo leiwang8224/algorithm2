@@ -9,7 +9,8 @@ public class LongestCommonSeq {
         String str1 = "ABCD";
         String str2 = "AEBD";
         table = new int[str1.length()+1][str2.length()+1];
-        getLCS(str1, str2, str1.length(), str2.length());
+        System.out.println(getLCS(str1, str2, str1.length(), str2.length()));
+        System.out.println(getLCSMemo(str1,str2,str1.length(),str2.length()));
     }
 
     public static int getLCS(String str1, String str2, int str1Length, int str2Length) {

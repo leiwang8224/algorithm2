@@ -9,7 +9,20 @@ import java.util.List;
 public class RestoreIPAddresses {
     public static void main(String args[]) {
         String givenString = "25525511135";
-        findAllIP(givenString);
+        System.out.println("first result");
+        List<String> result = findAllIP(givenString);
+        for (String res : result)
+            System.out.println(res);
+
+        System.out.println("second result");
+        List<String> result2 =restoreIpAddresses(givenString);
+        for (String res : result2)
+            System.out.println(res);
+
+        System.out.println("third result");
+        List<String> result3 = restoreIpAddresses2nd(givenString);
+        for (String res : result3)
+            System.out.println(res);
     }
 
 //    3-loop divides the string s into 4 substring: s1, s2, s3, s4. Check if each substring
@@ -42,13 +55,13 @@ public class RestoreIPAddresses {
      * @param s
      * @return
      */
-    private List<String> restoreIpAddresses(String s) {
+    private static List<String> restoreIpAddresses(String s) {
         List<String> result = new ArrayList<>();
         doRestore(result, "", s, 0);
         return result;
     }
 
-    private void doRestore(List<String> result, String path, String s, int k) {
+    private static void doRestore(List<String> result, String path, String s, int k) {
         if (s.isEmpty() || k == 4) {
             if (s.isEmpty() && k == 4)
                 result.add(path.substring(1));
@@ -72,14 +85,14 @@ public class RestoreIPAddresses {
     }
 
 
-    private List<String> restoreIpAddresses2nd(String s) {
+    private static List<String> restoreIpAddresses2nd(String s) {
         List<String> result = new ArrayList<String>();
         if(s.length() < 4 || s.length() > 12)
             return result;
         restoreIpAddresses2(s, 0, 4, result, new StringBuilder());
         return result;
     }
-    public void restoreIpAddresses2(String s, int index, int set, List<String>result, StringBuilder sb){
+    public static void restoreIpAddresses2(String s, int index, int set, List<String>result, StringBuilder sb){
         if(index > s.length() || s.length() - index < set ||s.length() - index > set*3){
             return;
         }else if(index == s.length()){

@@ -13,7 +13,11 @@ import java.util.Stack;
 //        Output: 6
 public class TrappingRainWater {
     public static void main(String[] args) {
-        //TODO testing
+        int[] nums = new int[]{0,1,0,2,1,0,1,3,2,1,2,1};
+        System.out.println(trapBruteForce(nums));
+        System.out.println(trapDP(nums));
+        System.out.println(trapStack(nums));
+        System.out.println(trapWithPointers(nums));
     }
 
 //    Do as directed in question. For each element in the array,
@@ -29,7 +33,7 @@ public class TrappingRainWater {
 //    Add min(max_left,max_right)−height[i]min(max_left,max_right)−height[i] to \text{ans}ans
     // Time O(n2)
     // Space O(1)
-    private int trapBruteForce(int[] height) {
+    private static int trapBruteForce(int[] height) {
         int ans = 0;
         int size = height.length;
         for (int i = 1; i < size-1; i ++) {
@@ -50,7 +54,7 @@ public class TrappingRainWater {
 
     //Time: O(n)
     //Space: O(n)
-    private int trapDP(int[] height) {
+    private static int trapDP(int[] height) {
         if (height == null)
             return 0;
 
@@ -90,7 +94,7 @@ public class TrappingRainWater {
 //    Move \text{current}current to the next position
     // Time O(n)
     // Space O(n)
-    private int trapStack(int[] height) {
+    private static int trapStack(int[] height) {
         int ans = 0, current = 0;
         Stack<Integer> stack = new Stack<>();
         while (current < height.length) {
@@ -125,7 +129,7 @@ public class TrappingRainWater {
 //    Subtract 1 from \text{right}right.
     // Time O(n)
     // Space O(1)
-    private int trapWithPointers(int[] height) {
+    private static int trapWithPointers(int[] height) {
         int left = 0, right = height.length - 1;
         int ans = 0;
         int leftMax = 0, rightMax = 0;

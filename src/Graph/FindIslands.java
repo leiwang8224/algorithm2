@@ -18,21 +18,33 @@ public class FindIslands {
         int map[][]=  new int[][] { {1, 1, 1, 1, 0},
                                     {1, 1, 0, 1, 0},
                                     {1, 1, 0, 0, 0},
-                                    {0, 0, 0, 0, 0},
-                                    {1, 0, 1, 0, 1}
+                                    {0, 0, 0, 0, 1}
         };
+
+        System.out.println("number of islands DFS " + numIslandsDFS(map));
+        System.out.println("number of islands BFS " + numIslandsBFS(map));
+
+        NumberofIslands numberofIslands = new NumberofIslands();
+        numberofIslands.explore(map,0,0);
+        System.out.println("number of islands " + numberofIslands.numIslands(map));
+
+        Solution soln = new Solution();
+        System.out.println("number of islands soln1 " + soln.numIslands(map));
+
+        Solution2 soln2 = new Solution2();
+        System.out.println("number of islands soln2 " + soln2.numIslands(map));
 
 //        System.out.println(countIslands(map));
 
-        int total = 0;
-        for (int row = 0; row < map.length; row++) {
-            for (int col = 0; col < map[0].length; col++) {
-                if (map[row][col] == 1) {
-                    total ++;
-                    findIslands(map,row,col);
-                }
-            }
-        }
+//        int total = 0;
+//        for (int row = 0; row < map.length; row++) {
+//            for (int col = 0; col < map[0].length; col++) {
+//                if (map[row][col] == 1) {
+//                    total ++;
+//                    findIslands(map,row,col);
+//                }
+//            }
+//        }
     }
 
     /**
@@ -64,8 +76,8 @@ public class FindIslands {
     /**
      * Clear solution
      */
-    public class Solution2 {
-        public int numIslands(char[][] grid) {
+    public static class Solution2 {
+        public int numIslands(int[][] grid) {
             int count = 0;
 
             for (int i = 0; i < grid.length; i++) {
@@ -79,7 +91,7 @@ public class FindIslands {
             return count;
         }
 
-        private void clearRestOfLand(char[][] grid, int i, int j) {
+        private void clearRestOfLand(int[][] grid, int i, int j) {
             if (i < 0 || j < 0 ||
                 i >= grid.length ||
                 j >= grid[i].length ||
@@ -151,12 +163,12 @@ public class FindIslands {
                 map[row][col] == 1 && !visited[row][col];
     }
 
-    public class Solution {
+    public static class Solution {
 
         private int n;
         private int m;
 
-        public int numIslands(char[][] grid) {
+        public int numIslands(int[][] grid) {
             int count = 0;
             n = grid.length;
             if (n == 0) return 0;
@@ -171,7 +183,7 @@ public class FindIslands {
             return count;
         }
 
-        private void DFSMarking(char[][] grid, int i, int j) {
+        private void DFSMarking(int[][] grid, int i, int j) {
             if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] != '1') return;
             grid[i][j] = '0';
             DFSMarking(grid, i + 1, j);
@@ -194,8 +206,8 @@ public class FindIslands {
      make the code clear. I also use a 2d array for the 4 direction visit.
      int[][] distance = {{1,0},{-1,0},{0,1},{0,-1}};
      */
-    int[][] distance = {{1,0},{-1,0},{0,1},{0,-1}};
-    public int numIslands(char[][] grid) {
+    static int[][] distance = {{1,0},{-1,0},{0,1},{0,-1}};
+    public static int numIslands(int[][] grid) {
         if (grid == null || grid.length == 0 || grid[0].length == 0)  {
             return 0;
         }
@@ -220,11 +232,11 @@ public class FindIslands {
         return uf.count;
     }
 
-    class UnionFind {
+    static class UnionFind {
         int[] father;
         int m, n;
         int count = 0;
-        UnionFind(char[][] grid) {
+        UnionFind(int[][] grid) {
             m = grid.length;
             n = grid[0].length;
             father = new int[m*n];
@@ -268,10 +280,10 @@ public class FindIslands {
      (possible moves (-1,0),(0,1),(0,-1),(1,0)). Two ‘1’ diagonally adjacent are not considered
      from the same island.
      */
-    public class NumberofIslands {
+    public static class NumberofIslands {
         int[] dx = {-1,0,0,1};
         int[] dy = {0,1,-1,0};
-        public int numIslands(char[][] grid) {
+        public int numIslands(int[][] grid) {
             if(grid==null || grid.length==0) return 0;
             int islands = 0;
             for(int i=0;i<grid.length;i++) {
@@ -284,7 +296,7 @@ public class FindIslands {
             }
             return islands;
         }
-        public void explore(char[][] grid, int i, int j) {
+        public void explore(int[][] grid, int i, int j) {
             grid[i][j]='x';
             for(int d=0;d<dx.length;d++) {
                 if(i+dy[d]<grid.length && i+dy[d]>=0 && j+dx[d]<grid[0].length && j+dx[d]>=0 && grid[i+dy[d]][j+dx[d]]=='1') {
@@ -299,7 +311,7 @@ public class FindIslands {
      * @param grid
      * @return
      */
-    public int numIslandsDFS(char[][] grid) {
+    public static int numIslandsDFS(int[][] grid) {
         int count=0;
         for(int i=0;i<grid.length;i++)
             for(int j=0;j<grid[0].length;j++){
@@ -310,7 +322,7 @@ public class FindIslands {
             }
         return count;
     }
-    private void dfsFill(char[][] grid,int i, int j){
+    private static void dfsFill(int[][] grid,int i, int j){
         if(i>=0 && j>=0 && i<grid.length && j<grid[0].length&&grid[i][j]=='1'){
             grid[i][j]='0';
             dfsFill(grid, i + 1, j);
@@ -325,7 +337,7 @@ public class FindIslands {
      * @param grid
      * @return
      */
-    public int numIslandsBFS(char[][] grid) {
+    public static int numIslandsBFS(int[][] grid) {
         int count=0;
         for(int i=0;i<grid.length;i++)
             for(int j=0;j<grid[0].length;j++){
@@ -336,7 +348,7 @@ public class FindIslands {
             }
         return count;
     }
-    private void bfsFill(char[][] grid,int x, int y){
+    private static void bfsFill(int[][] grid,int x, int y){
         grid[x][y]='0';
         int n = grid.length;
         int m = grid[0].length;
