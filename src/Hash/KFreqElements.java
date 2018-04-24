@@ -5,9 +5,16 @@ import java.util.*;
 /**
  * Created by leiwang on 4/2/18.
  */
+
+/**
+ * Return top k frequent elements
+ */
 public class KFreqElements {
     public static void main(String[] args) {
-
+        int[] nums = new int[] {1,2,3,2,1,2,3,3,3,2,1,2};
+        List<Integer> result = topKFrequent(nums,2);
+        for (Integer integer : result)
+            System.out.println(integer);
     }
 
     private static class Pair {

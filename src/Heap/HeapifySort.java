@@ -6,6 +6,11 @@ package Heap;
 public class HeapifySort {
     public static void main(String args[]) {
 
+        int[] nums = new int[] {1,2,3,4,5,6,7,8,9,10};
+        heapify(nums,nums.length,1);
+        System.out.println(java.util.Arrays.toString(nums));
+        //        [1, 5, 3, 4, 10, 6, 7, 8, 9, 2] ?
+
         // Min heap: value of a node must be less
         // than or equal to the values of its children
 
@@ -15,7 +20,7 @@ public class HeapifySort {
 
     // to heapify a subtree rooted with node i which
     // is an index in arr[]. n is size of heap
-    private void heapify(int arr[], int n, int i) {
+    private static void heapify(int arr[], int n, int i) {
         int largest = i; // init largest as root
         int l = 2*i + 1; // left
         int r = 2*i + 2; // right
@@ -40,7 +45,7 @@ public class HeapifySort {
 
     }
 
-    private void sort(int arr[]) {
+    private static void sort(int arr[]) {
         int n = arr.length;
 
         // build heap (rearrange array)

@@ -17,7 +17,11 @@ import java.util.*;
 public class SkylineProblem {
     public static void main(String args[]) {
         int[][] nums = new int[][] {{2, 9, 10}, {3, 7, 15}, {5, 12, 12}, {15, 20, 10}, {19, 24, 8}};
-        getSkyline(nums);
+        List<int[]> list = getSkyline(nums);
+        for (int[] integers : list) {
+            java.util.Arrays.toString(integers);
+        }
+        //TODO not working, output nothing
     }
 
     public static List<int[]> getSkyline(int[][] buildings) {

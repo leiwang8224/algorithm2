@@ -7,11 +7,19 @@ import java.util.HashSet;
  */
 public class UnionIntersectionArrays {
     public static void main(String[] args) {
-
+        int[] num1 = new int[] {1,2,3,2,2,2,3,4,5,3,4,5,4};
+        int[] num2 = new int[] {1,2,3,4,3,2,3,3,3,4,3,3,2};
+        printUnion(num1, num2, num1.length, num2.length);
+        System.out.println();
+        printIntersection(num1, num2);
+        System.out.println();
+        printUnion(num1, num2);
+        System.out.println();
+        printIntersection(num1, num2, num1.length, num2.length);
     }
 
     // prints union of arr1[0..m-1] and arr2[0..n-1]
-    private void printUnion(int arr1[], int arr2[], int m, int n) {
+    private static void printUnion(int arr1[], int arr2[], int m, int n) {
         // before finding union, make sure arr1[0..m-1]
         // is smaller
         if (m > n) {
@@ -40,7 +48,7 @@ public class UnionIntersectionArrays {
     }
 
     // prints intersection of arr1[0..m-1] and arr2[0..n-1]
-    private void printIntersection(int[] arr1, int[] arr2, int m, int n) {
+    private static void printIntersection(int[] arr1, int[] arr2, int m, int n) {
         // Before finding intersection, make sure arr1[0..m-1]
         // is smaller
         if (m > n) {
@@ -67,7 +75,7 @@ public class UnionIntersectionArrays {
 
     // recursive binary search function, returns location
     // of given array arr[l..r] is present, otherwise -1
-    private int binarySearch(int[] arr, int l, int r, int x) {
+    private static int binarySearch(int[] arr, int l, int r, int x) {
         if (r >= l) {
             int mid = l + (r - 1) / 2;
 

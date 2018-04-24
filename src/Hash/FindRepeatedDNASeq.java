@@ -8,7 +8,9 @@ import java.util.*;
 public class FindRepeatedDNASeq {
     public static void main(String args[]) {
         String str = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT";
-        findRepeatedDnaSequences(str);
+        List<String> result = findRepeatedDnaSequences(str);
+        for (String eachStr : result)
+            System.out.println(eachStr);
     }
 
     private static List<String> findRepeatedDnaSequences(String s) {

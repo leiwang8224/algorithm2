@@ -7,10 +7,11 @@ import java.util.HashMap;
  */
 public class LengthOfLongestSubstring {
     public static void main(String args[]) {
-
+        String str = "abbbebcbcbs";
+        System.out.println("length of the longest = " + lengthOfLongestSubstr(str));
     }
 
-    private int lengthOfLongestSubstr(String str) {
+    private static int lengthOfLongestSubstr(String str) {
         if (str.length() == 0) return 0;
 
         HashMap<Character, Integer> map = new HashMap<>();

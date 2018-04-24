@@ -14,8 +14,6 @@ public class BuildLinkedList {
         head.next.next.next.next = new ListNode(4);
         head.next.next.next.next.next = new ListNode(5);
 
-//        ListNode newHead = reverseList(head, null);
-
         reOrderList(head);
         while (head != null) {
             System.out.print(head.getVal() + ",");
