@@ -6,7 +6,7 @@ package DP;
 public class CoinChange {
     public static void main(String args[]) {
         int[] coins = new int[]{1,5,10,25};
-        findCoinChange(coins, 16);
+        System.out.println(findCoinChange(coins, 16));
     }
 
     private static int findCoinChange(int[] coins, int target) {

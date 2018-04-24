@@ -14,10 +14,14 @@ package Arrays;
 
 public class NeedleInHaystack {
     public static void main(String[] args) {
+        String hayStack = "hello";
+        String needle = "ll";
+        System.out.println("needle in haystack " + strStr(hayStack, needle));
+        System.out.println("needle in haystack2 " + strStr2(hayStack, needle));
 
     }
 
-    private int strStr(String haystack, String needle) {
+    private static int strStr(String haystack, String needle) {
         if (needle.isEmpty()) return 0; // edge case: "",""=>0  "a",""=>0
         for (int i = 0; i <= haystack.length() - needle.length(); i++) {
             for (int j = 0; j < needle.length() && haystack.charAt(i + j) == needle.charAt(j); j++)
@@ -26,7 +30,7 @@ public class NeedleInHaystack {
         return -1;
     }
 
-    public int strStr2(String haystack, String needle) {
+    public static int strStr2(String haystack, String needle) {
         int l1 = haystack.length(), l2 = needle.length();
         if (l1 < l2) {
             return -1;

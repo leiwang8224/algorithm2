@@ -2,11 +2,17 @@ package BitManip;
 
 import java.util.HashMap;
 import java.util.Map;
+//Reverse bits of a given 32 bits unsigned integer.
 
+// For example, given input 43261596 (represented in binary as
+// 00000010100101000001111010011100), return 964176192 (represented
+// in binary as 00111001011110000010100101000000).
 public class ReverseBits {
     private static final Map<Byte, Integer> cache = new HashMap<Byte,Integer>();
     public static void main(String args[]) {
-        reverseBits(10);
+        System.out.println(reverseBits(10));
+        System.out.println(reverseBits2(10));
+        System.out.println(reverseBits2((byte)10));
     }
 
     private static int reverseBits(int n) {

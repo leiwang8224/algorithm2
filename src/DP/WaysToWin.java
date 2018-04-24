@@ -5,7 +5,7 @@ package DP;
  */
 public class WaysToWin {
     public static void main(String args[]) {
-        waysToWin(13);
+        System.out.println(waysToWin(13));
     }
 
     /**

@@ -14,8 +14,8 @@ public class FindFirstAndLast {
         int n = nums.length;
         int value = 5;
 
-        int first = firstOcc(nums, 0, nums.length, 5, n);
-        int last = lastOcc(nums, 0, nums.length, 5, n);
+        int first = firstOcc(nums, 0, nums.length, value, n);
+        int last = lastOcc(nums, 0, nums.length, value, n);
 
         System.out.println("first occurrance " + first + " last occurance = " + last);
 

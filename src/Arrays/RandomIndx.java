@@ -22,10 +22,13 @@ public class RandomIndx {
 //    solution.pick(1);
     public static void main(String[] args)
     {
+        int nums[] = new int[]{1,2,3,3,3};
+        Solution soln = new Solution(nums);
+        System.out.println("pick random " + soln.pick(3));
 
     }
 
-    class Solution {
+    private static class Solution {
         private int[] nums;
         Random rdn;
         public Solution(int[] nums) {
@@ -37,8 +40,10 @@ public class RandomIndx {
             int result = -1;
             int count = 0;
             for (int i = 0; i < nums.length; i++) {
+                // if the pick is not target, just keep looping
                 if (nums[i] != target)
                     continue;
+                // if the pick is 0, set resulting index to i
                 if (rdn.nextInt(++count) == 0)
                     result = i;
             }

@@ -9,6 +9,7 @@ import java.util.Stack;
 /**
  * Created by leiwang on 4/14/18.
  */
+// TODO don't understand this one
 public class MiniParser {
 //    Given a nested list of integers represented as a string,
 //    implement a parser to deserialize it.
@@ -23,10 +24,23 @@ public class MiniParser {
 //    String contains only digits 0-9, [, - ,, ].
 
     public static void main(String args[]) {
+        List<NestedInteger> list1 = new ArrayList<>();
+        List<NestedInteger> list2 = new ArrayList<>();
+        List<NestedInteger> list3 = new ArrayList<>();
+        list1.add(new NestedInteger(1));
+        list1.add(new NestedInteger(2));
+        list1.add(new NestedInteger(3));
 
+        list2.add(new NestedInteger(4));
+        list2.add(new NestedInteger(5));
+        list2.add(new NestedInteger(6));
+
+        list3.add(new NestedInteger(7));
+        list3.add(new NestedInteger(8));
+        list3.add(new NestedInteger(9));
     }
 
-    class NestedInteger {
+    private static class NestedInteger {
         private List<NestedInteger> list;
         private Integer integer;
 

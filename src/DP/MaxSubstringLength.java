@@ -12,7 +12,7 @@ public class MaxSubstringLength {
     public static void main(String args[]) {
         String str = "8283749304344428374";
         int [][] dp = new int[str.length()][str.length()];
-        maxSubstringLengthDP(str, dp);
+        System.out.println(maxSubstringLengthDP(str, dp));
     }
 
     private static int maxSubstringLengthDP(String str, int[][] dp) {

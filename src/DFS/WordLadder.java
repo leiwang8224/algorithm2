@@ -1,5 +1,6 @@
 package DFS;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +34,16 @@ import java.util.Set;
 
 public class WordLadder {
     public static void main(String args[]) {
+        String beginWord = "hit";
+        String endWord = "cog";
+        List<String> wordList = new ArrayList<>();
+        wordList.add("hot");
+        wordList.add("dot");
+        wordList.add("dog");
+        wordList.add("lot");
+        wordList.add("log");
+        wordList.add("cog");
+        System.out.println("ladderLength = " + ladderLength(beginWord,endWord,wordList));
 
     }
 //
@@ -62,11 +73,16 @@ public class WordLadder {
         while (!reached.contains(endWord)) {
             Set<String> toAdd = new HashSet<String>();
             for (String each : reached) {
+                // for each letter inside the string, replace with 'a'-'z'
+                // and check whether it's in the dictionary
                 for (int i = 0; i < each.length(); i++) {
+                    System.out.println("each = " + each);
                     char[] chars = each.toCharArray();
                     for (char ch = 'a'; ch <= 'z'; ch++) {
                         chars[i] = ch;
+                        System.out.println(java.util.Arrays.toString(chars));
                         String word = new String(chars);
+                        // if it's in the dict, add to the toAdd set and remove from dict
                         if (wordDict.contains(word)) {
                             toAdd.add(word);
                             wordDict.remove(word);
