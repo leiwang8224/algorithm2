@@ -11,28 +11,36 @@ public class SubsetSum {
         Integer[] array = new Integer[]
                 {3, 2, 7, 1};
 
+        int[] arrayInt = new int[]{3,2,7,1};
+
         int[] arrayDP = new int[] {
                 3,2,7,1
         };
 
 //        isSubsetSum(array, array.length, 6);
-        System.out.println(isSubsetSum(Arrays.asList(array),array.length,6));
+        System.out.println(isSubsetSum(arrayInt,array.length,6,0));
         System.out.println(isSubsetSumDP(arrayDP,arrayDP.length,6));
     }
 
     // TODO problem with this
-    private static boolean isSubsetSum(List<Integer> list, int length, int target) {
+    private static boolean isSubsetSum(int[] nums, int length, int target, int index) {
         if (target == 0)
             return true;
 
-        if (list.size() == 0)
+        if (length == 0)
             return false;
 
-        if (list.get(0) >  target) // ignore first element if greater
-            return isSubsetSum(list.subList(1,list.size()-1), length - 1, target);
+        if (nums[0] > target)
+            return isSubsetSum(nums, length-1, target, index + 1);
 
-        return isSubsetSum(list.subList(1,list.size()-1), length-1, target) ||
-                isSubsetSum(list.subList(1,list.size()-1), length-1, target-list.get(0));
+        return isSubsetSum(nums, length-1, target, index + 1) ||
+                isSubsetSum(nums, length-1, target-nums[0], index + 1);
+        // if first element is > target, ignore it
+//        if (list.get(0) >  target) // ignore first element if greater
+//            return isSubsetSum(list.get(index+1), length - 1, target);
+//
+//        return isSubsetSum(list.subList(1,list.size()-1), length-1, target) ||
+//                isSubsetSum(list.subList(1,list.size()-1), length-1, target-list.get(0));
 
     }
 

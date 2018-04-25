@@ -10,8 +10,28 @@ public class EditDistance {
         String str1 = "MART";
         String str2 = "KARMA";
         System.out.println("edit Distance = " + editDistance(str1, str2, str1.length(), str2.length()));
+        System.out.println("edit Distance = " + editDistanceRecurse(str1, str2, 0, 0));
     }
 
+    //TODO this one has problem
+    private static int editDistanceRecurse(String str1, String str2, int str1Index, int str2Index) {
+        if (str1 == null || str1.length() == 0)
+            return str2.length();
+
+        if (str2 == null || str2.length() == 0)
+            return str1.length();
+
+        if (str1.charAt(str1Index) == str2.charAt(str2Index)) {
+            return editDistance(str1,str2,str1Index+1,str2Index+1);
+        }
+
+        int d, u, i;
+        d = editDistance(str1,str2,str1Index+1,str2Index);
+        u = editDistance(str1,str2,str1Index+1,str2Index+1);
+        i = editDistance(str1,str2,str1Index,str2Index+1);
+
+        return Math.min(d,Math.min(u,i)) + 1;
+    }
     private static int editDistance(String str1, String str2, int str1Length, int str2Length) {
         int dp[][] = new int[str1Length+1][str2Length+1];
         for (int j = 0; j <= str1Length; j ++) // top row

@@ -11,12 +11,13 @@ public class IsInterleaved {
         String str2 = "df";
         String strCombo = "adbfc";
 
+        System.out.println(isInterleaved(str1,str2,strCombo,0,0,0));
         System.out.println(isInterleavedDP(str1, str2, strCombo));
     }
 
-    //TODO not working
-    private static boolean isInterleaved(String str1, String str2, String strCombo) {
-        if (str1.isEmpty() && str2.isEmpty() && strCombo.isEmpty())
+    private static boolean isInterleaved(String str1, String str2, String strCombo,
+                                        int str1Index, int str2Index, int strComboIndex ) {
+        if (str1 != null && str2 != null && strCombo != null)
             return true;
 
         if (strCombo.isEmpty()) // strCombo is empty
@@ -28,10 +29,10 @@ public class IsInterleaved {
         boolean first = false;
         boolean second = false;
 
-        if (str1.charAt(0) == (strCombo.charAt(0)))
-            first = isInterleaved(str1.substring(charIndex++),str2,strCombo.substring(charIndex++));
-        if (str2.charAt(0) == (strCombo.charAt(0)))
-            second = isInterleaved(str1,str2.substring(charIndex++),strCombo.substring(charIndex++));
+        if (str1.charAt(str1Index) == (strCombo.charAt(strComboIndex)))
+            first = isInterleaved(str1, str2, strCombo, str1Index+1, str2Index, strComboIndex+1);
+        if (str2.charAt(str2Index) == (strCombo.charAt(strComboIndex)))
+            second = isInterleaved(str1,str2, strCombo, str1Index, str2Index+1, strComboIndex+1);
 
         return first || second;
     }

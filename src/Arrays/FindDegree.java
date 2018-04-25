@@ -44,6 +44,8 @@ public class FindDegree {
         System.out.println("final Solution = " + findShortestSubArraySoln(nums));
 
         System.out.println("final result 2 = " + findShortestSubArray2(nums));
+
+        System.out.println("final result 3 = " + findShortestSubArray3(nums));
     }
 
     //Just record the index of each number in a hash map and find the degree

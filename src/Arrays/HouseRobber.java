@@ -42,6 +42,7 @@ public class HouseRobber {
         // If I don't steal from current house, I get the max value from the prev house (steal or not steal)
         // If I steal from the current house, I get the value of the current house + the value I get from not stealing prev house
         System.out.println("max profit from stealing house = " + rob(nums));
+        System.out.println("max profit from stealing house2 = " + rob2(nums));
 
     }
 
@@ -68,7 +69,7 @@ public class HouseRobber {
     // func : r[i] = nr[i-1] + num
     //        nr[i] = max(nr[i-1],r[i-1])
 
-    private int rob2(int[] nums) {
+    private static int rob2(int[] nums) {
         int rob = 0;
         int notRob = 0;
         for (int num : nums) {

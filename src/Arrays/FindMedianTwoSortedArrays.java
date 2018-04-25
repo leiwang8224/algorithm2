@@ -23,6 +23,14 @@ package Arrays;
  */
 //TODO hard question, need to figure out how it works.
 public class FindMedianTwoSortedArrays {
+    public static void main(String[] args) {
+        int[] nums = new int[]{1,2,3,4,5};
+        int[] nums2 = new int[]{6,7,8,9,10};
+        System.out.println(findMedianSortedArrays(nums,nums2));
+        System.out.println(findMedianSortedArrays2(nums,nums2));
+        System.out.println(findMedianSortedArrays3(nums, nums2));
+
+    }
     //    https://leetcode.com/problems/median-of-two-sorted-arrays/solution/
 //    To solve this problem, we need to understand "What is the use of median". In statistics, the median is used for:
 //    Dividing a set into two equal length subsets, that one subset is always greater than the other.
@@ -136,7 +144,7 @@ public class FindMedianTwoSortedArrays {
 //    So in situation 2. and 3. , we don't need to check whether j>0j > 0j>0 and whether j<nj < nj<n.
     // Time: O(log(min(m,n)))
     // Space: O(1)
-    public double findMedianSortedArrays(int[] A, int[] B) {
+    public static double findMedianSortedArrays(int[] A, int[] B) {
         int m = A.length;
         int n = B.length;
         if (m > n) { // to ensure m<=n
@@ -183,7 +191,7 @@ public class FindMedianTwoSortedArrays {
         return 0.0;
     }
 
-    public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
+    public static double findMedianSortedArrays2(int[] nums1, int[] nums2) {
         int n = nums1.length;
         int m = nums2.length;
         int left = (n + m + 1) / 2;
@@ -191,7 +199,7 @@ public class FindMedianTwoSortedArrays {
         return (getKth(nums1, 0, n - 1, nums2, 0, m - 1, left) + getKth(nums1, 0, n - 1, nums2, 0, m - 1, right)) * 0.5;
     }
 
-    private int getKth(int[] nums1, int start1, int end1, int[] nums2, int start2, int end2, int k) {
+    private static int getKth(int[] nums1, int start1, int end1, int[] nums2, int start2, int end2, int k) {
         int len1 = end1 - start1 + 1;
         int len2 = end2 - start2 + 1;
         if (len1 > len2) return getKth(nums2, start2, end2, nums1, start1, end1, k);
@@ -209,14 +217,14 @@ public class FindMedianTwoSortedArrays {
         }
     }
 
-    public double findMedianSortedArrays3(int[] A, int[] B) {
+    public static double findMedianSortedArrays3(int[] A, int[] B) {
         int m = A.length, n = B.length;
         int l = (m + n + 1) / 2;
         int r = (m + n + 2) / 2;
         return (getkth(A, 0, B, 0, l) + getkth(A, 0, B, 0, r)) / 2.0;
     }
 
-    public double getkth(int[] A, int aStart, int[] B, int bStart, int k) {
+    public static double getkth(int[] A, int aStart, int[] B, int bStart, int k) {
         if (aStart > A.length - 1) return B[bStart + k - 1];
         if (bStart > B.length - 1) return A[aStart + k - 1];
         if (k == 1) return Math.min(A[aStart], B[bStart]);
