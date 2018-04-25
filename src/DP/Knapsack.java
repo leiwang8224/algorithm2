@@ -22,7 +22,7 @@ public class Knapsack {
     private static int max(int a, int b) { return (a > b)? a : b; }
 
     // Returns the maximum value that can be put in a knapsack of capacity W
-    private static int knapSack(int W, int wt[], int val[], int n)
+    private static int knapSackDP(int W, int wt[], int val[], int n)
     {
         int i, w;
         int K[][] = new int[n+1][W+1];
@@ -49,7 +49,7 @@ public class Knapsack {
         int weight[] = new int[]{10,20,30};
         int W = 50;
         int n = val.length;
-        System.out.println(knapSack(W,weight,val,n));
+        System.out.println(knapSackDP(W, weight, val, n));
         System.out.println(knapSackBruteForce(W,weight,val,n));
     }
 }

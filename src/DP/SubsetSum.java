@@ -17,12 +17,18 @@ public class SubsetSum {
                 3,2,7,1
         };
 
-//        isSubsetSum(array, array.length, 6);
         System.out.println(isSubsetSum(arrayInt,array.length,6,0));
         System.out.println(isSubsetSumDP(arrayDP,arrayDP.length,6));
     }
 
-    // TODO problem with this
+    /**
+     * Recursive method
+     * @param nums
+     * @param length
+     * @param target
+     * @param index
+     * @return
+     */
     private static boolean isSubsetSum(int[] nums, int length, int target, int index) {
         if (target == 0)
             return true;
@@ -35,13 +41,6 @@ public class SubsetSum {
 
         return isSubsetSum(nums, length-1, target, index + 1) ||
                 isSubsetSum(nums, length-1, target-nums[0], index + 1);
-        // if first element is > target, ignore it
-//        if (list.get(0) >  target) // ignore first element if greater
-//            return isSubsetSum(list.get(index+1), length - 1, target);
-//
-//        return isSubsetSum(list.subList(1,list.size()-1), length-1, target) ||
-//                isSubsetSum(list.subList(1,list.size()-1), length-1, target-list.get(0));
-
     }
 
     private static boolean isSubsetSumDP(int[] arr, int length, int target) {

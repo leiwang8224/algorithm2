@@ -11,8 +11,8 @@ public class IsInterleaved {
         String str2 = "df";
         String strCombo = "adbfc";
 
-        System.out.println(isInterleaved(str1,str2,strCombo,0,0,0));
-        System.out.println(isInterleavedDP(str1, str2, strCombo));
+        System.out.println(isInterleaved(str1,str2,strCombo,0,0,0));    // return true
+        System.out.println(isInterleavedDP(str1, str2, strCombo));                                  // return true
     }
 
     private static boolean isInterleaved(String str1, String str2, String strCombo,

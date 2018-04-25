@@ -11,6 +11,13 @@ public class StockSellBuy {
     public static void main(String[] args) {
         int[] input = new int[]{7,1,5,3,6,4};
         System.out.println("max profit is " + maxProfit(input));
+        System.out.println("max profit is " + maxProfit2(input));
+        System.out.println("max profit is " + maxProfit3(input));
+        System.out.println("max profit is " + maxProfit2Alt(input));
+        System.out.println("max profit is " + maxProfit3DP(input));
+        // k is the max number of transactions allowable
+        System.out.println("max profit is " + maxProfit4(2,input));
+
     }
     private static int maxProfit(int[] prices) {
         if (prices.length == 0) {

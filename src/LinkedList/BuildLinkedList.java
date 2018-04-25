@@ -14,16 +14,20 @@ public class BuildLinkedList {
         head.next.next.next.next = new ListNode(4);
         head.next.next.next.next.next = new ListNode(5);
 
-        reOrderList(head);
-        while (head != null) {
-            System.out.print(head.getVal() + ",");
-            head = head.next;
-        }
+        ListNode savedHead = head;
+        ListNode newHead = reverseList(head,null);
+        printList(newHead);
+
+        reOrderList(newHead);
+        printList(newHead);
+
+//        reOrderList(newHead);
+//        printList(reverseList(newHead,null));
     }
 
     private static void printList(ListNode head) {
         while (head != null) {
-            System.out.println(head);
+            System.out.println(head.getVal());
             head = head.next;
         }
     }
@@ -134,7 +138,7 @@ public class BuildLinkedList {
      * @param k
      * @return
      */
-    public ListNode[] splitListToParts(ListNode root, int k) {
+    public static ListNode[] splitListToParts(ListNode root, int k) {
         ListNode[] parts = new ListNode[k];
         int len = 0;
 
@@ -160,7 +164,7 @@ public class BuildLinkedList {
         return parts;
     }
 
-    public ListNode makeOddEvenList(ListNode head) {
+    public static ListNode makeOddEvenList(ListNode head) {
         ListNode odd = head;
         ListNode even = head.next;
         ListNode evenHead = even;
@@ -187,7 +191,7 @@ public class BuildLinkedList {
      * @param head
      * @return
      */
-    public ListNode swapPairs(ListNode head) {
+    public static ListNode swapPairs(ListNode head) {
         ListNode dummy = new ListNode(0);
         // use dummy node to avoid checking conditions
         dummy.next = head;
@@ -209,7 +213,7 @@ public class BuildLinkedList {
         return dummy.next;
     }
 
-    public ListNode partitionList(ListNode head, int val) {
+    public static ListNode partitionList(ListNode head, int val) {
         ListNode dummy1 = new ListNode(0);
         ListNode dummy2 = new ListNode(0);
 
@@ -239,7 +243,7 @@ public class BuildLinkedList {
      * @param head
      * @return
      */
-    public ListNode sortList(ListNode head) {
+    public static ListNode sortList(ListNode head) {
         if (head == null || head.next == null)
             return head;
 
@@ -267,7 +271,7 @@ public class BuildLinkedList {
 
     }
 
-    private ListNode merge(ListNode l1, ListNode l2) {
+    private static ListNode merge(ListNode l1, ListNode l2) {
         ListNode l = new ListNode(0);
         // need an iterator to travel through list
         ListNode p = l;
@@ -293,7 +297,7 @@ public class BuildLinkedList {
         return l.next;
     }
 
-    public ListNode removeDupNode(ListNode head) {
+    public static ListNode removeDupNode(ListNode head) {
         if (head == null) return head;
         ListNode dummy = new ListNode(0);
         dummy.next = head;
@@ -317,7 +321,7 @@ public class BuildLinkedList {
         return dummy.next;
     }
 
-    public ListNode removeDupNode2(ListNode head) {
+    public static ListNode removeDupNode2(ListNode head) {
         if (head == null) return head;
         ListNode dummy = new ListNode(0);
         dummy.next = head;
@@ -348,7 +352,7 @@ public class BuildLinkedList {
         return dummy.next;
     }
 
-    ListNode rotateKPlaces(ListNode head, int k) {
+    static ListNode rotateKPlaces(ListNode head, int k) {
         // note that k may be bigger than the length of list
         if (head == null || head.next == null) return head;
         ListNode dummy = new ListNode(0);

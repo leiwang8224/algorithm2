@@ -22,31 +22,57 @@ public class LongestPalinSubstring {
     public static void main(String[] args) {
         String str = "babad";
         System.out.println(longestPalin2(str));
+        System.out.println(longestPalSubstr(str));
 
     }
-//    Algorithm
-//
-//    We could see that the longest common substring method
-//    fails when there exists a reversed copy of a non-palindromic
-//    substring in some other part of SS. To rectify this, each time
-//    we find a longest common substring candidate, we check if the
-//    substring’s indices are the same as the reversed substring’s
-//    original indices. If it is, then we attempt to update the longest
-//    palindrome found so far; if not, we skip this and find the next
-//    candidate.
-//
-//    This gives us an O(n^2)O(n2) Dynamic Programming solution which uses
-//    O(n^2)O(n​2) space
-    public static String longestPalin(String s) {
-        StringBuilder reversedStr = new StringBuilder();
-        for (int index = s.length()-1; index > 0; index--) {
-            reversedStr.append(s.charAt(index));
+
+    //Time O(n2)
+    //Space O(1)
+    public static int longestPalSubstr(String str) {
+        int maxLength = 1;
+        int start = 0;
+        int len = str.length();
+
+        int low, high;
+
+        // one by one consider every char as center
+        // point of even and length palindromes
+        for (int i = 1; i < len; i++) {
+            // find the longest even length palindrome with
+            // center points as i -1 and i
+            low = i - 1;
+            high = i;
+            while (low >= 0 && high < len && str.charAt(low) == str.charAt(high)) {
+                if (high - low + 1 > maxLength) {
+                    start = low;
+                    maxLength = high - low + 1;
+                }
+                --low;
+                ++high;
+            }
+
+            // find the longest odd length palindrome with
+            // center point as i
+            low = i - 1;
+            high = i + 1;
+            while (low >= 0 && high < len && str.charAt(low) == str.charAt(high)) {
+                if (high - low + 1 > maxLength) {
+                    start = low;
+                    maxLength = high - low + 1;
+                }
+                -- low;
+                ++ high;
+            }
         }
-        getLCS(s, reversedStr.toString(), s.length(), reversedStr.length());
-        //TODO implement this
-        return "";
-
+        System.out.println("longest palindrome substring is ");
+        printSubStr(str, start, start + maxLength - 1);
+        return maxLength;
     }
+
+    private static void printSubStr(String str, int low, int high) {
+        System.out.println(str.substring(low, high + 1));
+    }
+
     public static int getLCS(String str1, String str2, int str1Length, int str2Length) {
         if (str1Length == 0 || str2Length == 0)
             return 0;
