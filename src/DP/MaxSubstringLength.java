@@ -14,6 +14,8 @@ public class MaxSubstringLength {
         int [][] dp = new int[str.length()][str.length()];
         System.out.println(maxSubstringLengthDP(str, dp));
         System.out.println(findLength(str));
+        System.out.println(findLengthDP(str,str.length()));
+        System.out.println(findLengthDP2(str,str.length()));
     }
 
     /**

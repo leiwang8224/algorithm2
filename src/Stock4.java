@@ -12,10 +12,13 @@ public class Stock4 {
 //
 
     public static void main(String args[]) {
+        int[] prices = new int[]{1,2,3,4,5,6,7,8};
+        System.out.println("max profit is " + maxProfit(2,prices));
+        System.out.println("max profit is " + maxProfit2(2,prices));
 
     }
 
-    private int maxProfit(int k, int[] prices) {
+    private static int maxProfit(int k, int[] prices) {
         int len = prices.length;
         if (k >= len / 2) return quickSolve(prices);
 
@@ -30,7 +33,7 @@ public class Stock4 {
         return t[k][len - 1];
     }
 
-    private int quickSolve(int[] prices) {
+    private static int quickSolve(int[] prices) {
         int len = prices.length, profit = 0;
         for (int i = 1; i < len; i++)
             // as long as there is a price gap, we gain a profit.
@@ -46,7 +49,7 @@ public class Stock4 {
      * dp[i, 0] = 0; if there is only one price data point you can't make any transaction.
      */
 
-    public int maxProfit2(int k, int[] prices) {
+    public static int maxProfit2(int k, int[] prices) {
         int n = prices.length;
         if (n <= 1)
             return 0;

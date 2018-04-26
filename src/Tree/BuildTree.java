@@ -56,6 +56,22 @@ public class BuildTree {
 
         System.out.println("printing boundaries");
         printBoundariesTree(head);
+
+        System.out.println("is Tree Symmetric " + isSymmetric(head.left,head.right));
+
+        System.out.println("has path sum 12 " + hasPathSum(head,12));
+
+        System.out.println("right side view");
+        List<Integer> list = rightSideView(head);
+
+        for (Integer integer : list)
+            System.out.println(integer);
+
+        System.out.println("is binary tree complete " + isBinaryTreeComplete(head));
+
+        System.out.println("print range from 1 to 3");
+        printRange(head,1,3);
+
     }
 
     private static void bfsTravel(ListNode head) {
@@ -354,13 +370,13 @@ public class BuildTree {
      * @param head
      * @return
      */
-    public List<Integer> rightSideView(ListNode head) {
+    public static List<Integer> rightSideView(ListNode head) {
         ArrayList<Integer> list = new ArrayList<>();
         getRightSideView(head, list, 0);
         return list;
     }
 
-    private void getRightSideView(ListNode head, ArrayList<Integer> list, int curDepth) {
+    private static void getRightSideView(ListNode head, ArrayList<Integer> list, int curDepth) {
         if (head == null) return;
 
         // makes sure the first element of the depth is added to the list first

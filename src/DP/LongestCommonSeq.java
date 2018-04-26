@@ -10,7 +10,8 @@ public class LongestCommonSeq {
         String str2 = "AEBD";
         table = new int[str1.length()+1][str2.length()+1];
         System.out.println(getLCS(str1, str2, str1.length(), str2.length()));
-        System.out.println(getLCSMemo(str1,str2,str1.length(),str2.length()));
+        System.out.println(getLCSMemo(str1, str2, str1.length(), str2.length()));
+        printLCS(str1,str2,str1.length(),str2.length());
     }
 
     public static int getLCS(String str1, String str2, int str1Length, int str2Length) {
@@ -43,5 +44,35 @@ public class LongestCommonSeq {
                                                 getLCSMemo(str1, str2, str1Index-1, str2Index));
 
         return table[str1Index][str2Index];
+    }
+
+    private static void printLCS(String str1, String str2, int str1Length, int str2Length) {
+        // populate the LCSCount array
+        int len = getLCSMemo(str1,str2,str1.length(),str2.length());
+
+        // array to store the char in LCS
+        char[] lcs = new char[len+1];
+        // start from bottom right corner
+        int i = str1Length-1, j = str2Length-1;
+
+        // continue until we hit the top or left wall
+        while (i > 0 && j > 0) {
+            // if current char in str1 and str2 are equal
+            // then it is part of LCS
+            if (str1.charAt(i) == str2.charAt(j)) {
+                lcs[len] = str1.charAt(i);
+                i--;
+                j--;
+                len--;
+            }
+            // if not equal, find larger of the two
+            // and go in direction of larger value
+            else if (table[i-1][j] > table[i][j-1]) {
+                i--;
+            } else {
+                j--;
+            }
+        }
+        System.out.println("LCS is " + java.util.Arrays.toString(lcs));
     }
 }
