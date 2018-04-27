@@ -7,25 +7,38 @@ import java.util.*;
  */
 public class BuildLinkedList {
     public static void main(String args[]) {
+        printList(reverseList(returnNewList(),null));
+        reOrderList(returnNewList());
+        ListNode[] res = splitListToParts(returnNewList(),5);
+        for (ListNode node : res)
+            System.out.println(node.getVal());
+
+        System.out.println("isPalindrome " + isPalindrome(returnNewList()));
+
+        printList(reverseListIterative(returnNewList()));
+        printList(removeAllNodeContaining(returnNewList(),5));
+        printList(addNode(returnNewList(),6));
+        printList(insertNode(returnNewList(),5,4));
+        printList(makeOddEvenList(returnNewList()));
+        printList(swapPairs(returnNewList()));
+        printList(partitionList(returnNewList(),3));
+        printList(sortList(returnNewList()));
+        printList(removeDupNode(insertNode(returnNewList(),5,4)));
+        printList(removeDupNode2(insertNode(returnNewList(),5,4)));
+        printList(rotateKPlaces(returnNewList(),2));
+    }
+
+    public static ListNode returnNewList() {
         ListNode head = new ListNode(0);
         head.next = new ListNode(1);
         head.next.next = new ListNode(2);
         head.next.next.next = new ListNode(3);
         head.next.next.next.next = new ListNode(4);
         head.next.next.next.next.next = new ListNode(5);
-
-        ListNode savedHead = head;
-        ListNode newHead = reverseList(head,null);
-        printList(newHead);
-
-        reOrderList(newHead);
-        printList(newHead);
-
-//        reOrderList(newHead);
-//        printList(reverseList(newHead,null));
+        return head;
     }
 
-    private static void printList(ListNode head) {
+    public static void printList(ListNode head) {
         while (head != null) {
             System.out.println(head.getVal());
             head = head.next;
@@ -90,6 +103,7 @@ public class BuildLinkedList {
     }
 
     private static ListNode removeAllNodeContaining(ListNode head, int val) {
+        System.out.println("remove all nodes containing " + val);
         ListNode dummyNode = new ListNode(0);
         dummyNode.next = head;
         ListNode cur = head;
@@ -106,6 +120,7 @@ public class BuildLinkedList {
     }
 
     private static ListNode addNode(ListNode head, int val) {
+        System.out.println("addNode " + val);
         ListNode cur = head;
         while (cur.next != null) {
             cur = cur.next;
@@ -115,6 +130,7 @@ public class BuildLinkedList {
     }
 
     private static ListNode insertNode(ListNode head, int val, int pos) {
+        System.out.println("insertNode value " + val + " at pos " + pos);
         ListNode newNode = new ListNode(val);
         ListNode dummyNode = new ListNode(0);
         dummyNode.next = head;
@@ -139,6 +155,7 @@ public class BuildLinkedList {
      * @return
      */
     public static ListNode[] splitListToParts(ListNode root, int k) {
+        System.out.println("entering splitListToParts");
         ListNode[] parts = new ListNode[k];
         int len = 0;
 
@@ -165,6 +182,7 @@ public class BuildLinkedList {
     }
 
     public static ListNode makeOddEvenList(ListNode head) {
+        System.out.println("entering makeOddEvenList");
         ListNode odd = head;
         ListNode even = head.next;
         ListNode evenHead = even;
@@ -192,6 +210,7 @@ public class BuildLinkedList {
      * @return
      */
     public static ListNode swapPairs(ListNode head) {
+        System.out.println("entering swapPairs");
         ListNode dummy = new ListNode(0);
         // use dummy node to avoid checking conditions
         dummy.next = head;
@@ -214,6 +233,7 @@ public class BuildLinkedList {
     }
 
     public static ListNode partitionList(ListNode head, int val) {
+        System.out.println("entering partitionList");
         ListNode dummy1 = new ListNode(0);
         ListNode dummy2 = new ListNode(0);
 
@@ -244,6 +264,7 @@ public class BuildLinkedList {
      * @return
      */
     public static ListNode sortList(ListNode head) {
+        System.out.println("entering sortList");
         if (head == null || head.next == null)
             return head;
 
@@ -298,6 +319,7 @@ public class BuildLinkedList {
     }
 
     public static ListNode removeDupNode(ListNode head) {
+        System.out.println("removeDupNode");
         if (head == null) return head;
         ListNode dummy = new ListNode(0);
         dummy.next = head;
@@ -322,6 +344,7 @@ public class BuildLinkedList {
     }
 
     public static ListNode removeDupNode2(ListNode head) {
+        System.out.println("removeDupNode2");
         if (head == null) return head;
         ListNode dummy = new ListNode(0);
         dummy.next = head;
@@ -353,6 +376,7 @@ public class BuildLinkedList {
     }
 
     static ListNode rotateKPlaces(ListNode head, int k) {
+        System.out.println("rotate " + k + " places");
         // note that k may be bigger than the length of list
         if (head == null || head.next == null) return head;
         ListNode dummy = new ListNode(0);
@@ -385,6 +409,7 @@ public class BuildLinkedList {
      * @return
      */
     public static void reOrderList(ListNode head) {
+        System.out.println("entering reOrderList");
         ListNode p1 = head;
         ListNode p2 = head;
 
@@ -393,7 +418,6 @@ public class BuildLinkedList {
             p1 = p1.next;
             p2 = p2.next.next;
         }
-        System.out.println("p1 = " + p1.getVal());
 
         // now p1 is at the middle node of the list
         // 1->2->3->4->5->6 to 1->2->3->6->5->4

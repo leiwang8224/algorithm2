@@ -30,7 +30,8 @@ public class NextPermutation {
     // possible as num[i,n-1] is reversely sorted. So, we want to increase the number at index i-1, clearly, swap it with
     // the smallest number between num[i,n-1] that is larger than num[i-1]. For example, original number is 121543321,
     // we want to swap the ‘1’ at position 2 with ‘2’ at position 7.
-    // The last step is to make the remaining higher position part as small as possible, we just have to reversely sort the num[i,n-1]
+    // The last step is to make the remaining higher position part as small as possible, we just have to reversely
+    // sort the num[i,n-1]
     private static void nextPermutation(int[] num) {
         int n=num.length;
         if(n<2)

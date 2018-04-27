@@ -5,6 +5,18 @@ package LinkedList;
  */
 public class CyclesDetection {
     public static void main(String[] args) {
+
+        System.out.println("list with cycle");
+//        BuildLinkedList.printList(generateCycleList()); this will go forever
+        System.out.println("detectAndRemoveLoop without cycle" +detectAndRemoveLoop(BuildLinkedList.returnNewList()));
+        System.out.println("detectAndRemoveLoop with cycle");
+        BuildLinkedList.printList(detectAndRemoveLoopOptimized(generateCycleList()));
+        System.out.println("detectAndRemoveLoop with cycle Floyd");
+        BuildLinkedList.printList(removeLoopFloyd(generateCycleList(),null));
+
+    }
+
+    private static ListNode generateCycleList() {
         ListNode head = new ListNode(0);
         ListNode loopNode = new ListNode(0);
         head.next = new ListNode(2);
@@ -13,8 +25,7 @@ public class CyclesDetection {
         head.next.next.next.next = new ListNode(4);
         head.next.next.next.next.next = new ListNode(5);
         head.next.next.next.next.next.next = loopNode;
-
-        System.out.println("detectAndRemoveLoop " +detectAndRemoveLoop(head.next));
+        return head;
     }
 
     private static int detectAndRemoveLoop(ListNode node) {
@@ -65,7 +76,7 @@ public class CyclesDetection {
     }
 
     /************** Floyd's cycle detection algorithm *************/
-    private static void removeLoopFloyd(ListNode loop, ListNode head) {
+    private static ListNode removeLoopFloyd(ListNode loop, ListNode head) {
         ListNode ptr1 = loop;
         ListNode ptr2 = loop;
 
@@ -101,15 +112,17 @@ public class CyclesDetection {
         // set the next node of the loop ending node
         // to fix the loop
         ptr2.next = null;
+
+        return head.next;
     }
 
-    private static void detectAndRemoveLoopOptimized(ListNode node) {
+    private static ListNode detectAndRemoveLoopOptimized(ListNode node) {
         // if list is empty or has only one node
         // without loop
         if (node == null || node.next == null) {
-            return;
+            return null;
         }
-
+        ListNode head = node;
         ListNode slow = node, fast = node;
 
         // Move slow and fast 1 and 2 steps
@@ -137,5 +150,7 @@ public class CyclesDetection {
             // since fast.next is the looping point
             fast.next = null;  // remove loop
         }
+
+        return head;
     }
 }
