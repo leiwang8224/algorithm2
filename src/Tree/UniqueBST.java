@@ -29,41 +29,75 @@ public class UniqueBST {
     public static void main(String[] args) {
         System.out.println("genTrees");
         List<ListNode> res = genTrees(1, 3);
-        for (ListNode node : res)
-            System.out.println(node.getVal());
+        for (ListNode node : res) {
+            System.out.println("printing nodes");
+            printTreeWithNull(node);
+        }
 
         System.out.println("genTrees");
         List<ListNode> res2 = generateTrees(1,3);
-        for (ListNode node : res2)
-            System.out.println(node.getVal());
+        for (ListNode node : res2) {
+            System.out.println("printing nodes");
+            printTreeWithNull(node);
+        }
 
         System.out.println("genTrees");
         List<ListNode> res3 = generateTrees(3);
-        for (ListNode node : res3)
-            System.out.println(node.getVal());
+        for (ListNode node : res3) {
+            System.out.println("printing nodes");
+            printTreeWithNull(node);
+        }
 
         System.out.println("genTrees");
         List<ListNode> res4 = generateTreesDP(3);
-        for (ListNode node : res4)
-            System.out.println(node.getVal());
+        for (ListNode node : res4) {
+            System.out.println("printing nodes");
+            printTreeWithNull(node);
+        }
 
         System.out.println("genTrees");
         List<ListNode> res5 = generateSubtrees(1,3);
-        for (ListNode node : res5)
-            System.out.println(node.getVal());
+        for (ListNode node : res5) {
+            System.out.println("printing nodes");
+            printTreeWithNull(node);
+        }
+
+        System.out.println("genTreesRecurse");
+        List<ListNode> res6 = generateTreesRecurse(3);
+        for (ListNode node : res6) {
+            System.out.println("printing nodes");
+            printTreeWithNull(node);
+        }
     }
 
+    private static void printTreeWithNull(ListNode root) {
+        if(root == null) {
+            System.out.println("null");
+            return;
+        }
+        System.out.println(root.getVal());
+        printTreeWithNull(root.left);
+        printTreeWithNull(root.right);
+    }
+    /**
+     * generate the unique tree given start and end values
+     * @param start
+     * @param end
+     * @return
+     */
     public static List<ListNode> genTrees (int start, int end)
     {
 
         List<ListNode> list = new ArrayList<ListNode>();
 
+        // start > end is the end of the unique tree, add null
         if(start>end)
         {
             list.add(null);
             return list;
         }
 
+        // if start reaches end then add the node and return list
         if(start == end){
             list.add(new ListNode(start));
             return list;
@@ -72,23 +106,23 @@ public class UniqueBST {
         List<ListNode> left,right;
         for(int i=start;i<=end;i++)
         {
-
+            System.out.println("calling genTrees on left start:" + start + ":" + (i-1));
             left = genTrees(start, i-1);
+            System.out.println("calling genTrees on right start:" + (i + 1) + ":" + end);
             right = genTrees(i+1,end);
 
             for(ListNode lnode: left)
             {
                 for(ListNode rnode: right)
                 {
+                    System.out.println("building tree with root = " + i);
                     ListNode root = new ListNode(i);
                     root.left = lnode;
                     root.right = rnode;
                     list.add(root);
                 }
             }
-
         }
-
         return list;
     }
 
@@ -232,6 +266,37 @@ public class UniqueBST {
         cRoot.left = copyTree(root.left);
         cRoot.right = copyTree(root.right);
         return cRoot;
+    }
+
+    /**
+     * Recursion with DP
+     * @param n
+     * @return
+     */
+    private static List<ListNode> generateTreesRecurse(int n) {
+        return generateTreesHelper(n, 1, n, new List[n][n]);
+    }
+
+    private static List<ListNode> generateTreesHelper(int n, int l, int r, List[][] dp) {
+        List<ListNode> res = new ArrayList<>();
+        if (l > r) return res;
+        if (dp[l-1][r-1] != null) return dp[l-1][r-1];
+        for (int i = l; i <= r; i++) {
+            List<ListNode> lefts = generateTreesHelper(n, l, i-1, dp);
+            if (lefts.isEmpty()) lefts.add(null);
+            List<ListNode> rights = generateTreesHelper(n, i + 1, r, dp);
+            if (rights.isEmpty()) rights.add(null);
+            for (ListNode ll : lefts) {
+                for (ListNode rr : rights) {
+                    ListNode t = new ListNode(i);
+                    t.left = ll;
+                    t.right = rr;
+                    res.add(t);
+                }
+            }
+        }
+        dp[l-1][r-1] = res;
+        return res;
     }
 
 }

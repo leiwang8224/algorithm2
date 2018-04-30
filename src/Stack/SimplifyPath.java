@@ -28,9 +28,11 @@ public class SimplifyPath {
      */
     private static String simplifyPath(String path) {
         Deque<String> stack = new LinkedList<>();
+        // skip all of the following
         Set<String> skip = new HashSet<>(java.util.Arrays.asList("..",".",""));
         for (String dir : path.split("/")) {
             if (dir.equals("..") && !stack.isEmpty()) stack.pop();
+            // only push to new stack if it's not in the skip set
             else if (!skip.contains(dir)) stack.push(dir);
         }
         String res = "";

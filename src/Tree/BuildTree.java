@@ -56,11 +56,20 @@ public class BuildTree {
 
         System.out.println("print range from 1 to 3");
         printRange(head,1,3);
+        System.out.println();
         System.out.println("right side view is " + rightSideView2(generateTree()));
 
         ListNode anotherHead = generateTree();
 
         System.out.println("lowest common ancestor is " + findLowestCommonAncestor(anotherHead,anotherHead.left.left,anotherHead.right.right).getVal());
+
+        System.out.println("max path sum " + maxPathSum(generateTree()));
+
+        List<List<Integer>> zigZagResult = zigzagTraversal(generateTree());
+        System.out.println("zig zag traversal result ");
+        for (List<Integer> lst : zigZagResult) {
+            System.out.println(java.util.Arrays.toString(lst.toArray()));
+        }
     }
 
     private static ListNode generateTree() {
@@ -320,6 +329,64 @@ public class BuildTree {
         return getSumTreePaths(head.left, partialPathSum) + getSumTreePaths(head.right, partialPathSum);
     }
 
+    static int ans;
+    /**
+     * Given a non-empty binary tree, find the maximum path sum.
+
+     For this problem, a path is defined as any sequence of nodes from some starting node to
+     any node in the tree along the parent-child connections. The path must contain at least
+     one node and does not need to go through the root.
+     * Time O(N)
+     * Space O(h)
+     * @param head
+     * @return
+     */
+    private static int maxPathSum(ListNode head) {
+        if (head == null) return 0;
+        ans = head.getVal();
+        getMax(head);
+        return ans;
+    }
+
+    /**
+     * Keep track of 2 states
+     * max of path with current node as root
+     * max of head.val, head.val + left, head.val + right
+     * @param head
+     * @return
+     */
+    private static int getMax(ListNode head) {
+        if (head == null) return 0;
+
+        int left = getMax(head.left);
+        int right = getMax(head.right);
+
+        int maxPathThruCurrent; // max path with current node as root
+        int toReturn; // max between head.val, head.val + left, head.val + right
+
+        if (left <= 0 && right <= 0) {
+            maxPathThruCurrent = head.getVal();
+            toReturn = head.getVal();
+            System.out.println("left <= 0 && right <= 0: left = " + left + " right = " + right + " maxPathThruCurrent " + maxPathThruCurrent + " toReturn " + toReturn);
+        } else if (left <= 0) {
+            maxPathThruCurrent = head.getVal() + right;
+            toReturn = head.getVal() + right;
+            System.out.println("left <= 0: " + left + " right = " + right + " maxPathThruCurrent " + maxPathThruCurrent + " toReturn " + toReturn);
+        } else if (right <= 0) {
+            maxPathThruCurrent = head.getVal() + left;
+            toReturn = head.getVal() + left;
+            System.out.println("right <= 0: " + left + " right = " + right + " maxPathThruCurrent " + maxPathThruCurrent + " toReturn " + toReturn);
+        } else {
+            // left > 0 and right > 0
+            maxPathThruCurrent = head.getVal() + left + right;
+            toReturn = head.getVal() + Math.max(left, right);
+            System.out.println("else: left = " + left + " right = " + right + " maxPathThruCurrent " + maxPathThruCurrent + " toReturn " + toReturn);
+        }
+
+        ans = Math.max(ans, maxPathThruCurrent);
+        return toReturn;
+    }
+
     /**
      * Find if binary tree is symmetric (left and right nodes are not null)
      * @param headLeftNode
@@ -529,6 +596,11 @@ public class BuildTree {
         return left != null ? left : right;
     }
 
+    /**
+     * Traverses left to right then right to left and repeat
+     * @param head
+     * @return
+     */
     private static List<List<Integer>> zigzagTraversal(ListNode head) {
         List<List<Integer>> sol = new ArrayList<>();
         travel(head, sol, 0);
@@ -552,6 +624,12 @@ public class BuildTree {
     }
 
     public static List<ListNode> list = new ArrayList<>();
+
+    /**
+     * Get the tree nodes in order:
+     * left -> head -> right
+     * @param head
+     */
     public static void getTreeNodesInorder(ListNode head) {
         if (head == null)
             return;

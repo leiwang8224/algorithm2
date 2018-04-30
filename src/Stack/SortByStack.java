@@ -8,13 +8,20 @@ import java.util.Stack;
 public class SortByStack {
 
     public static void main(String[] args) {
+
+        // prints out the result here
+        sortByStack(generateStack());
+        System.out.println("sort ascending");
+        sortByStackAscending(generateStack());
+    }
+
+    private static Stack<Integer> generateStack() {
         int[] arr = new int[] { 2,3,5,2,4,2,23,2,1,3,2,3,5};
         Stack<Integer> s1 = new Stack<>();
         for (int num : arr) {
             s1.push(num);
         }
-        // prints out the result here
-        sortByStack(s1);
+        return s1;
     }
 
     /**
@@ -22,16 +29,32 @@ public class SortByStack {
      * @param s1
      */
     private static void sortByStack(Stack<Integer> s1) {
-        Stack<Integer> b = new Stack<>();
+        Stack<Integer> result = new Stack<>();
+        while (!s1.isEmpty()) {
+            // get one element and compare the rest of element
+            int temp = s1.pop();
+            while (!result.isEmpty() && result.peek() > temp) {
+                s1.push(result.pop());
+            }
+            // move from s1 stack to b stack
+            result.push(temp);
+        }
+        while (!result.isEmpty()) {
+            System.out.println(result.pop());
+        }
+    }
+
+    private static void sortByStackAscending(Stack<Integer> s1) {
+        Stack<Integer> orderedStack = new Stack<>();
         while (!s1.isEmpty()) {
             int temp = s1.pop();
-            while (!b.isEmpty() && b.peek() > temp) {
-                s1.push(b.pop());
+            while (!orderedStack.isEmpty() && orderedStack.peek() < temp) {
+                s1.push(orderedStack.pop());
             }
-            b.push(temp);
+            // move from s1 stack to orderedStack
+            orderedStack.push(temp);
         }
-        while (!b.isEmpty()) {
-            System.out.println(b.pop());
-        }
+        while (!orderedStack.isEmpty())
+            System.out.println(orderedStack.pop());
     }
 }

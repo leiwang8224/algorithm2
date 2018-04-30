@@ -32,8 +32,10 @@ public class Serialization {
 
     private static void buildString(ListNode head, StringBuilder sb) {
         if (head == null) {
+            // end of the branch in the tree, terminating char
             sb.append("X").append(",");
         } else {
+            // pre order traversal
             sb.append(head.getVal()).append(",");
             buildString(head.left, sb);
             buildString(head.right, sb);
@@ -48,7 +50,7 @@ public class Serialization {
 
     private static ListNode buildTree(Deque<String> nodes) {
         String val = nodes.remove();
-        if (val.equals("X")) return null;
+        if (val.equals("X")) return null;  //terminating character
         else {
             ListNode node = new ListNode(Integer.valueOf(val));
             node.left = buildTree(nodes);

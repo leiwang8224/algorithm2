@@ -10,6 +10,36 @@ import java.util.Stack;
  */
 public class BST {
     public static void main(String args[]) {
+        printBST(generateBST());
+
+        insert(generateBST(),5);
+
+        System.out.println("afterInsert");
+        printBST(generateBST());
+
+        System.out.println("afterDeletion");
+        printBST(delete(generateBST(), 3));
+        printBST(generateBST());
+
+        BSTIterator bstIterator = new BSTIterator(generateBST());
+        System.out.println("using BST Iterator");
+        while (bstIterator.hasNext())
+            System.out.println(bstIterator.next());
+
+        System.out.println("isBSTRecurse " + isBSTRecurse(generateBST()));
+        System.out.println("isBSTIterative " + isBSTIterative(generateBST()));
+
+        int[] nums = new int[]{1,2,3,4,5,6,7,8,9,10};
+        ListNode transformedList = sortedArrayToBST(nums);
+        printBST(transformedList);
+
+        List<Integer> result = treeToListByLevel(generateBST());
+        System.out.println(java.util.Arrays.toString(result.toArray()));
+
+        System.out.println(search(generateBST(),3).getVal());
+    }
+
+    private static ListNode generateBST() {
         ListNode head = new ListNode(8);
         head.left = new ListNode(3);
         head.left.left = new ListNode(1);
@@ -19,34 +49,13 @@ public class BST {
         head.right = new ListNode(10);
         head.right.right = new ListNode(14);
         head.right.right.left = new ListNode(13);
-
-        printBST(head);
-
-        insert(head,5);
-
-        System.out.println("afterInsert");
-        printBST(head);
-
-        System.out.println("afterDeletion");
-        printBST(delete(head, 3));
-        printBST(head);
-
-        BSTIterator bstIterator = new BSTIterator(head);
-        System.out.println("using BST Iterator");
-        while (bstIterator.hasNext())
-            System.out.println(bstIterator.next());
-
-        System.out.println("isBSTRecurse " + isBSTRecurse(head));
-        System.out.println("isBSTIterative " + isBSTIterative(head));
-
-        int[] nums = new int[]{1,2,3,4,5,6,7,8,9,10};
-        ListNode transformedList = sortedArrayToBST(nums);
-        printBST(transformedList);
-
-        List<Integer> result = treeToListByLevel(head);
-        System.out.println(java.util.Arrays.toString(result.toArray()));
+        return head;
     }
 
+    /**
+     * print out tree nodes using BST traversal
+     * @param head
+     */
     public static void printBST(ListNode head) {
         if (head == null)
             return;
@@ -54,6 +63,13 @@ public class BST {
         System.out.println(head.getVal());
         printBST(head.right);
     }
+
+    /**
+     * binary search for BST
+     * @param head
+     * @param key
+     * @return
+     */
     private static ListNode search(ListNode head, int key) {
         if (head == null || head.getVal() == key)
             return head;
@@ -65,6 +81,12 @@ public class BST {
         return search(head.right, key);
     }
 
+    /**
+     * insert node into the appropriate place in BST
+     * @param head
+     * @param key
+     * @return
+     */
     private static ListNode insert(ListNode head, int key) {
         if (head == null) {
             head = new ListNode(key);
@@ -80,6 +102,12 @@ public class BST {
         return head;
     }
 
+    /**
+     * delete node from BST
+     * @param head
+     * @param key
+     * @return
+     */
     private static ListNode delete(ListNode head, int key) {
         if (head == null) return head;
 
@@ -109,6 +137,11 @@ public class BST {
         return head;
     }
 
+    /**
+     * Get min value from BST
+     * @param head
+     * @return
+     */
     private static int minVal(ListNode head) {
         int minv = head.getVal();
         while (head.left != null) {
@@ -153,6 +186,11 @@ public class BST {
         }
     }
 
+    /**
+     * Check to see if tree is BST using recursive method
+     * @param root
+     * @return
+     */
     private static boolean isBSTRecurse(ListNode root) {
         if (root == null)
             return true;
@@ -164,6 +202,11 @@ public class BST {
         }
     }
 
+    /**
+     * check to see if tree is BST using iterative method
+     * @param root
+     * @return
+     */
     private static boolean isBSTIterative(ListNode root) {
         if (root == null)
             return false;
@@ -195,6 +238,13 @@ public class BST {
         return null;
     }
 
+    /**
+     * Transform array to BST
+     * @param nums
+     * @param bottom
+     * @param top
+     * @return
+     */
     private static ListNode transformToBST(int[] nums, int bottom, int top) {
         int center = (top + bottom) / 2;
         if (nums.length == 1) {
@@ -210,6 +260,11 @@ public class BST {
         }
     }
 
+    /**
+     * Transform BST to list level by level
+     * @param root
+     * @return
+     */
     private static List<Integer> treeToListByLevel(ListNode root) {
         List<Integer> nodesByLevel = new LinkedList<>();
         Queue<ListNode> stack = new LinkedList<>();
