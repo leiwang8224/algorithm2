@@ -23,6 +23,8 @@ public class StackGetMinGetMax {
         stack.push(4);
         stack.push(5);
         stack.peek();
+        stack.pop();
+
         System.out.println(stack.minEle);
 
     }

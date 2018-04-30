@@ -77,8 +77,8 @@ import java.util.List;
 //        Fourth number is 2
 
 public class PermutationSequence {
-    public static void main() {
-        getPermutationSequence(3, 10);
+    public static void main(String[] args) {
+        System.out.println(getPermutationSequence(3,5));
     }
 
     //time O(n)

@@ -1,5 +1,8 @@
 package Tree;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -32,13 +35,23 @@ public class BST {
         System.out.println("using BST Iterator");
         while (bstIterator.hasNext())
             System.out.println(bstIterator.next());
+
+        System.out.println("isBSTRecurse " + isBSTRecurse(head));
+        System.out.println("isBSTIterative " + isBSTIterative(head));
+
+        int[] nums = new int[]{1,2,3,4,5,6,7,8,9,10};
+        ListNode transformedList = sortedArrayToBST(nums);
+        printBST(transformedList);
+
+        List<Integer> result = treeToListByLevel(head);
+        System.out.println(java.util.Arrays.toString(result.toArray()));
     }
 
-    private static void printBST(ListNode head) {
+    public static void printBST(ListNode head) {
         if (head == null)
             return;
-        System.out.println(head.getVal());
         printBST(head.left);
+        System.out.println(head.getVal());
         printBST(head.right);
     }
     private static ListNode search(ListNode head, int key) {
@@ -138,6 +151,80 @@ public class BST {
             }
             return result;
         }
+    }
+
+    private static boolean isBSTRecurse(ListNode root) {
+        if (root == null)
+            return true;
+        else {
+            return (root.left == null || root.getVal() >= root.left.getVal() &&
+                    root.right == null || root.getVal() <= root.right.getVal() &&
+                    isBSTRecurse(root.left) &&
+                    isBSTRecurse(root.right));
+        }
+    }
+
+    private static boolean isBSTIterative(ListNode root) {
+        if (root == null)
+            return false;
+        BuildTree.getTreeNodesInorder(root);
+        List<ListNode> list = BuildTree.list;
+        for (ListNode node : list)
+            System.out.println("list in order " + node.getVal());
+        if (list.size() == 1)
+            return true;
+        for (int i = 0; i < list.size()-1; i ++) {
+            if (list.get(i).getVal() > list.get(i+1).getVal()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Recursive method with binary search
+     * time: O(N)
+     * space: O(N)
+     * @param nums
+     * @return
+     */
+    private static ListNode sortedArrayToBST(int[] nums) {
+        if (nums != null && nums.length != 0) {
+            return transformToBST(nums, 0, nums.length -1);
+        }
+        return null;
+    }
+
+    private static ListNode transformToBST(int[] nums, int bottom, int top) {
+        int center = (top + bottom) / 2;
+        if (nums.length == 1) {
+            return new ListNode(nums[0]);
+        } else if (bottom > top) {
+            return null;
+        } else {
+            // splits the array into two and put first half in left, second half in right
+            ListNode node = new ListNode(nums[center]);
+            node.left = transformToBST(nums, bottom, center - 1);
+            node.right = transformToBST(nums, center+1, top);
+            return node;
+        }
+    }
+
+    private static List<Integer> treeToListByLevel(ListNode root) {
+        List<Integer> nodesByLevel = new LinkedList<>();
+        Queue<ListNode> stack = new LinkedList<>();
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            ListNode node = stack.remove();
+            nodesByLevel.add(node.getVal());
+            if (node.left != null) {
+                stack.add(node.left);
+            }
+            if (node.right != null) {
+                stack.add(node.right);
+            }
+        }
+        return nodesByLevel;
     }
 
 }

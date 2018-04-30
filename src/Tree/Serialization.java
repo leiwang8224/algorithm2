@@ -8,7 +8,7 @@ import java.util.LinkedList;
  * Created by leiwang on 4/4/18.
  */
 public class Serialization {
-    public static void main() {
+    public static void main(String[] args) {
         ListNode head = new ListNode(8);
         head.left = new ListNode(3);
         head.left.left = new ListNode(1);
@@ -18,17 +18,19 @@ public class Serialization {
         head.right = new ListNode(10);
         head.right.right = new ListNode(14);
         head.right.right.left = new ListNode(13);
-
+        String serializedResult = serialize(head);
+        System.out.println(serializedResult);
+        BST.printBST(deserialize(serializedResult));
     }
 
-    public String serialize(ListNode head) {
+    public static String serialize(ListNode head) {
         StringBuilder sb = new StringBuilder();
         buildString(head, sb);
         return sb.toString();
 
     }
 
-    private void buildString(ListNode head, StringBuilder sb) {
+    private static void buildString(ListNode head, StringBuilder sb) {
         if (head == null) {
             sb.append("X").append(",");
         } else {
@@ -38,13 +40,13 @@ public class Serialization {
         }
     }
 
-    private ListNode deserialize(String data) {
+    private static ListNode deserialize(String data) {
         Deque<String> nodes = new LinkedList<>();
         nodes.addAll(Arrays.asList(data.split(",")));
         return buildTree(nodes);
     }
 
-    private ListNode buildTree(Deque<String> nodes) {
+    private static ListNode buildTree(Deque<String> nodes) {
         String val = nodes.remove();
         if (val.equals("X")) return null;
         else {

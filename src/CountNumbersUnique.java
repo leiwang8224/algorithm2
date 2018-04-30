@@ -8,8 +8,8 @@
  */
 public class CountNumbersUnique {
 
-    public static void main() {
-        generateNumbersUnique(2);
+    public static void main(String args[]) {
+        System.out.println(generateNumbersUnique(2));
     }
 
     private static int generateNumbersUnique(int digits) {

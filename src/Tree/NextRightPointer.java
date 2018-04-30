@@ -16,6 +16,23 @@ package Tree;
 //      4  5  6  7
 public class NextRightPointer {
     public static void main(String[] args) {
+        ListNode head = generateTree();
+        connect(head);
+        printTree(head);
+        System.out.println();
+
+        ListNode head2 = generateTree();
+        connect2(head2);
+        printTree(head2);
+        System.out.println();
+
+        ListNode head3 = generateTree();
+        connectRecurse(head3);
+        printTree(head3);
+        System.out.println();
+    }
+
+    private static ListNode generateTree() {
         ListNode root = new ListNode(0);
         root.left = new ListNode(1);
         root.right = new ListNode(2);
@@ -23,9 +40,7 @@ public class NextRightPointer {
         root.left.right = new ListNode(4);
         root.right.left = new ListNode(5);
         root.right.right = new ListNode(6);
-
-        connect(root);
-        printTree(root);
+        return root;
     }
 
     private static void printTree(ListNode root) {

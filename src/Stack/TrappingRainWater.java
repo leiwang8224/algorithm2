@@ -28,8 +28,10 @@ public class TrappingRainWater {
 //    Initialize ans=0ans=0
 //    Iterate the array from left to right:
 //    Initialize max_left=0max_left=0 and max_right=0max_right=0
-//    Iterate from the current element to the beginning of array updating: max_left=max(max_left,height[j])max_left=max(max_left,height[j])
-//    Iterate from the current element to the end of array updating: max_right=max(max_right,height[j])max_right=max(max_right,height[j])
+//    Iterate from the current element to the beginning of array updating:
+//    max_left=max(max_left,height[j])max_left=max(max_left,height[j])
+//    Iterate from the current element to the end of array updating:
+//    max_right=max(max_right,height[j])max_right=max(max_right,height[j])
 //    Add min(max_left,max_right)−height[i]min(max_left,max_right)−height[i] to \text{ans}ans
     // Time O(n2)
     // Space O(1)

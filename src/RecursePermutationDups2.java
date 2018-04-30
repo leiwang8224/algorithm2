@@ -5,6 +5,22 @@ import java.util.Arrays;
 /**
  * Created by leiwang on 3/10/18.
  */
+
+/**
+ * Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+
+ Example:
+
+ Input: [1,1,2]
+ Output:
+ [
+ [1,1,2],
+ [1,2,1],
+ [2,1,1]
+ ]
+
+
+ */
 public class RecursePermutationDups2 {
     public static void main(String args[]) {
         int[] nums = new int[]{1,2,3,3};

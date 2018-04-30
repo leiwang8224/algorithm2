@@ -4,6 +4,26 @@ import java.util.Arrays;
 /**
  * Created by leiwang on 3/10/18.
  */
+
+/**
+ * Given a collection of integers that might contain duplicates, nums, return all possible subsets (the power set).
+
+ Note: The solution set must not contain duplicate subsets.
+
+ Example:
+
+ Input: [1,2,2]
+ Output:
+ [
+ [2],
+ [1],
+ [1,2,2],
+ [2,2],
+ [1,2],
+ []
+ ]
+
+ */
 public class RecurseSubsetsDups {
     public static void main(String[] args) {
         int[] nums = new int[]{1,2,3,4,4};

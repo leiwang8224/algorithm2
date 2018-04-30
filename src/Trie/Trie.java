@@ -3,6 +3,16 @@ package Trie;
 /**
  * Created by leiwang on 4/5/18.
  */
+
+/**
+ *  Implement a trie with insert, search, and startsWith methods.
+
+ Note:
+ You may assume that all inputs are consist of lowercase letters a-z.
+
+ Trie: search tree, an ordered tree data struct that is used to store
+ a dynamic set or associative array where the keys are usually strings.
+ */
 public class Trie {
     static final int ALPHABET_SIZE = 26;
 

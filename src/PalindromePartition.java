@@ -4,6 +4,23 @@ import java.util.Arrays;
 /**
  * Created by leiwang on 3/11/18.
  */
+
+/**
+ * Given a string s, partition s such that every substring of the partition is a palindrome.
+
+ Return all possible palindrome partitioning of s.
+
+ Example:
+
+ Input: "aab"
+ Output:
+ [
+ ["aa","b"],
+ ["a","a","b"]
+ ]
+
+
+ */
 public class PalindromePartition {
     // return all combinations of palindrome
     public static void main(String[] args) {

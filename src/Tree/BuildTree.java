@@ -1,9 +1,6 @@
 package Tree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by leiwang on 3/13/18.
@@ -12,51 +9,39 @@ public class BuildTree {
     public static Integer depth = 0;
 
     public static void main(String[] args) {
-        ListNode head = new ListNode(1);
-        head.left = new ListNode(2);
-        head.right = new ListNode(3);
-        head.left.left = new ListNode(4);
-        head.left.right = new ListNode(5);
-        head.right.left = new ListNode(6);
-        head.right.right = new ListNode(7);
+        dfsTravel(generateTree());
+        bfsTravel(generateTree());
 
-        ListNodeString headStr = new ListNodeString("head");
-        headStr.left = new ListNodeString("l");
-        headStr.left.left = new ListNodeString("ll");
-        headStr.left.right = new ListNodeString("lr");
-        headStr.right = new ListNodeString("r");
-        headStr.right.left = new ListNodeString("rl");
-        headStr.right.right = new ListNodeString("rr");
-
-        dfsTravel(head);
-        bfsTravel(head);
-
-        System.out.println("depth = " + getDepth(head));
+        System.out.println("depth = " + getDepth(generateTree()));
 
         System.out.println("inverse Tree = ");
-        bfsTravel(inverseTree(head));
-       System.out.println("sum of left leaves = " + sumOfLeftLeaves(head));
+        bfsTravel(inverseTree(generateTree()));
+        System.out.println("sum of left leaves = " + sumOfLeftLeaves(generateTree()));
 
-        isBalanced(headStr);
-        calculateTreeTilt(head,new int[1]);
-        getDiamater(headStr);
-        ArrayList<String> result = getTreePaths(headStr);
+        isBalanced(generateStrTree());
+        calculateTreeTilt(generateTree(),new int[1]);
+        getDiamater(generateStrTree());
+        ArrayList<String> result = getTreePaths(generateStrTree());
         System.out.println("second getTreePaths");
         ArrayList<String> result2 = new ArrayList<>();
-        getTreePaths(head, result2, "");
+        getTreePaths(generateTree(), result2, "");
 
+        System.out.println("get tree paths method 1");
         for (String str : result2) {
             System.out.println(str);
         }
+
+        System.out.println("get tree paths method 2");
         for (String re : result) {
             System.out.println(re);
         }
 
-        System.out.println("sum of all paths = " + getSumTreePaths(head,0));
+        System.out.println("sum of all paths = " + getSumTreePaths(generateTree(),0));
 
         System.out.println("printing boundaries");
-        printBoundariesTree(head);
+        printBoundariesTree(generateTree());
 
+        ListNode head = generateTree();
         System.out.println("is Tree Symmetric " + isSymmetric(head.left,head.right));
 
         System.out.println("has path sum 12 " + hasPathSum(head,12));
@@ -71,9 +56,39 @@ public class BuildTree {
 
         System.out.println("print range from 1 to 3");
         printRange(head,1,3);
+        System.out.println("right side view is " + rightSideView2(generateTree()));
 
+        ListNode anotherHead = generateTree();
+
+        System.out.println("lowest common ancestor is " + findLowestCommonAncestor(anotherHead,anotherHead.left.left,anotherHead.right.right).getVal());
     }
 
+    private static ListNode generateTree() {
+        ListNode head = new ListNode(1);
+        head.left = new ListNode(2);
+        head.right = new ListNode(3);
+        head.left.left = new ListNode(4);
+        head.left.right = new ListNode(5);
+        head.right.left = new ListNode(6);
+        head.right.right = new ListNode(7);
+        return  head;
+    }
+
+    private static ListNodeString generateStrTree() {
+        ListNodeString headStr = new ListNodeString("head");
+        headStr.left = new ListNodeString("l");
+        headStr.left.left = new ListNodeString("ll");
+        headStr.left.right = new ListNodeString("lr");
+        headStr.right = new ListNodeString("r");
+        headStr.right.left = new ListNodeString("rl");
+        headStr.right.right = new ListNodeString("rr");
+        return headStr;
+    }
+
+    /**
+     * BFS traversal to print out the tree
+     * @param head
+     */
     private static void bfsTravel(ListNode head) {
         System.out.println("start BFS");
         Queue<ListNode> q = new LinkedList<>();
@@ -92,6 +107,10 @@ public class BuildTree {
 
     }
 
+    /**
+     * DFS traversal to print out the tree
+     * @param head
+     */
     private static void dfsTravel(ListNode head) {
         if (head == null)
             return;
@@ -102,7 +121,7 @@ public class BuildTree {
     }
 
     /**
-     * find if binary is balanced
+     * find if binary tree is balanced
      * @param head
      * @return
      */
@@ -242,6 +261,11 @@ public class BuildTree {
         return Math.max(left, right) + 1;
     }
 
+    /**
+     * Get all different tree paths to all the leaves and print it out
+     * @param head
+     * @return
+     */
     private static ArrayList<String> getTreePaths(ListNodeString head) {
         //post traversal
         ArrayList<String> result = new ArrayList<>();
@@ -266,12 +290,24 @@ public class BuildTree {
         System.out.println("exiting " + path);
     }
 
+    /**
+     * Get all tree paths and print it out
+     * @param head
+     * @param result
+     * @param path
+     */
     private static void getTreePaths (ListNode head, ArrayList<String> result, String path) {
         if (head.left == null && head.right == null) result.add(path + head.getVal());
         if (head.left != null) getTreePaths(head.left, result, path + head.getVal() + "->");
         if (head.right != null) getTreePaths(head.right, result, path + head.getVal() + "->");
     }
 
+    /**
+     * Returns the sum of all of the tree paths
+     * @param head
+     * @param partialPathSum
+     * @return
+     */
     private static int getSumTreePaths(ListNode head, int partialPathSum) {
         if (head == null) return 0;
 
@@ -284,6 +320,12 @@ public class BuildTree {
         return getSumTreePaths(head.left, partialPathSum) + getSumTreePaths(head.right, partialPathSum);
     }
 
+    /**
+     * Find if binary tree is symmetric (left and right nodes are not null)
+     * @param headLeftNode
+     * @param headRightNode
+     * @return
+     */
     private static boolean isSymmetric(ListNode headLeftNode, ListNode headRightNode) {
         if (headLeftNode == null && headRightNode == null) return true;
         else if (headLeftNode != null && headRightNode != null) {
@@ -355,6 +397,10 @@ public class BuildTree {
         }
     }
 
+    /**
+     * Only print the leaves of a tree
+     * @param head
+     */
     private static void printLeaves(ListNode head) {
         if (head != null) {
             printLeaves(head.left);
@@ -390,7 +436,12 @@ public class BuildTree {
         getRightSideView(head.left, list, curDepth + 1);
     }
 
-    public List<Integer> rightSideView2(ListNode head) {
+    /**
+     * Another way of getting right side view
+     * @param head
+     * @return
+     */
+    public static List<Integer> rightSideView2(ListNode head) {
         List<Integer> list = new ArrayList<>();
         Queue<ListNode> q = new LinkedList<>();
         if (head == null) return list;
@@ -498,6 +549,15 @@ public class BuildTree {
 
         travel(head.left, sol, level + 1);
         travel(head.right, sol, level + 1);
+    }
+
+    public static List<ListNode> list = new ArrayList<>();
+    public static void getTreeNodesInorder(ListNode head) {
+        if (head == null)
+            return;
+        getTreeNodesInorder(head.left);
+        list.add(head);
+        getTreeNodesInorder(head.right);
     }
 
 

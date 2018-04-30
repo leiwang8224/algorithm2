@@ -4,6 +4,10 @@ import java.util.Arrays;
 /**
  * Created by leiwang on 3/10/18.
  */
+
+/**
+ * Combination sum with duplicates allowed in the output
+ */
 public class CombinationSumDups {
     public static void main(String[] args) {
         int[] nums = new int[] {1,2,3,4,4};
