@@ -34,6 +34,8 @@ public class GenerateGrayCodes {
         for (Integer res : result) {
             System.out.println(res);
         }
+
+        System.out.println(java.util.Arrays.toString(printBinaryArray(4))); // ;
     }
 
     private static List<Integer> grayCode(int sizeOfCode) {
@@ -49,8 +51,10 @@ public class GenerateGrayCodes {
 
         for (int i = 0; i < sizeOfCode; ++i) {
             int previousCode = result.get(result.size() - 1);
+            // XOR previousCode with 1
+            System.out.println("previousCode = " + java.util.Arrays.toString(printBinaryArray(previousCode)) + " i = " + i);
             int candidateNextCode = previousCode ^ (1 << i);
-
+            System.out.println("candidateNextCode = " + java.util.Arrays.toString(printBinaryArray(candidateNextCode)) + " i = " + i);
             if (!history.contains(candidateNextCode)) {
                 history.add(candidateNextCode);
                 result.add(candidateNextCode);
@@ -70,5 +74,17 @@ public class GenerateGrayCodes {
         int bitDiff = x ^ y;
         // x and y differs by the least sig bit
         return bitDiff != 0 && (bitDiff & (bitDiff - 1)) == 0;
+    }
+
+    private static int[] printBinaryArray(int num) {
+        ArrayList<Integer> list = new ArrayList<>();
+        while (num != 0) {
+            list.add(num%2);
+            num = num / 2;
+        }
+        int[] result = new int[list.size()];
+        for (int i = 0; i < result.length; i++)
+            result[i] = list.get(list.size()-i-1);
+        return result;
     }
 }

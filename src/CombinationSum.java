@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static Math.NextPermutation.swap;
+
 /**
  * Created by leiwang on 3/10/18.
  */
@@ -50,6 +52,34 @@ public class CombinationSum {
                 subList.remove(subList.size()-1);
                 System.out.println("subList after remove " + Arrays.toString(subList.toArray()));
             }
+        }
+    }
+
+    //TODO come up with the brute force method
+    private static ArrayList<ArrayList<Integer>> generateSumComboBruteForce(int[] nums, int remain) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        permute(result, new ArrayList<>(), nums, 0, remain);
+        return result;
+    }
+
+    private static void permute(ArrayList<ArrayList<Integer>> result,
+                                ArrayList<Object> subList,
+                                int[] nums,
+                                int pos,
+                                int remain) {
+        if (pos == nums.length - 1) {
+            int i;
+            for (i = 1; i <= nums.length; i ++) {
+                if (remain == 0)
+                    break;
+            }
+//            if (i == nums.length + 1)
+        }
+
+        for (int i = pos; i < nums.length; i++) {
+            swap(nums, i, pos);
+            permute(result, subList, nums, pos, remain);
+            swap(nums, i, pos);
         }
     }
 }

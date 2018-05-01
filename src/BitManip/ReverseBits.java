@@ -10,9 +10,9 @@ import java.util.Map;
 public class ReverseBits {
     private static final Map<Byte, Integer> cache = new HashMap<Byte,Integer>();
     public static void main(String args[]) {
-        System.out.println(reverseBits(10));
-        System.out.println(reverseBits2(10));
-        System.out.println(reverseBits2((byte)10));
+        BitOps.printBinaryArray(reverseBits(10));
+        BitOps.printBinaryArray(reverseBits2(10));
+        BitOps.printBinaryArray(reverseBits2((byte)10));
     }
 
     private static int reverseBits(int n) {

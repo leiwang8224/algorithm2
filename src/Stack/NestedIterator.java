@@ -17,6 +17,9 @@ import java.util.Stack;
  * calling next() should return 1,1,2,1,1,
  */
 public class NestedIterator {
+    public static void main(String[] args) {
+    }
+
     public static class NestedIteratorImpl implements Iterator<Integer> {
 
         private interface NestedIntegerImpl {

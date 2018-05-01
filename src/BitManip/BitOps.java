@@ -1,9 +1,20 @@
 package BitManip;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class BitOps {
     public static void main(String[] args) {
         int num = 4, pos = 1;
-        System.out.println(set(num, pos));
+        printBinaryArray(num);
+        printBinaryArray(set(num, pos));
+        printBinaryArray(unset(num, 1));
+        printBinaryArray(toggle(num,1));
+        printBinaryArray(updateBit(num,1,false));
+        printBinaryArray(flipEveryBit(num));
+        printBinaryArray(getLowestSetBit(num));
+        printBinaryArray(stripLastBit(num));
+        printBinaryArray(twosComplement(num));
     }
 
     private static boolean get(int num, int pos) {
@@ -27,7 +38,7 @@ public class BitOps {
         return num ^= (1 << pos);
     }
 
-    private int updateBit(int num, int pos, boolean bitIs1) {
+    private static int updateBit(int num, int pos, boolean bitIs1) {
         int value = bitIs1 ? 1 : 0;
         int mask = ~(1 << pos);
         return (num & mask) | (value << pos);
@@ -55,5 +66,18 @@ public class BitOps {
 
     private static int getLowestSetBit (int num) {
         return num & -num;
+    }
+
+    public static void printBinaryArray(int num) {
+        ArrayList<Integer> list = new ArrayList<>();
+        while (num != 0) {
+            list.add(num%2);
+            num = num / 2;
+        }
+        int[] result = new int[list.size()];
+        for (int i = 0; i < result.length; i++)
+            result[i] = list.get(list.size()-i-1);
+        System.out.println(Arrays.toString(result));
+
     }
 }

@@ -44,6 +44,10 @@ public class SortByStack {
         }
     }
 
+    /**
+     * sort by ascending order
+     * @param s1
+     */
     private static void sortByStackAscending(Stack<Integer> s1) {
         Stack<Integer> orderedStack = new Stack<>();
         while (!s1.isEmpty()) {

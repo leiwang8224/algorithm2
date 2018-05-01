@@ -17,7 +17,7 @@ public class SingleNumber2 {
         int[] nums = new int[]{1,1,1,2,2,2,3,3,3,4,5,5,5,6,6,6};
 
         System.out.println("single number is " + singleNumber(nums, nums.length));
-//        System.out.println("single number is " + singleNumber2(nums, nums.length));
+        System.out.println("single number is " + singleNumber2(nums, nums.length));
 
     }
 
