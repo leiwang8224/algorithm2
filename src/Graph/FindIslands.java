@@ -13,6 +13,7 @@ import java.util.LinkedList;
 //        11010
 //        11000
 //        00000
+//TODO this all return 0??
 public class FindIslands {
     public static void main(String args[]) {
         int map[][]=  new int[][] { {1, 1, 1, 1, 0},
@@ -34,17 +35,17 @@ public class FindIslands {
         Solution2 soln2 = new Solution2();
         System.out.println("number of islands soln2 " + soln2.numIslands(map));
 
-//        System.out.println(countIslands(map));
+        System.out.println("countIslands "+ countIslands(generateMap()));
+        System.out.println("numIslands " + numIslands(generateMap()));
 
-//        int total = 0;
-//        for (int row = 0; row < map.length; row++) {
-//            for (int col = 0; col < map[0].length; col++) {
-//                if (map[row][col] == 1) {
-//                    total ++;
-//                    findIslands(map,row,col);
-//                }
-//            }
-//        }
+    }
+
+    static int[][] generateMap() {
+        return new int[][] { {1, 1, 1, 1, 0},
+                {1, 1, 0, 1, 0},
+                {1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 1}
+        };
     }
 
     /**

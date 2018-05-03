@@ -8,14 +8,16 @@ import java.util.List;
  */
 public class StringCompression {
     public static void main(String args[]){
-        String str = "abbcifbdbfss";
-        System.out.println(compressString(str));
-        char[] charArray = compressChars(str.toCharArray());
-        for (int i = 0; i < charArray.length; i ++) {
-            System.out.print(charArray[i]);
-        }
+        System.out.println(compressString(generateString()));
         System.out.println();
-        compress(charArray);
+        compress(generateString().toCharArray());
+        System.out.println();
+        System.out.println("last call");
+        System.out.println(java.util.Arrays.toString(compressChars(generateString().toCharArray())));
+    }
+
+    static String generateString() {
+        return "abbcifbdbfss";
     }
 //
 //    Intuition
@@ -36,6 +38,7 @@ public class StringCompression {
 //    chars[anchor] will be the correct character, and the length (if greater than 1) will be read - anchor + 1.
 //    We will write the digits of that number to the array.
     private static int compress(char[] chars) {
+        System.out.println("entering compress");
         int anchor = 0, write = 0;
         for (int read = 0; read < chars.length; read++) {
             if (read + 1 == chars.length || chars[read + 1] != chars[read]) {
@@ -54,18 +57,22 @@ public class StringCompression {
         return write;
     }
 
-    //TODO Wrong impl
     private static char[] compressChars(char[] chars) {
+        System.out.println("entering compressChars");
         int[] charsArray = new int[128];
         for (int i = 0; i < chars.length; i ++) {
             charsArray[chars[i]]++;
         }
         List<Character> charList = new ArrayList<>();
         for (int i = 0; i < charsArray.length; i ++) {
-            charList.add(Character.toChars(i)[0]);
-            String numStr = Integer.toString(charsArray[i]);
-            for (int j = 0; j < numStr.length(); j ++) {
-                charList.add(numStr.charAt(j));
+            if (charsArray[i] > 0) {
+                // convert the index to char
+                charList.add(Character.toChars(i)[0]);
+                // convert the freq to string
+                String numStr = Integer.toString(charsArray[i]);
+                for (int j = 0; j < numStr.length(); j++) {
+                    charList.add(numStr.charAt(j));
+                }
             }
         }
         char[] result = new char[charList.size()];
@@ -76,6 +83,7 @@ public class StringCompression {
     }
 
     private static String compressString(String str) {
+        System.out.println("entering compressString");
         int[] chars = new int[128];
         for (int i = 0; i < str.length(); i ++) {
             chars[str.charAt(i)]++;

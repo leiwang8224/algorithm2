@@ -8,6 +8,7 @@ public class CoinChange {
     public static void main(String[] args) {
         int[] coins = new int[]{1,5,10,25};
         System.out.println("findCoins return " + findCoinChange(0, coins, 16));
+        System.out.println("findCoins change " + findCoinChange(coins, 16));
     }
 
     /**

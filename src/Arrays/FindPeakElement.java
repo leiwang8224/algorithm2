@@ -17,7 +17,7 @@ public class FindPeakElement {
 // than the next one. The first element satisfies this criteria, and is hence identified as
 // the peak correctly. In this case, we didn't reach a point where we needed to compare
 // nums[i]nums[i]nums[i] with nums[i−1]nums[i-1]nums[i−1] also, to determine if it is the peak element or not.
-//
+//]
 //    Case 2: All the elements appear in ascending order. In this case, we keep on comparing
 // nums[i]nums[i]nums[i] with nums[i+1]nums[i+1]nums[i+1] to determine if nums[i]nums[i]nums[i]
 // is the peak element or not. None of the elements satisfy this criteria, indicating that we are

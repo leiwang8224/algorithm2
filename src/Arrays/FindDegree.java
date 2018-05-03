@@ -20,7 +20,7 @@ of nums, that has the same degree as nums.
 
 Example 1:
 
-Input: [1, 2, 2, 3, 1]
+Input: [1, 2, 2, 3, 1] -> 2,2
 Output: 2
 Explanation:
 The input array has a degree of 2 because both elements 1 and 2 appear twice.
@@ -30,7 +30,7 @@ The shortest length is 2. So return 2.
 
 Example 2:
 
-Input: [1,2,2,3,1,4,2]
+Input: [1,2,2,3,1,4,2] -> 2,2,3,1,4,2,
 Output: 6
 
      */
@@ -187,17 +187,23 @@ public class FindDegree {
         Map<Integer, Integer> left = new HashMap(),
                 right = new HashMap(), count = new HashMap();
 
+        // left put the element and index, right put the element and index
         for (int i = 0; i < nums.length; i++) {
             int x = nums[i];
+            // store leftmost and rightmost index and value
             if (left.get(x) == null) left.put(x, i);
             right.put(x, i);
+            // count put element and freq
             count.put(x, count.getOrDefault(x, 0) + 1);
         }
 
         int ans = nums.length;
+        // find degree = max freq
         int degree = Collections.max(count.values());
         for (int x: count.keySet()) {
+            // find the element with the freq desired
             if (count.get(x) == degree) {
+                // take min of length of the array, index from left and right
                 ans = Math.min(ans, right.get(x) - left.get(x) + 1);
             }
         }
