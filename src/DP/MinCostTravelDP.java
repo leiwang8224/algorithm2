@@ -14,7 +14,6 @@ public class MinCostTravelDP {
 
     }
 
-    //TODO problem with this one
     private static int calculateMinCost(int[][] cost) {
         int dp[] = new int[cost.length];
         dp[0] = 0;

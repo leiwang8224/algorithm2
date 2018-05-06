@@ -3,6 +3,12 @@ package DP;
 /**
  * Created by leiwang on 3/25/18.
  */
+/**
+ There are N stations on route of a train. The train goes from station 0 to N-1.
+ The ticket cost for all pair of stations (i, j) is given where j is greater than i.
+ Find the minimum cost to reach the destination.
+ **/
+
 public class MinCostTravelDPRecurse {
     public static void main(String args[]) {
         int cost[][] = new int[][]{
@@ -15,6 +21,14 @@ public class MinCostTravelDPRecurse {
         System.out.println("second minPathCostDFS = " + minPathCostDFS(cost, 0, 2));
     }
 
+    /**
+     * Min path cost with memo
+     * @param cost
+     * @param memo
+     * @param row
+     * @param col
+     * @return
+     */
     private static int minPathCost(int[][] cost, int[][] memo, int row, int col) {
         if (memo[row][col] != 0)
             return memo[row][col];
@@ -33,6 +47,13 @@ public class MinCostTravelDPRecurse {
         return memo[row][col];
     }
 
+    /**
+     * Min path cost with DFS
+     * @param cost
+     * @param row
+     * @param col
+     * @return
+     */
     private static int minPathCostDFS(int[][] cost, int row, int col) {
         if (row == 0 && col == 0)
             return cost[row][col];
