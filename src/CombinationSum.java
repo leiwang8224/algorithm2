@@ -38,6 +38,10 @@ public class CombinationSum {
             System.out.println(Arrays.toString(subList.toArray()));
         }
 
+        ArrayList<ArrayList<Integer>> resultBit = findSumCombos(nums, 5);
+        for (ArrayList<Integer> subList : resultBit) {
+            System.out.println(Arrays.toString(subList.toArray()));
+        }
     }
 
     private static void generateSumCombo(ArrayList<ArrayList<Integer>> result, ArrayList<Integer> subList, int[] nums, int remain, int start) {
@@ -53,6 +57,29 @@ public class CombinationSum {
                 System.out.println("subList after remove " + Arrays.toString(subList.toArray()));
             }
         }
+    }
+
+    private static ArrayList<ArrayList<Integer>> findSumCombos(int[] nums, int target) {
+        int i, j;
+        int n = nums.length;
+        ArrayList<Integer> subList = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+
+        for (i = 0; i < (1<<n); i ++) {
+            int sum = 0;
+            for (j = 0; j < n; j++) {
+                if ((i&(1<<j)) != 0) {
+                    sum += nums[j];
+                    subList.add(nums[j]);
+                }
+            }
+            if (sum == target) {
+                System.out.println("can add up to the target!");
+                result.add(subList);
+            }
+        }
+
+        return result;
     }
 
     //TODO come up with the brute force method

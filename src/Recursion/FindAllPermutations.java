@@ -51,7 +51,7 @@ public class FindAllPermutations {
 
         nums[i] = nums[j];
         nums[j] = x;
-        
+
         Arrays.sort(nums, i + 1, n);
         return true;
     }

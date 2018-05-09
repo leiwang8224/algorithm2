@@ -12,6 +12,32 @@ public class CoinChange {
     }
 
     /**
+     *
+     * @param n total value
+     * @param d coin value
+     * @return
+     */
+    public static int makeChange(int n, int d) {
+        if (n < 0)
+            return 0;
+        else if (n == 0)
+            return 1;
+        else {
+            int sum = 0;
+            switch (d) {
+                case 25: sum += makeChange(n-25,25);
+                    break;
+                case 10: sum += makeChange(n-10,10);
+                    break;
+                case 5: sum += makeChange(n-5,5);
+                    break;
+                case 1: sum ++;
+                    break;
+            }
+            return sum;
+        }
+    }
+    /**
      * Top Down Approach
      * @param coinidx
      * @param coins

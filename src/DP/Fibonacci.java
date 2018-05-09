@@ -23,4 +23,26 @@ public class Fibonacci {
         }
         return memo[n];
     }
+
+    private static int fibRecurse(int n) {
+        int[] fibNums = new int[n+1];
+        fibNums[0] = 0;
+        fibNums[1] = 1;
+
+        for (int i = 2; i < n+1; i ++)
+            fibNums[i] = fibNums[i-1] + fibNums[i-2];
+
+        return fibNums[n];
+    }
+
+    private static int fibSimplify(int n) {
+        int fibFirst = 0;
+        int fibSecond = 0;
+
+        for (int i = 2; i < n+1; i++) {
+            fibSecond = fibFirst + fibSecond;
+            fibFirst = fibSecond - fibFirst;
+        }
+        return fibSecond;
+    }
 }

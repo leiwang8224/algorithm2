@@ -12,6 +12,7 @@ public class LongestCommonSeq {
         System.out.println(getLCS(str1, str2, str1.length(), str2.length()));
         System.out.println(getLCSMemo(str1, str2, str1.length(), str2.length()));
         printLCS(str1,str2,str1.length(),str2.length());
+        System.out.println(lcsRecurse(str1,str2));
     }
 
     public static int getLCS(String str1, String str2, int str1Length, int str2Length) {
@@ -74,5 +75,32 @@ public class LongestCommonSeq {
             }
         }
         System.out.println("LCS is " + java.util.Arrays.toString(lcs));
+    }
+
+    /**
+     * Brute force method with recursion
+     * @param str1
+     * @param str2
+     * @return
+     */
+    private static int lcsRecurse(String str1, String str2) {
+        // base case empty string
+        if (str1.length() == 0 || str2.length() == 0) return 0;
+        int len1 = str1.length();
+        int len2 = str2.length();
+
+        // solve recursively
+
+        // corresponding last chars match
+        if (str1.charAt(len1 - 1) == str2.charAt(len2 - 1))
+            // recurse from end to the beginning, note the -1 in length
+            return 1 + lcsRecurse(str1.substring(0,str1.length()-1),
+                                 str2.substring(0,str2.length()-1));
+
+        // corresponding chars do not match
+        else
+            //take the max of the recursion results
+            return Math.max(lcsRecurse(str1, str2.substring(0, str2.length()-1)),
+                    lcsRecurse(str1.substring(0,str1.length()-1),str2));
     }
 }
