@@ -1,13 +1,24 @@
 package Recursion;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by leiwang on 5/7/18.
  */
+
+/**
+ * find all permutations of a number
+ * ex: input = 2
+ * [0, 1]
+   [1, 0]
+ */
 public class FindAllPermutations {
     public static void main(String[] args) {
-        permute(0, 8, new boolean[8], new int[8]);
+        int num = 2;
+        System.out.println("run 1");
+        permute(0, num, new boolean[num], new int[num]);
+        System.out.println("run 2");
 
     }
 
@@ -29,9 +40,13 @@ public class FindAllPermutations {
         // try every unused element in the current position
         for (int i = 0; i < num; i ++) {
             if (!used[i]) {
+                // indicating index is used
                 used[i] = true;
+                // put the index in the permutation
                 permutation[p] = i;
+                // perform next permutation by adding 1
                 permute(p + 1, num, used, permutation);
+                // revert used index back to false
                 used[i] = false;
             }
         }

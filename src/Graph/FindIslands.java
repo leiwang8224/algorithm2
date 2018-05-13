@@ -16,24 +16,19 @@ import java.util.LinkedList;
 //TODO this all return 0??
 public class FindIslands {
     public static void main(String args[]) {
-        int map[][]=  new int[][] { {1, 1, 1, 1, 0},
-                                    {1, 1, 0, 1, 0},
-                                    {1, 1, 0, 0, 0},
-                                    {0, 0, 0, 0, 1}
-        };
 
-        System.out.println("number of islands DFS " + numIslandsDFS(map));
-        System.out.println("number of islands BFS " + numIslandsBFS(map));
+        System.out.println("number of islands DFS " + numIslandsDFS(generateMap()));
+        System.out.println("number of islands BFS " + numIslandsBFS(generateMap()));
 
         NumberofIslands numberofIslands = new NumberofIslands();
-        numberofIslands.explore(map,0,0);
-        System.out.println("number of islands " + numberofIslands.numIslands(map));
+        numberofIslands.explore(generateMap(),0,0);
+        System.out.println("number of islands " + numberofIslands.numIslands(generateMap()));
 
         Solution soln = new Solution();
-        System.out.println("number of islands soln1 " + soln.numIslands(map));
+        System.out.println("number of islands soln1 " + soln.numIslands(generateMap()));
 
         Solution2 soln2 = new Solution2();
-        System.out.println("number of islands soln2 " + soln2.numIslands(map));
+        System.out.println("number of islands soln2 " + soln2.numIslands(generateMap()));
 
         System.out.println("countIslands "+ countIslands(generateMap()));
         System.out.println("numIslands " + numIslands(generateMap()));
@@ -83,7 +78,7 @@ public class FindIslands {
 
             for (int i = 0; i < grid.length; i++) {
                 for (int j = 0; j < grid[i].length; j++) {
-                    if (grid[i][j] == '1') {
+                    if (grid[i][j] == 1) {
                         count++;
                         clearRestOfLand(grid, i, j);
                     }
@@ -96,9 +91,9 @@ public class FindIslands {
             if (i < 0 || j < 0 ||
                 i >= grid.length ||
                 j >= grid[i].length ||
-                grid[i][j] == '0') return;
+                grid[i][j] == 0) return;
 
-            grid[i][j] = '0';
+            grid[i][j] = 0;
             clearRestOfLand(grid, i+1, j);
             clearRestOfLand(grid, i-1, j);
             clearRestOfLand(grid, i, j+1);
@@ -125,7 +120,7 @@ public class FindIslands {
                 }
             }
         }
-        return 0;
+        return count;
     }
 
     /**
@@ -176,7 +171,7 @@ public class FindIslands {
             m = grid[0].length;
             for (int i = 0; i < n; i++){
                 for (int j = 0; j < m; j++)
-                    if (grid[i][j] == '1') {
+                    if (grid[i][j] == 1) {
                         DFSMarking(grid, i, j);
                         ++count;
                     }
@@ -185,8 +180,8 @@ public class FindIslands {
         }
 
         private void DFSMarking(int[][] grid, int i, int j) {
-            if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] != '1') return;
-            grid[i][j] = '0';
+            if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] != 1) return;
+            grid[i][j] = 0;
             DFSMarking(grid, i + 1, j);
             DFSMarking(grid, i - 1, j);
             DFSMarking(grid, i, j + 1);
@@ -217,11 +212,11 @@ public class FindIslands {
         int cols = grid[0].length;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == '1') {
+                if (grid[i][j] == 1) {
                     for (int[] d : distance) {
                         int x = i + d[0];
                         int y = j + d[1];
-                        if (x >= 0 && x < rows && y >= 0 && y < cols && grid[x][y] == '1') {
+                        if (x >= 0 && x < rows && y >= 0 && y < cols && grid[x][y] == 1) {
                             int id1 = i*cols+j;
                             int id2 = x*cols+y;
                             uf.union(id1, id2);
@@ -243,7 +238,7 @@ public class FindIslands {
             father = new int[m*n];
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (grid[i][j] == '1') {
+                    if (grid[i][j] == 1) {
                         int id = i * n + j;
                         father[id] = id;
                         count++;
@@ -289,7 +284,7 @@ public class FindIslands {
             int islands = 0;
             for(int i=0;i<grid.length;i++) {
                 for(int j=0;j<grid[i].length;j++) {
-                    if(grid[i][j]=='1') {
+                    if(grid[i][j]==1) {
                         explore(grid,i,j);
                         islands++;
                     }
@@ -300,7 +295,7 @@ public class FindIslands {
         public void explore(int[][] grid, int i, int j) {
             grid[i][j]='x';
             for(int d=0;d<dx.length;d++) {
-                if(i+dy[d]<grid.length && i+dy[d]>=0 && j+dx[d]<grid[0].length && j+dx[d]>=0 && grid[i+dy[d]][j+dx[d]]=='1') {
+                if(i+dy[d]<grid.length && i+dy[d]>=0 && j+dx[d]<grid[0].length && j+dx[d]>=0 && grid[i+dy[d]][j+dx[d]]==1) {
                     explore(grid,i+dy[d],j+dx[d]);
                 }
             }
@@ -316,7 +311,7 @@ public class FindIslands {
         int count=0;
         for(int i=0;i<grid.length;i++)
             for(int j=0;j<grid[0].length;j++){
-                if(grid[i][j]=='1'){
+                if(grid[i][j]==1){
                     dfsFill(grid,i,j);
                     count++;
                 }
@@ -324,8 +319,8 @@ public class FindIslands {
         return count;
     }
     private static void dfsFill(int[][] grid,int i, int j){
-        if(i>=0 && j>=0 && i<grid.length && j<grid[0].length&&grid[i][j]=='1'){
-            grid[i][j]='0';
+        if(i>=0 && j>=0 && i<grid.length && j<grid[0].length&&grid[i][j]==1){
+            grid[i][j]=0;
             dfsFill(grid, i + 1, j);
             dfsFill(grid, i - 1, j);
             dfsFill(grid, i, j + 1);
@@ -342,7 +337,7 @@ public class FindIslands {
         int count=0;
         for(int i=0;i<grid.length;i++)
             for(int j=0;j<grid[0].length;j++){
-                if(grid[i][j]=='1'){
+                if(grid[i][j]==1){
                     bfsFill(grid,i,j);
                     count++;
                 }
@@ -361,25 +356,25 @@ public class FindIslands {
             code = queue.poll();
             int i = code/m;
             int j = code%m;
-            if(i>0 && grid[i-1][j]=='1')    //search upward and mark adjacent '1's as '0'.
+            if(i>0 && grid[i-1][j]==1)    //search upward and mark adjacent '1's as '0'.
             {
                 queue.offer((i-1)*m+j);
-                grid[i-1][j]='0';
+                grid[i-1][j]=0;
             }
-            if(i<n-1 && grid[i+1][j]=='1')  //down
+            if(i<n-1 && grid[i+1][j]==1)  //down
             {
                 queue.offer((i+1)*m+j);
-                grid[i+1][j]='0';
+                grid[i+1][j]=0;
             }
-            if(j>0 && grid[i][j-1]=='1')  //left
+            if(j>0 && grid[i][j-1]==1)  //left
             {
                 queue.offer(i*m+j-1);
-                grid[i][j-1]='0';
+                grid[i][j-1]=0;
             }
-            if(j<m-1 && grid[i][j+1]=='1')  //right
+            if(j<m-1 && grid[i][j+1]==1)  //right
             {
                 queue.offer(i*m+j+1);
-                grid[i][j+1]='0';
+                grid[i][j+1]=0;
             }
         }
     }

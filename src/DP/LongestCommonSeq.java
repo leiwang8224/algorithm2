@@ -6,9 +6,14 @@ package DP;
 public class LongestCommonSeq {
     static int table[][];
     public static void main(String args[]) {
-        String str1 = "ABCD";
-        String str2 = "AEBD";
+        String str1 = "ABCDB";
+        String str2 = "AEBDB";
         table = new int[str1.length()+1][str2.length()+1];
+        for (int i = 0; i < table.length; i ++) {
+            for (int j = 0; j < table[0].length; j ++) {
+                table[i][j] = -1;
+            }
+        }
         System.out.println(getLCS(str1, str2, str1.length(), str2.length()));
         System.out.println(getLCSMemo(str1, str2, str1.length(), str2.length()));
         printLCS(str1,str2,str1.length(),str2.length());
@@ -44,6 +49,12 @@ public class LongestCommonSeq {
             table[str1Index][str2Index] = getMax(getLCSMemo(str1, str2, str1Index, str2Index-1),
                                                 getLCSMemo(str1, str2, str1Index-1, str2Index));
 
+//        for (int i = 0; i < table.length; i++) {
+//            for (int j = 0; j < table[0].length; j++) {
+//                System.out.print(table[i][j]);
+//            }
+//            System.out.println();
+//        }
         return table[str1Index][str2Index];
     }
 

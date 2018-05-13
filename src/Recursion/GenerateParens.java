@@ -7,6 +7,16 @@ import java.util.Set;
 /**
  * Created by leiwang on 3/27/18.
  */
+
+/**
+ * generate the parenthesis based on the input number
+ * ex: input = 3
+ *  ()()()
+    ()(())
+    (()())
+    (())()
+    ((()))
+ */
 public class GenerateParens {
     public static void main(String args[]) {
         Set<String> set1 = generateParens(3);

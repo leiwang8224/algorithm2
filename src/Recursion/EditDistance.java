@@ -23,9 +23,11 @@ public class EditDistance {
      */
     //TODO problem with this method
     private static int editDistance(String str1, String str2, int charPosStr1, int charPosStr2) {
-        if (str1 == null  || charPosStr1 == str1.length() || str1.charAt(charPosStr1) == '\0')
+        System.out.println("str1 length = " + str1.length() + " " + charPosStr1 + " str2 length = "
+                + str2.length() + " " + charPosStr2);
+        if (str1.length() == 0  || charPosStr1 == str1.length() || str1.charAt(charPosStr1) == '\0')
             return str2.length();
-        if (str2 == null  || charPosStr2 == str2.length() || str2.charAt(charPosStr2) == '\0')
+        if (str2.length() == 0  || charPosStr2 == str2.length() || str2.charAt(charPosStr2) == '\0')
             return str1.length();
 
         if (str1.charAt(charPosStr1) == str2.charAt(charPosStr2))
