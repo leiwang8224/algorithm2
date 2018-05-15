@@ -90,6 +90,21 @@ public class MedianDataStream {
     /**
      * Time O(log(n))
      * Space O(n)
+     * 2 heaps:
+     * Max heap (lower half): has the max element at parent node in the tree
+     * Min heap (higher half): has the min element at the parent node in the tree
+     * Max heap:
+     *      10 <- max element
+     *     /  \
+     *    8   9
+     *   / \
+     *  6  7
+     * Min heap:
+     *      11 <- min element
+     *     /  \
+     *    12  13
+     *   / \
+     *  14 15
      */
     private static class MedianFinder3 {
         MedianFinder3() {

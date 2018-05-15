@@ -49,6 +49,8 @@ public class CombinationSum {
         if (remain < 0) return;
         else if (remain== 0) result.add(new ArrayList<>(subList));
         else {
+            // iterate through the array and add to sublist
+            // call recursively to populate the result
             for (int i = start; i < nums.length; i ++) {
                 subList.add(nums[i]);
                 System.out.println("subList after add " + Arrays.toString(subList.toArray()));
@@ -65,6 +67,7 @@ public class CombinationSum {
         ArrayList<Integer> subList = new ArrayList<>();
         ArrayList<ArrayList<Integer>> result = new ArrayList<>();
 
+        // rotate left n bits
         for (i = 0; i < (1<<n); i ++) {
             int sum = 0;
             for (j = 0; j < n; j++) {

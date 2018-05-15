@@ -59,6 +59,7 @@ public class BeautifulArrangements {
         for (int i = 1; i <= N; i ++) {
             nums[i-1] = i;
         }
+        System.out.println("nums = " + Arrays.toString(nums));
         permute(nums,0);
         return countBruteForce;
     }
@@ -67,6 +68,8 @@ public class BeautifulArrangements {
         if (pos == nums.length - 1) {
             int i;
             for (i = 1; i <= nums.length; i ++) {
+                // convert i to index, get the nums and find remainder
+                // if not beautiful arrangement, return
                 if (nums[i - 1] % i != 0 && i % nums[i-1] != 0)
                     break;
             }
@@ -152,6 +155,7 @@ public class BeautifulArrangements {
                 // select then call recursive
                 used[i] = 1;
                 System.out.println("before calling helper method used = " + Arrays.toString(used));
+                // note the selection is based on incrementing the pos index
                 helper(N, pos + 1, used);
                 // un-select to reset the array to all zeros
                 used[i] = 0;

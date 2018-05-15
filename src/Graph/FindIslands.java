@@ -13,10 +13,8 @@ import java.util.LinkedList;
 //        11010
 //        11000
 //        00000
-//TODO this all return 0??
 public class FindIslands {
     public static void main(String args[]) {
-
         System.out.println("number of islands DFS " + numIslandsDFS(generateMap()));
         System.out.println("number of islands BFS " + numIslandsBFS(generateMap()));
 
@@ -71,6 +69,8 @@ public class FindIslands {
 
     /**
      * Clear solution
+     * find the island labelled 1
+     * clear the rest of the surrounding lands labelled 1
      */
     public static class Solution2 {
         public int numIslands(int[][] grid) {
@@ -79,7 +79,9 @@ public class FindIslands {
             for (int i = 0; i < grid.length; i++) {
                 for (int j = 0; j < grid[i].length; j++) {
                     if (grid[i][j] == 1) {
+                        // island found, increment the count
                         count++;
+                        // clear the rest of the land
                         clearRestOfLand(grid, i, j);
                     }
                 }
@@ -88,12 +90,16 @@ public class FindIslands {
         }
 
         private void clearRestOfLand(int[][] grid, int i, int j) {
+            // if index is out of bounds, return
             if (i < 0 || j < 0 ||
                 i >= grid.length ||
                 j >= grid[i].length ||
                 grid[i][j] == 0) return;
 
+            // where the clear happens
             grid[i][j] = 0;
+
+            // recursive call to i+1, i-1, j+1, j-1
             clearRestOfLand(grid, i+1, j);
             clearRestOfLand(grid, i-1, j);
             clearRestOfLand(grid, i, j+1);
@@ -103,6 +109,8 @@ public class FindIslands {
     }
     /**
      * method does not write to the original map
+     * using a separate array to keep the index offset(+1, 0, -1)
+     * then perform dfs
      * @param map
      * @return
      */
@@ -115,6 +123,7 @@ public class FindIslands {
                 // island found. Visit all cells in this island and
                 // increment island count
                 if (map[row][col] == 1 && !visited[row][col]) {
+                    // traverse the surrounding lands (1's)
                     dfs(map,row,col,visited);
                     count ++;
                 }
@@ -138,6 +147,8 @@ public class FindIslands {
         visited[row][col] = true;
 
         for (int k = 0; k < 8; k ++) {
+            // if index is within range then traverse further (recursive call)
+            // check surrounding 8 blocks
             if (isValid(map, row + rowNumber[k], col + colNumber[k], visited))
                 dfs(map, row + rowNumber[k], col + colNumber[k], visited);
         }
@@ -159,6 +170,9 @@ public class FindIslands {
                 map[row][col] == 1 && !visited[row][col];
     }
 
+    /**
+     * Simply makr the grid as 0 if it's 1
+     */
     public static class Solution {
 
         private int n;
@@ -172,6 +186,7 @@ public class FindIslands {
             for (int i = 0; i < n; i++){
                 for (int j = 0; j < m; j++)
                     if (grid[i][j] == 1) {
+                        // mark grid as 0 if it was 1
                         DFSMarking(grid, i, j);
                         ++count;
                     }
@@ -345,7 +360,7 @@ public class FindIslands {
         return count;
     }
     private static void bfsFill(int[][] grid,int x, int y){
-        grid[x][y]='0';
+        grid[x][y]=0;
         int n = grid.length;
         int m = grid[0].length;
         LinkedList<Integer> queue = new LinkedList<Integer>();
