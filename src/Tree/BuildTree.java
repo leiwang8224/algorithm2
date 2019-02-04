@@ -255,6 +255,8 @@ public class BuildTree {
     }
 
     private static int getMaxDepthTree(ListNodeString head, int[] ans) {
+        // use of array for passing parameters so it's not static (passing by value rather than reference)
+        // changes every iteration
         if (head != null)
             System.out.println("entering getMaxDepthTree " + ans[0] + " " + head.getVal());
         if (head == null) return 0;
