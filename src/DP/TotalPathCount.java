@@ -44,4 +44,25 @@ public class TotalPathCount {
             System.out.println(java.util.Arrays.toString(row));
         return dp[m][n];
     }
+
+    private static int numOfPathsDPWithObstacle(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        if (m == 0) return 0;
+        int n = obstacleGrid[0].length;
+
+        int[][] mat = new int[m+1][n+1];
+        mat[m-1][n] = 1;
+
+        for (int row = m - 1; row >= 0; row--) {
+            for (int col = n-1; col >= 0; col--) {
+                if (obstacleGrid[row][col] == 1) {
+                    mat[row][col] = 1;
+                } else {
+                    mat[row][col] = mat[row][col+1] + mat[row+1][col];
+                }
+            }
+        }
+
+        return mat[0][0];
+    }
 }
