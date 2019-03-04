@@ -70,16 +70,28 @@ public class RotateImage {
         }
     }
 
+    // The idea is to rotate the matrix layer by layer
+    // 1 2 3
+    // 4 5 6
+    // 7 8 9
+
+    // 7 2 1
+    // 4 5 6
+    // 9 8 3
+
+    // 7 4 1
+    // 8 5 2
+    // 9 6 3
     private static void rotate(int[][] matrix) {
-        int n=matrix.length;
+        int matrixLength =matrix.length;
         // row is i, col is j
-        for (int i=0; i<n/2; i++)
-            for (int j=i; j<n-i-1; j++) {
-                int tmp=matrix[i][j];
-                matrix[i][j]=matrix[n-i-1][j];
-                matrix[n-j-1][i]=matrix[n-i-1][n-j-1];
-                matrix[n-i-1][n-j-1]=matrix[j][n-i-1];
-                matrix[j][n-i-1]=tmp;
+        for (int row = 0; row < matrixLength / 2; row++)
+            for (int col = row; col < matrixLength - row - 1; col++) {
+                int tmp=matrix[row][col];
+                matrix[row][col]=matrix[matrixLength - row - 1][col];
+                matrix[matrixLength - col - 1][row]=matrix[matrixLength - row - 1][matrixLength - col - 1];
+                matrix[matrixLength - row - 1][matrixLength - col - 1]=matrix[col][matrixLength - row - 1];
+                matrix[col][matrixLength - row - 1]=tmp;
             }
     }
 
