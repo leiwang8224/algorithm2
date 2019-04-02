@@ -88,6 +88,7 @@ public class RotateImage {
         for (int row = 0; row < matrixLength / 2; row++)
             for (int col = row; col < matrixLength - row - 1; col++) {
                 int tmp=matrix[row][col];
+                // row to column transformation
                 matrix[row][col]=matrix[matrixLength - row - 1][col];
                 matrix[matrixLength - col - 1][row]=matrix[matrixLength - row - 1][matrixLength - col - 1];
                 matrix[matrixLength - row - 1][matrixLength - col - 1]=matrix[col][matrixLength - row - 1];
