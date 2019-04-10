@@ -1,5 +1,6 @@
 package Tree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -183,6 +184,44 @@ public class BST {
                 }
             }
             return result;
+        }
+    }
+
+    private static class BSTIterator2 {
+        List<Integer> sortedArr;
+        int current;
+
+        public BSTIterator2(ListNode root) {
+            sortedArr = new ArrayList<>();
+            current = -1;
+            if (root != null)
+                recurse(root);
+        }
+
+        private void recurse(ListNode root) {
+            if (root.left == null && root.right == null) {
+                sortedArr.add(root.getVal());
+            } else {
+                if (root.left != null)
+                    recurse(root.left);
+                sortedArr.add(root.getVal());
+
+                if (root.right != null)
+                    recurse(root.right);
+            }
+        }
+
+        public int next() {
+            current ++;
+            return sortedArr.get(current);
+        }
+
+        public boolean hasNext() {
+            if (current+1 < sortedArr.size()) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
