@@ -10,6 +10,7 @@ public class FindPeakElement {
         System.out.println("first method = "+ findPeakElement(nums));
         System.out.println("binary search method = " + findPeakElementBinarySearch(nums));
         System.out.println("iterative method = " + findPeakElementIterative(nums));
+        System.out.println("find peak 2nd method = " + findPeakElement2(nums));
     }
 //
 //    Case 1: All the numbers appear in a descending order. In this case, the first element
@@ -99,8 +100,10 @@ public class FindPeakElement {
             int mid = start + (end - start) / 2;
             if (nums[mid - 1] < nums[mid] && nums[mid] > nums[mid + 1]) {
                 return mid;
+                // else if at the end, checking the right corner, ex: 1,3
             } else if (nums[mid - 1] < nums[mid]) {
                 start = mid;
+                // else if at the other end, checking the left corner, ex: 3,1
             } else {
                 end = mid;
             }

@@ -21,6 +21,9 @@ public class FindDuplicateTrees {
     private static List<ListNode> findDuplicateSubtrees(ListNode root) {
         count = new HashMap<>();
         ans = new ArrayList<>();
+        System.out.println(collectPreOrder(root));
+        System.out.println(collectInOrder(root));
+        System.out.println(collectPostOrder(root));
         collect(root);
         return ans;
     }
@@ -42,6 +45,7 @@ public class FindDuplicateTrees {
     private static String collect(ListNode root) {
         // output # if at leaf node
         if (root == null) return "#";
+//        System.out.println("entering");
         // current node val, left node val, right node val
         // goes all the way to the left, get leaf node
         // move up one node and get leaf nodes
@@ -57,7 +61,37 @@ public class FindDuplicateTrees {
         // if there is duplicate subtree (more than 2), add that node
         if (count.get(serial) == 2)
             ans.add(root);
+//        System.out.println("exiting");
+
         return serial;
+    }
+
+    //    1
+    //   / \
+    //  2   3
+    // / \   \
+    //4   2   4
+    //   /
+    //  4
+//    1,2,4,#,#,#,3,2,4,#,#,#,4,#,#
+    private static String collectPreOrder(ListNode root) {
+        if (root == null) return "#";
+
+        return root.getVal() + "," + collectPreOrder(root.left) + "," + collectPreOrder(root.right);
+    }
+
+//    #,4,#,2,#,1,#,4,#,2,#,3,#,4,#
+    private static String collectInOrder(ListNode root) {
+        if (root == null) return "#";
+
+        return collectInOrder(root.left) + "," + root.getVal() + "," + collectInOrder(root.right);
+    }
+
+//    #,#,4,#,2,#,#,4,#,2,#,#,4,3,1
+    private static String collectPostOrder(ListNode root) {
+        if (root == null) return "#";
+
+        return collectPostOrder(root.left) + "," + collectPostOrder(root.right) + "," + root.getVal();
     }
 //
 //    Time Complexity: O(N)O(N), where NN is the number of nodes in the tree. We visit each node once.

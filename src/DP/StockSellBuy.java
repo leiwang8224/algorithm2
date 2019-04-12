@@ -1,7 +1,5 @@
 package DP;
 
-import java.util.Vector;
-
 //Say you have an array for which the ith element is the
 // price of a given stock on day i.
 //
@@ -24,11 +22,18 @@ public class StockSellBuy {
             return 0 ;
         }
         int max = 0 ;
+
+        // initialize the soFarMin with first element
         int sofarMin = prices[0] ;
+
+        // iterate through prices
         for (int i = 0 ; i < prices.length ; ++i) {
+            // if the current price is greater than soFarMin
+            // set max = maximum of max and current price - soFarMin (what's left)
             if (prices[i] > sofarMin) {
                 max = Math.max(max, prices[i] - sofarMin) ;
             } else{
+                // else set the current price to be soFarMin
                 sofarMin = prices[i];
             }
         }
