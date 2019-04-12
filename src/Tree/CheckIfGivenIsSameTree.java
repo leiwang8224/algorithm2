@@ -57,6 +57,9 @@ public class CheckIfGivenIsSameTree {
     // of start and end should be 0 and len-1.
     // The function doesn't do any error checking for cases where inorder
     // and preorder do not form tree
+    /**
+     * get node from preorder traversal and get index from inorder traversal
+     */
     private static ListNode buildTree(int in[], int pre[], int start, int end) {
         if (start > end)
             return null;

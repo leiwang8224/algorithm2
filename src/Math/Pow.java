@@ -23,6 +23,10 @@ public class Pow {
         System.out.println(myPow(2,2));
         System.out.println(myPow2(2,2));
         System.out.println(myPow3(2,2));
+        System.out.println(myPow4(2,2));
+
+        System.out.println(myPow5(2,2));
+
 
     }
 
@@ -48,6 +52,33 @@ public class Pow {
             x = 1/x;
         }
         return n%2==0 ? myPow(x*x, n/2) : x*myPow(x*x, n/2);
+    }
+
+    static double myPow4(double x, int n) {
+        if (n == 0) return 1;
+        if (n == 1 || x == -1) return x;
+
+        // if exponent is negative
+        if (n < 0) {
+            x = 1 / x;
+            n = -n;
+        }
+
+        // if exponent is odd
+        if (n % 2 > 0) {
+            return x + myPow4(x * x, n / 2);
+        }
+        
+        // if exponent is even
+        return myPow4(x * x, n / 2);
+    }
+
+    static double myPow5(double x, int n) {
+        if (n == 0) return 1;
+        else if (n % 2 == 0)
+            return myPow5(x, n / 2) * myPow5(x, n / 2);
+        else
+            return x * myPow5(x, n / 2) * myPow5(x, n / 2);
     }
 
 //    double myPow4(double x, int n) {
