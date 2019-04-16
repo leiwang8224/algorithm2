@@ -640,5 +640,36 @@ public class BuildTree {
         getTreeNodesInorder(head.right);
     }
 
+    // print in order traversal of tree
+    public static List<List<Integer>> printInOrderTraversal(ListNode head) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (head == null) return result;
+
+        List<ListNode> currentLevelNodes = new LinkedList<>();
+
+        currentLevelNodes.add(head);
+        while (!currentLevelNodes.isEmpty()) {
+            List<ListNode> nextLevelNodes = new LinkedList<>();
+            List<Integer> temp = new LinkedList<>();
+
+            for (ListNode node : currentLevelNodes) {
+                temp.add(node.getVal());
+
+                if (node.left != null) {
+                    nextLevelNodes.add(node.left);
+                }
+
+                if (node.right != null) {
+                    nextLevelNodes.add(node.right);
+                }
+            }
+
+            result.add(temp);
+            currentLevelNodes = nextLevelNodes;
+        }
+
+        return result;
+    }
+
 
 }

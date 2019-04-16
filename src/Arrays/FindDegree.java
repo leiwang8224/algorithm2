@@ -183,7 +183,7 @@ public class FindDegree {
         return res;
     }
 
-    public static int findShortestSubArray3(int[] nums) {
+    private static int findShortestSubArray3(int[] nums) {
         Map<Integer, Integer> left = new HashMap(),
                 right = new HashMap(), count = new HashMap();
 
