@@ -20,17 +20,18 @@ package Math;
 
 public class Pow {
     public static void main(String[] args) {
-        System.out.println(myPow(2,2));
-        System.out.println(myPow2(2,2));
-        System.out.println(myPow3(2,2));
-        System.out.println(myPow4(2,2));
+        System.out.println(myPow(2,6));
+        System.out.println(myPow2(2,6));
+        System.out.println(myPow3(2,6));
+        System.out.println(myPow4(2,6));
 
-        System.out.println(myPow5(2,2));
+        System.out.println(myPow5(2,6));
 
 
     }
 
     static double myPow(double x, int n) {
+        System.out.println("calling myPow() n = " + n);
         if(n<0) return 1/x * myPow(1/x, -(n+1));
         if(n==0) return 1;
         if(n==2) return x*x;
@@ -51,7 +52,7 @@ public class Pow {
             n = -n;
             x = 1/x;
         }
-        return n%2==0 ? myPow(x*x, n/2) : x*myPow(x*x, n/2);
+        return n%2==0 ? myPow3(x*x, n/2) : x*myPow3(x*x, n/2);
     }
 
     static double myPow4(double x, int n) {
@@ -74,6 +75,7 @@ public class Pow {
     }
 
     static double myPow5(double x, int n) {
+        System.out.println("calling myPow5() n = " + n);
         if (n == 0) return 1;
         else if (n % 2 == 0)
             return myPow5(x, n / 2) * myPow5(x, n / 2);

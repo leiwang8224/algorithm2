@@ -19,6 +19,8 @@ public class DeleteHeadNodeCircularLinkedList {
             curr = curr.next;
         }
 
+        // there are 2 frames of references, the curr is a pointer pointing to the node before head
+        // set the curr.next pointer to head.next
         curr.next = head.next;  // save head.next in curr.next
         head.next = null;       // delete head.next ptr
         head = curr.next;       // connect head to curr.next (skip over head ptr)
