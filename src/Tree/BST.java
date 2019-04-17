@@ -321,4 +321,37 @@ public class BST {
         return nodesByLevel;
     }
 
+//    Given a BST, write a function to return its diameter.
+// The diameter of a Binary Tree is defined as the "Number of nodes on
+// the longest path between two leaf nodes".
+//Go through each node of the tree and find the maximum of the following three values at each step
+//
+//1) Diameter of the left subtree
+//
+//2) Diameter of the right subtree
+//
+//3) Height of the left subtree + height of the right subtree + 1
+    private static int[] diameterAndHeight(ListNode root) {
+        int heightDiameter[] = {0,0};
+
+        if (root != null) {
+            // recurse
+            int[] leftResult = diameterAndHeight(root.left);
+            int[] rightResult = diameterAndHeight(root.right);
+            // take max of left height and right height
+            int height = Math.max(leftResult[1], rightResult[1]) + 1;
+            int leftDiameter = leftResult[0];
+            int rightDiameter = rightResult[0];
+            // total diameter is left plus right diameter
+            int rootDiameter = leftResult[1] + rightResult[1] + 1;
+            int finalDiameter = Math.max(rootDiameter, Math.max(leftDiameter, rightDiameter));
+            // diameter is the first element and height is second
+            heightDiameter[0] = finalDiameter;
+            heightDiameter[1] = height;
+        }
+        return heightDiameter;
+    }
+
+
+
 }
