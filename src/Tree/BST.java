@@ -352,6 +352,24 @@ public class BST {
         return heightDiameter;
     }
 
+    private static int findDiameterTree(ListNode root) {
+        if (root == null) return 0;
+
+        int leftHeight = findHeight(root.left);
+        int rightHeight = findHeight(root.right);
+
+        int leftDiameter = findDiameterTree(root.left);
+        int rightDiameter = findDiameterTree(root.right);
+
+        return Math.max(leftHeight + rightHeight + 1, Math.max(leftDiameter, rightDiameter));
+    }
+
+    private static int findHeight(ListNode head) {
+        if (head == null) return 0;
+
+        return (1 + Math.max(findHeight(head.left), findHeight(head.right)));
+    }
+
 
 
 }
