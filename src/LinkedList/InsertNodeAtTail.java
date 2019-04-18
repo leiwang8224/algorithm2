@@ -8,7 +8,8 @@ public class InsertNodeAtTail {
     private ListNode insertAtTail(ListNode head, int data) {
         ListNode newNode = new ListNode(data);
         ListNode cur = head;
-        newNode.next = newNode; // point to self after creation
+        newNode.next = newNode; // point to self after creation for the case when the head is null
+                                // ex: null  => 1->1*
 
         if (head == null) {
             head = newNode;

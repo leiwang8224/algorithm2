@@ -21,7 +21,7 @@ public class FindKthSmallest {
             leftSize = size(root.left);
         }
 
-        // if leftsize == k-1 then we found our root
+        // if leftsize == k-1 then we found our kth smallest node
         if (leftSize+1 == k) {
             return root;
         } else if (k <= leftSize) {
