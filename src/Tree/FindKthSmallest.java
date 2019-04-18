@@ -14,17 +14,23 @@ public class FindKthSmallest {
 
     private static ListNode findKthSmallest(ListNode root, int k) {
         if (root == null) return null;
+
+        // find size of left subtree
         int leftSize = 0;
         if (root.left != null) {
             leftSize = size(root.left);
         }
+
+        // if leftsize == k-1 then we found our root
         if (leftSize+1 == k) {
             return root;
         } else if (k <= leftSize) {
-            // recurse on left subtree
+            // recurse on left subtree if k is smaller than the leftsize
+            // remember the kth smallest
             return findKthSmallest(root.left, k);
         } else {
-            // find in right subtree
+            // recurse on right subtree if k is bigger than the leftsize
+            // take note to subtract the leftsize as we are trying to find the kth smallest
             return findKthSmallest(root.right, k-leftSize-1);
         }
     }
