@@ -470,7 +470,7 @@ public class PrintPaths {
         System.out.println(sb.toString());
         int rows = board.length;
         int cols = board[0].length;
-        if (row > rows-1 || col > cols-1) return;
+        if (row > rows-1 || col > cols-1) return;  // return when row or col is out of range
 
         sb.append(board[row][col]); // mark to keep track of visited places
         if (row == rows - 1 && col == cols - 1) {

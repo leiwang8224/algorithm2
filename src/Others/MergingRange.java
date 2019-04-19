@@ -53,18 +53,21 @@ public class MergingRange {
             for (int i = 1; i < intervalsList.size(); i++) {
                 Interval cur = intervalsList.get(i);
 
-                // merge if not overlapping
                 // important to check the start of current and end of prev
                 if (cur.start <= prev.end) {
+                    // it's overlapping, so merge
+                    // use prev.start as start since it's sorted based on start
+                    // then end on the max end
                     prev = new Interval(prev.start, Math.max(cur.end, prev.end));
                 } else {
                     // otherwise add and update curInterval
                     // the next element is starting at another point outside of
-                    // the previous interval
+                    // the previous interval - not overlapping
                     out.add(prev);
-                    prev = cur;
+                    prev = cur; // update the prev with cur
                 }
             }
+            // remember to add the last remaining prev (cur)
             out.add(prev);
             return out;
         }

@@ -31,7 +31,7 @@ public class FindKthSmallest {
         } else {
             // recurse on right subtree if k is bigger than the leftsize
             // take note to subtract the leftsize as we are trying to find the kth smallest
-            return findKthSmallest(root.right, k-leftSize-1);
+            return findKthSmallest(root.right, k-leftSize-1);    // subtract 1 for head node
         }
     }
 
