@@ -477,7 +477,8 @@ public class PrintPaths {
             // at the end of the board so add to result arraylist
             out.add(sb.toString());
             // make sure to take out last char and return from method
-            sb.deleteCharAt(sb.length()-1); // unmark last char as it does not fall on the correct paths
+            sb.deleteCharAt(sb.length()-1); // unmark last char and backtrack
+            System.out.println("returning without last char 1st");
             return;
         }
 
@@ -485,7 +486,9 @@ public class PrintPaths {
         search(row+1, col, board, sb, out);
         // then going horizontal to right
         search(row, col+1, board, sb, out);
-        sb.deleteCharAt(sb.length()-1); //delete last char and return from method
+        sb.deleteCharAt(sb.length()-1); //delete last char and backtrack
+        System.out.println("returning without last char 2nd");
+
         return;
     }
 

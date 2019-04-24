@@ -20,13 +20,17 @@ import java.util.Comparator;
 //        Input: [ [3,5], [1,2] ], Output: [ [1,2], [3,5] ]
 public class MergingRange {
     public static void main(String[] args) {
-        Interval interval1 = new Interval(1,3);
+        Interval interval1 = new Interval(0,3);
         Interval interval2 = new Interval(2,4);
         Interval interval3 = new Interval(5,6);
+        Interval interval4 = new Interval(7,10);
+        Interval interval5 = new Interval(1,10);
         ArrayList<Interval> intervals = new ArrayList<>();
         intervals.add(interval1);
         intervals.add(interval2);
         intervals.add(interval3);
+        intervals.add(interval4);
+        intervals.add(interval5);
 
         ArrayList<Interval> result = mergeIntervals(intervals);
 
@@ -55,7 +59,7 @@ public class MergingRange {
 
                 // important to check the start of current and end of prev
                 if (cur.start <= prev.end) {
-                    // it's overlapping, so merge
+                    // it's overlapping, so merge (basically update the prev)
                     // use prev.start as start since it's sorted based on start
                     // then end on the max end
                     prev = new Interval(prev.start, Math.max(cur.end, prev.end));
