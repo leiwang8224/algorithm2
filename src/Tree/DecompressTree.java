@@ -28,15 +28,12 @@ public class DecompressTree {
         }
         ArrayList<Integer> nodeVals = new ArrayList<>();
         String[] splits = str.split(",");
-
-        Integer num = null;
         for (String s : splits) {
-            if (!s.equals("*")) {
-                num = Integer.valueOf(s);
+            if (s.equals("*")) {
+                nodeVals.add(null);
             } else {
-                num = null;
+                nodeVals.add(Integer.valueOf(s));
             }
-            nodeVals.add(num);
         }
 
         Queue<ListNode> q = new LinkedList<>();
@@ -55,19 +52,22 @@ public class DecompressTree {
                 continue;
             } else {
                 // not equal to null so create nodes
+                // first extract the values for the nodes with the correct index
+                // left +1, right +2
                 Integer leftVal = null;
                 Integer rightVal = null;
                 if (index + 1 < size) {
                     leftVal = nodeVals.get(index + 1);
-                }
+                } // else leftVal is null
 
                 if (index + 2 < size) {
                     rightVal = nodeVals.get(index + 2);
-                }
+                } // else rightVal is null
 
                 ListNode leftChild = null;
                 ListNode rightChild = null;
 
+                // create the nodes with left and right values
                 if (leftVal == null) {
                     leftChild = null;
                 } else {
