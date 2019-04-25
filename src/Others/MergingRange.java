@@ -67,7 +67,7 @@ public class MergingRange {
                     // otherwise add and update curInterval
                     // the next element is starting at another point outside of
                     // the previous interval - not overlapping
-                    out.add(prev);
+                    out.add(prev);  // add prev, not add cur
                     prev = cur; // update the prev with cur
                 }
             }
