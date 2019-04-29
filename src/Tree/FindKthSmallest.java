@@ -24,7 +24,7 @@ public class FindKthSmallest {
         // if leftsize == k-1 then we found our kth smallest node
         if (leftSize+1 == k) {
             return root;
-        } else if (k <= leftSize) {
+        } else if (k <= leftSize) { // k is less than or equal to leftSize
             // recurse on left subtree if k is smaller than the leftsize
             // remember the kth smallest
             return findKthSmallest(root.left, k);

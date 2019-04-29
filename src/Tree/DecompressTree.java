@@ -38,7 +38,6 @@ public class DecompressTree {
 
         Queue<ListNode> q = new LinkedList<>();
         int index = 0;
-        int size = nodeVals.size();
 
         ListNode root = new ListNode(nodeVals.get(0));
         q.add(root);
@@ -46,21 +45,17 @@ public class DecompressTree {
         while (index < nodeVals.size()) {
             ListNode node = q.poll();
 
-            if (node == null) {
-                // just increment the index
-                index += 2;
-                continue;
-            } else {
+            if (node != null) {
                 // not equal to null so create nodes
                 // first extract the values for the nodes with the correct index
                 // left +1, right +2
                 Integer leftVal = null;
                 Integer rightVal = null;
-                if (index + 1 < size) {
+                if (index + 1 < nodeVals.size()) {
                     leftVal = nodeVals.get(index + 1);
                 } // else leftVal is null
 
-                if (index + 2 < size) {
+                if (index + 2 < nodeVals.size()) {
                     rightVal = nodeVals.get(index + 2);
                 } // else rightVal is null
 
@@ -85,6 +80,10 @@ public class DecompressTree {
                 q.add(leftChild);
                 q.add(rightChild);
                 index += 2;
+            } else {
+                // just increment the index
+                index += 2;
+//                continue;
             }
         }
         return root;

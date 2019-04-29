@@ -13,11 +13,10 @@ public class IsIntPalindrome {
         int num = x;
 
         // reversing number
-        int reverse = 0, remainder;
+        int reverse = 0;
         while (num > 0) {
-            remainder = num % 10;
             // build up the reverse, starting from the most significant bit?
-            reverse = reverse * 10 + remainder; //important step!!!
+            reverse = reverse * 10 + num % 10; //important step!!!
 
             num = num / 10;
         }
