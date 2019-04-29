@@ -27,6 +27,9 @@ public class GenerateParens {
         System.out.println("generate paren 2");
         for (String str : set2)
             System.out.println(str);
+        System.out.println("generate paren 3");
+        for (String str : generateParens3(3))
+            System.out.println(str);
     }
 
     /**
@@ -104,5 +107,30 @@ public class GenerateParens {
         ArrayList<String> list = new ArrayList<>();
         addParen(list, count, count, str, 0);
         return list;
+    }
+
+    private static ArrayList<String> generateParens3(int count) {
+        ArrayList<String> result = new ArrayList<>();
+        if (count > 0)
+            generateParens3(count,count,"",result);
+        return result;
+    }
+
+    private static void generateParens3(int left, int right, String tmp, ArrayList<String> result) {
+        if (left == 0 && right == 0)
+            result.add(tmp);
+        else {
+            if (left > 0) {
+                System.out.println("entering left-1");
+                generateParens3(left-1, right, tmp+"(", result);
+            }
+
+            if (right > left) {
+                System.out.println("entering right-1");
+                generateParens3(left, right-1, tmp + ")", result);
+            }
+        }
+        System.out.println("entering return");
+        return;
     }
 }

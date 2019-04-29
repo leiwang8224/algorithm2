@@ -5,10 +5,18 @@ package LinkedList;
 //        1->2->3->4->*1 ==> 2->3->4->*2
 public class DeleteHeadNodeCircularLinkedList {
     public static void main(String[] args) {
+        ListNode head = new ListNode(0);
+        head.next = new ListNode(1);
+        head.next.next = new ListNode(2);
+        head.next.next.next = new ListNode(3);
+        head.next.next.next.next = new ListNode(4);
+        head.next.next.next.next.next = new ListNode(5);
+        head.next.next.next.next.next.next = head;
 
+        BuildLinkedList.printCircularList(deleteAtHead(head));
     }
 
-    private ListNode deleteAtHead(ListNode head) {
+    private static ListNode deleteAtHead(ListNode head) {
         if (head == null)
             return null;
 

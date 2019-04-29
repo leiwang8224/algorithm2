@@ -43,6 +43,18 @@ public class BuildLinkedList {
         }
     }
 
+    public static void printCircularList(ListNode head) {
+        ListNode cur = head;
+        while(true) {
+            System.out.println(cur.getVal());
+            if (cur.next == head) {
+                break;
+            } else {
+                cur = cur.next;
+            }
+        }
+    }
+
     /**
      * recursive reverse List, newHead is previous head
      *
