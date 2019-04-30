@@ -34,6 +34,7 @@ public class InsertNodeAtPosDoublyLinkedList {
                 if (count == pos) {
                     break;
                 } else {
+                    // insert in between prevNode and currentNode
                     prevNode = currentNode;
                     currentNode = currentNode.next;
                     count++;
