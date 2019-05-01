@@ -125,6 +125,9 @@ public class GenerateParens {
                 generateParens3(left-1, right, tmp+"(", result);
             }
 
+            // we can insert a right parenthesis as long as it won't
+            // lead to syntax error. we get a syntax error if there
+            // are more right parenthesis than left.
             if (right > left) {
                 System.out.println("entering right-1");
                 generateParens3(left, right-1, tmp + ")", result);

@@ -19,7 +19,7 @@ import java.util.Queue;
 //        the compressed String will contain 2k-1 elements - either numbers or *.
 public class DecompressTree {
     public static void main(String[] args) {
-         BST.printBST(decompressTree("1,2,3,4,*,6,*"));
+         BST.printBST(decompressTree2("1,2,3,4,*,6,*"));
     }
 
     private static ListNode decompressTree(String str) {
@@ -87,5 +87,49 @@ public class DecompressTree {
             }
         }
         return root;
+    }
+
+    private static ListNode decompressTree2(String str) {
+        String[] split = str.split(",");
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+        for (String str1 : split) {
+            list.add(str1.equals("*") ? null : Integer.valueOf(str1));
+        }
+
+        int size = list.size();
+
+        Queue<ListNode> q = new LinkedList<>();
+        q.offer(list.get(0) == null ? null : new ListNode(list.get(0)));
+
+        ListNode head = q.peek();
+
+        int index = 0;
+        while (index < size) {
+            ListNode node = q.poll();
+
+            if (index + 1 < size) {
+                if (list.get(index+1) == null) {
+                    node.left = null;
+                } else {
+                    node.left = new ListNode(list.get(index + 1));
+                }
+            }
+
+            if (index + 2 < size) {
+                if (list.get(index+2) == null) {
+                    node.right = null;
+                } else {
+                    node.right = new ListNode(list.get(index + 2));
+                }
+            }
+
+            q.offer(node.left);
+            q.offer(node.right);
+            index = index+2;
+        }
+
+        return head;
     }
 }
