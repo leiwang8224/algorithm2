@@ -78,7 +78,9 @@ public class BuildLinkedList {
     private static ListNode reverseListIterative(ListNode head) {
         ListNode newHead = null;
         while (head != null) {
+            // save the pointer to next node
             ListNode next = head.next;
+            // set next node to the new node
             head.next = newHead;
             //newHead was pointing to null, now point to head
             //so we can process the next node
@@ -86,6 +88,7 @@ public class BuildLinkedList {
             //now newHead is the prev node (saved)
             head = next;
         }
+        // new node will be the new head in the end
         return newHead;
     }
 

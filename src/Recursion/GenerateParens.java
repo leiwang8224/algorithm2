@@ -30,6 +30,13 @@ public class GenerateParens {
         System.out.println("generate paren 3");
         for (String str : generateParens3(3))
             System.out.println(str);
+        System.out.println("generate paren 4");
+        ArrayList<String> result4 = new ArrayList<>();
+        genParenthesis(3,3,new StringBuilder(),result4);
+        for (String str : result4) {
+            System.out.println(str);
+        }
+
     }
 
     /**
@@ -121,7 +128,7 @@ public class GenerateParens {
             result.add(tmp);
         else {
             if (left > 0) {
-                System.out.println("entering left-1");
+                System.out.println("left" + tmp);
                 generateParens3(left-1, right, tmp+"(", result);
             }
 
@@ -129,11 +136,28 @@ public class GenerateParens {
             // lead to syntax error. we get a syntax error if there
             // are more right parenthesis than left.
             if (right > left) {
-                System.out.println("entering right-1");
+                System.out.println("right" + tmp);
                 generateParens3(left, right-1, tmp + ")", result);
             }
         }
-        System.out.println("entering return");
+        return;
+    }
+
+    //TODO figure out why this does not work the same as using string?
+    private static void genParenthesis (int left, int right, StringBuilder sb, ArrayList<String> result) {
+        if (left == 0 && right == 0) {
+            result.add(sb.toString());
+        } else {
+            if (left > 0) {
+                System.out.println("left " + sb.toString());
+                genParenthesis(left-1, right, sb.append("("),result);
+            }
+
+            if (right > left) {
+                System.out.println("right " + sb.toString());
+                genParenthesis(left, right-1, sb.append(")"),result);
+            }
+        }
         return;
     }
 }

@@ -12,6 +12,8 @@ public class GetMaxRep {
     public static void main(String[] args) {
         int[] array = new int[] {1,2,3,4,3,4,3,2,3,2,1,2,3,4};
         System.out.println(getMaxRepetition(array));
+        int[] array2 = new int[] {1,2,3,4,3,4,3,2,3,2,1,2,3,4};
+        System.out.println(getMaxRepetition2(array2));
 
     }
 
@@ -25,6 +27,8 @@ public class GetMaxRep {
 
         // iterate through input array, for every element a[i],
         // increment a[a[i]%k] by k
+        // the remainder resulting from the value divide the max yields
+        // the index
         for (int index = 0; index < a.length; index++) {
             a[a[index]%max] += max;
         }
@@ -39,5 +43,24 @@ public class GetMaxRep {
         }
 
         return result;
+    }
+
+    private static int getMaxRepetition2(int[] a) {
+        int[] freq = new int[a.length+1];
+        for (int num : a) {
+            freq[num]++;
+        }
+
+        int max = freq[0];
+        int maxIndex = 0;
+        for (int index = 1; index < freq.length; index++) {
+            if (freq[index] > max) {
+                max = freq[index];
+                maxIndex = index;
+            }
+        }
+
+        // max is the index of the most freq number
+        return maxIndex;
     }
 }
