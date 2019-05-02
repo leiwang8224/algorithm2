@@ -1,5 +1,7 @@
 package LinkedList;
 
+import java.util.HashMap;
+
 /**
  * Created by leiwang on 3/15/18.
  */
@@ -398,6 +400,31 @@ public class BuildLinkedList {
         first.next = null;// the rest of the list are dups
 
         return dummy.next;
+    }
+
+//    Given a singly-linked list, remove duplicates in the list and
+//    return head of the list. Target a worst case space complexity of O(n).
+    private static ListNode removeDupNode3(ListNode head) {
+        HashMap<Integer, ListNode> nodeTable = new HashMap<>();
+        if (head == null || head.next == null) return head;
+
+        ListNode curr = head;
+        ListNode prev = curr;
+
+        while (curr != null) {
+            if (nodeTable.containsKey(curr.getVal())) {
+                prev.next = curr.next;
+                curr.next = null;
+                curr = prev.next;
+                if (curr == null) break; // end of list
+                nodeTable.put(curr.getVal(),curr);
+            } else {
+                nodeTable.put(curr.getVal(),curr);
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+        return head;
     }
 
 //    Given a singly linked list, rotate the linked list counter-clockwise
