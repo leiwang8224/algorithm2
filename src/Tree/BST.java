@@ -263,6 +263,41 @@ public class BST {
         return true;
     }
 
+    /** check to see if tree is BST using iterative method **/
+    private static boolean validateBSTItr(ListNode root) {
+        class TreeBoundaryNode {
+            ListNode treeNode;
+            int leftBoundary;
+            int rightBoundary;
+            TreeBoundaryNode(ListNode treeNode, int leftBoundary, int rightBoundary) {
+                this.treeNode = treeNode;
+                this.leftBoundary = leftBoundary;
+                this.rightBoundary = rightBoundary;
+            }
+        }
+
+        if (root == null || (root.left == null && root.right == null)) return true;
+
+        Queue<TreeBoundaryNode> q = new LinkedList<>();
+        q.offer(new TreeBoundaryNode(root, Integer.MIN_VALUE, Integer.MAX_VALUE));
+
+        while (!q.isEmpty()) {
+            TreeBoundaryNode node = q.poll();
+            ListNode t = node.treeNode;
+            if ((t.getVal() <= node.leftBoundary) || t.getVal() >= node.rightBoundary)
+                return false;
+            if (t.left != null) {
+                q.offer(new TreeBoundaryNode(t.left, node.leftBoundary, t.getVal()));
+            }
+
+            if (t.right != null) {
+                q.offer(new TreeBoundaryNode(t.right, t.getVal(), node.rightBoundary));
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Recursive method with binary search
      * time: O(N)
