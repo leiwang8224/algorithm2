@@ -1,5 +1,7 @@
 package LinkedList;
 
+import java.util.HashMap;
+
 /**
  * Created by leiwang on 3/15/18.
  */
@@ -78,7 +80,9 @@ public class BuildLinkedList {
     private static ListNode reverseListIterative(ListNode head) {
         ListNode newHead = null;
         while (head != null) {
+            // save the pointer to next node
             ListNode next = head.next;
+            // set next node to the new node
             head.next = newHead;
             //newHead was pointing to null, now point to head
             //so we can process the next node
@@ -86,6 +90,7 @@ public class BuildLinkedList {
             //now newHead is the prev node (saved)
             head = next;
         }
+        // new node will be the new head in the end
         return newHead;
     }
 
@@ -395,6 +400,31 @@ public class BuildLinkedList {
         first.next = null;// the rest of the list are dups
 
         return dummy.next;
+    }
+
+//    Given a singly-linked list, remove duplicates in the list and
+//    return head of the list. Target a worst case space complexity of O(n).
+    private static ListNode removeDupNode3(ListNode head) {
+        HashMap<Integer, ListNode> nodeTable = new HashMap<>();
+        if (head == null || head.next == null) return head;
+
+        ListNode curr = head;
+        ListNode prev = curr;
+
+        while (curr != null) {
+            if (nodeTable.containsKey(curr.getVal())) {
+                prev.next = curr.next;
+                curr.next = null;
+                curr = prev.next;
+                if (curr == null) break; // end of list
+                nodeTable.put(curr.getVal(),curr);
+            } else {
+                nodeTable.put(curr.getVal(),curr);
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+        return head;
     }
 
 //    Given a singly linked list, rotate the linked list counter-clockwise
