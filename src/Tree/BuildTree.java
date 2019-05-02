@@ -389,6 +389,25 @@ public class BuildTree {
         return toReturn;
     }
 
+    private static int maxSumPath(ListNode root) {
+        int[] max = new int[1];
+        maxSumPath(root, max);
+        return max[0];
+    }
+
+    private static int maxSumPath(ListNode root, int[] max) {
+        if (root == null) return 0;
+        int leftSum = maxSumPath(root.left, max);
+        int rightSum = maxSumPath(root.right, max);
+
+        // get the max path sum up to this node, including this node's value
+        int nodeCumVal = Math.max(root.getVal() + leftSum, root.getVal() + rightSum);
+
+        // check and update the max holder
+        max[0] = Math.max(max[0], leftSum + root.getVal() + rightSum);
+        return nodeCumVal;
+    }
+
     /**
      * Find if binary tree is symmetric (left and right nodes are not null)
      * @param headLeftNode
