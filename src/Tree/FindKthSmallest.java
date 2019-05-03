@@ -37,18 +37,18 @@ public class FindKthSmallest {
 
     private static ListNode findKthLargest(ListNode root, int k) {
         if (root == null) return null;
-        int leftSize = 0;
+        int rightSize = 0;
 
-        if (root.left != null) {
-            leftSize = size(root.left);
+        if (root.right != null) {
+            rightSize = size(root.right);
         }
 
-        if (leftSize == k-1) {
+        if (rightSize == k-1) {
             return root;
-        } else if (leftSize < k) {
-            return findKthLargest(root.left, k);
+        } else if (k <= rightSize) {
+            return findKthLargest(root.right, k);
         } else {
-            return findKthLargest(root.right, k - leftSize -1);
+            return findKthLargest(root.left, k - rightSize -1);
         }
     }
 
