@@ -25,6 +25,7 @@ public class BuildLinkedList {
         printList(sortList(returnNewList()));
         printList(removeDupNode(insertNode(returnNewList(),5,4)));
         printList(removeDupNode2(insertNode(returnNewList(),5,4)));
+        printList(removeDupNode3(insertNode(returnNewList(),5,4)));
         printList(rotateKPlaces(returnNewList(),2));
     }
 
@@ -341,7 +342,7 @@ public class BuildLinkedList {
     }
 
     /**
-     * Remove all nodes with duplicate values
+     * Remove all nodes with duplicate values in given linkedlist
      * @param head
      * @return
      */
@@ -354,6 +355,8 @@ public class BuildLinkedList {
         ListNode pre = dummy;
         ListNode cur = head;
         while (cur != null) {
+            // this while loop skips all of the duplicates and puts
+            // the pointer pointing to the next distinct node
             while (cur.next != null && cur.getVal() == cur.next.getVal()) {
                 cur = cur.next;
             }
@@ -362,7 +365,8 @@ public class BuildLinkedList {
                 // just advance pre if pre is before cur
                 pre = pre.next;
             } else {
-                // deleting of node
+                // deleting of node occurs when the duplicates are
+                // traversed, landing on the distinct node
                 pre.next = cur.next;
             }
             cur = cur.next;
@@ -370,6 +374,7 @@ public class BuildLinkedList {
         return dummy.next;
     }
 
+    // This method creates a new linkedlist without the duplicates
     public static ListNode removeDupNode2(ListNode head) {
         System.out.println("removeDupNode2");
         if (head == null) return head;
@@ -379,6 +384,7 @@ public class BuildLinkedList {
         ListNode prev = dummy;
         ListNode cur = head;
 
+        // create new linkedlist for result
         ListNode first = dummy; // first node of the result (distinct list)
 
         while (cur != null && cur.next != null) {
@@ -405,6 +411,8 @@ public class BuildLinkedList {
 //    Given a singly-linked list, remove duplicates in the list and
 //    return head of the list. Target a worst case space complexity of O(n).
     private static ListNode removeDupNode3(ListNode head) {
+        System.out.println("removeDupNode3");
+
         HashMap<Integer, ListNode> nodeTable = new HashMap<>();
         if (head == null || head.next == null) return head;
 

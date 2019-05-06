@@ -64,7 +64,7 @@ public class BuildTree {
         System.out.println("lowest common ancestor is " + findLowestCommonAncestor(anotherHead,anotherHead.left.left,anotherHead.right.right).getVal());
 
         System.out.println("max path sum " + maxPathSum(generateTree()));
-
+        System.out.println("max path sum2 " + maxSumPath(generateTree()));
         List<List<Integer>> zigZagResult = zigzagTraversal(generateTree());
         System.out.println("zig zag traversal result ");
         for (List<Integer> lst : zigZagResult) {
@@ -397,13 +397,18 @@ public class BuildTree {
 
     private static int maxSumPath(ListNode root, int[] max) {
         if (root == null) return 0;
+
+        // calculate the left node and right node sum using
+        // the return value.
         int leftSum = maxSumPath(root.left, max);
         int rightSum = maxSumPath(root.right, max);
 
         // get the max path sum up to this node, including this node's value
+        // return to the function (leftSum and rightSum)
         int nodeCumVal = Math.max(root.getVal() + leftSum, root.getVal() + rightSum);
 
-        // check and update the max holder
+        // check and update the max holder by using the results
+        // leftSum and rightSum calculated from recursion
         max[0] = Math.max(max[0], leftSum + root.getVal() + rightSum);
         return nodeCumVal;
     }
