@@ -399,7 +399,7 @@ public class BuildTree {
         if (root == null) return 0;
 
         // calculate the left node and right node sum using
-        // the return value.
+        // the return value, including the current root node
         int leftSum = maxSumPath(root.left, max);
         int rightSum = maxSumPath(root.right, max);
 
