@@ -411,17 +411,11 @@ public class BuildTree {
         int leftSum = maxSumPath(root.left, max);
         int rightSum = maxSumPath(root.right, max);
 
-        // get the max path sum up to this node, including this node's value
-        // return to the function (leftSum and rightSum)
-        int nodeCumVal = Math.max(root.getVal() + leftSum, root.getVal() + rightSum);
-        System.out.println("nodeCumVal = " + nodeCumVal);
-
         // check and update the max holder by using the results
         // leftSum and rightSum calculated from recursion
         max[0] = Math.max(max[0], leftSum + root.getVal() + rightSum);
-        System.out.println("output nodeCumVal = " + nodeCumVal);
 
-        return nodeCumVal;
+        return Math.max(root.getVal() + leftSum, root.getVal() + rightSum);
     }
 
     private static int findMaxPath(ListNode node, int[] max) {
