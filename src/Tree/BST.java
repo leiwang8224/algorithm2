@@ -12,6 +12,7 @@ import java.util.Stack;
 public class BST {
     public static void main(String args[]) {
         printBST(generateBST());
+        System.out.println("This is BST = " + validateBSTItr(generateBST()));
 
         insert(generateBST(),5);
 

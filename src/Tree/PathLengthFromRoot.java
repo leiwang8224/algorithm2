@@ -39,6 +39,10 @@ public class PathLengthFromRoot {
             // note that without the greater than 0 condition this recursion
             // would end prematurely
             if (root.getVal() == n1 || outLeft > 0 || outRight > 0) {
+                // reaches root.getVal() == n1 first, then checks for outLeft > 0 || outRight > 0
+                System.out.println((root.getVal() == n1 ? "true" : "false") + " "
+                                   + (outLeft > 0 ? "true":"false") + " "
+                                   + (outRight > 0 ? "true" : "false"));
                 return outLeft + outRight + 1;
             }
             return 0;

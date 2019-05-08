@@ -38,6 +38,7 @@ public class BuildTree {
 
         System.out.println("sum of all paths = " + getSumTreePaths(generateTree(),0));
 
+
         System.out.println("printing boundaries");
         printBoundariesTree(generateTree());
 
@@ -65,6 +66,9 @@ public class BuildTree {
 
         System.out.println("max path sum " + maxPathSum(generateTree()));
         System.out.println("max path sum2 " + maxSumPath(generateTree()));
+        int[] max = new int[1];
+        findMaxPath(generateTree(),max);
+        System.out.println("max path sum3 " + max[0]);
         List<List<Integer>> zigZagResult = zigzagTraversal(generateTree());
         System.out.println("zig zag traversal result ");
         for (List<Integer> lst : zigZagResult) {
@@ -395,8 +399,12 @@ public class BuildTree {
         return max[0];
     }
 
+    // There are 2 states to keep track of:
+    // - nodeCumVal: max of left and right tree
+    // - max[0]: max of the whole tree, left, right and current node
     private static int maxSumPath(ListNode root, int[] max) {
         if (root == null) return 0;
+        System.out.println("max = " + max[0]);
 
         // calculate the left node and right node sum using
         // the return value, including the current root node
@@ -406,11 +414,36 @@ public class BuildTree {
         // get the max path sum up to this node, including this node's value
         // return to the function (leftSum and rightSum)
         int nodeCumVal = Math.max(root.getVal() + leftSum, root.getVal() + rightSum);
+        System.out.println("nodeCumVal = " + nodeCumVal);
 
         // check and update the max holder by using the results
         // leftSum and rightSum calculated from recursion
         max[0] = Math.max(max[0], leftSum + root.getVal() + rightSum);
+        System.out.println("output nodeCumVal = " + nodeCumVal);
+
         return nodeCumVal;
+    }
+
+    private static int findMaxPath(ListNode node, int[] max) {
+        if (node == null) return 0;
+
+        // l and r store max path sum going through left
+        // and right child of root respectively
+        int l = findMaxPath(node.left,max);
+        int r = findMaxPath(node.right,max);
+
+        // Max path for parent call of root. This path must
+        // include at most one child of root
+        int max_single = Math.max(Math.max(l,r) + node.getVal(), node.getVal());
+
+        // Max Top represents the sum when the node under
+        // consideration is the root of the maxsum path and no
+        // ancestors of root are there in max sum path
+        int max_top = Math.max(max_single, l+r+node.getVal());
+
+        // store the max result
+        max[0] = Math.max(max[0], max_top);
+        return max_single;
     }
 
     /**
