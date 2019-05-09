@@ -415,6 +415,8 @@ public class BuildTree {
         // leftSum and rightSum calculated from recursion
         max[0] = Math.max(max[0], leftSum + root.getVal() + rightSum);
 
+        // return the max length under the node of interest
+        // left or right branch?
         return Math.max(root.getVal() + leftSum, root.getVal() + rightSum);
     }
 
