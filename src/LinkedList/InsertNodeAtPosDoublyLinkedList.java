@@ -9,7 +9,7 @@ public class InsertNodeAtPosDoublyLinkedList {
         head.next.next = new DoublyLinkedList(4);
         head.next.next.next = new DoublyLinkedList(5);
         head.next.next.next.next = new DoublyLinkedList(6);
-        printDoublyLL(insertAtPos(head, 5, 2));
+        printDoublyLL(deleteAtPos(insertAtPos(head, 5, 2),2));;
 
 
     }
@@ -65,5 +65,50 @@ public class InsertNodeAtPosDoublyLinkedList {
             }
         }
         return head;
+    }
+
+    private static DoublyLinkedList deleteAtPos(DoublyLinkedList head, int pos) {
+        if (head == null)
+            return null;
+        else if (head.next == null)
+            return (pos == 1) ? null : head;
+        else {
+            int count = 1;
+            DoublyLinkedList curr = head;
+            DoublyLinkedList prev = null;
+            while (curr != null) {
+                if (count == pos)
+                    break;
+                count++;
+                prev = curr;
+                curr = curr.next;
+            }
+
+            //invalid position
+            if (count < pos)
+                return head;
+            //tail position
+            else if (curr.next == null) {
+                prev.next = null;
+                curr.prev = null;
+                return head;
+            }
+            //head position
+            else if (count == 1) {
+                DoublyLinkedList temp = curr;
+                curr.next.prev = null;
+                curr = curr.next;
+                temp.next = null;
+                return curr;
+            }
+            //middle position
+            else {
+                prev.next = curr.next;
+                curr.prev = null;
+                curr.next.prev = prev;
+                curr.next = null;
+                return head;
+            }
+        }
     }
 }
