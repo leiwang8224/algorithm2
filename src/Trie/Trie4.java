@@ -2,11 +2,54 @@ package Trie;
 
 import java.util.HashMap;
 
+//               T
+//             / | \
+//            H  H  H
+//            |  |  |
+//            E  E  E
+//            |  |
+//            I  R
+//            |  |
+//            R  E
 public class Trie4 {
-    class TrieNode {
-        Character c;
-        Boolean isLeaf = false;
-        HashMap<Character, TrieNode> children = new HashMap<>();
+    public static void main(String args[])
+    {
+        // Input keys (use only 'a' through 'z' and lower case)
+        String keys[] = {"the", "a", "there", "answer", "any",
+                         "by", "bye", "their"};
+
+        String output[] = {"Not present in trie", "Present in trie"};
+
+
+        new Trie();
+
+        // Construct trie
+        int i;
+        for (i = 0; i < keys.length ; i++)
+            Trie.insertWord(keys[i]);
+
+        // Search for different keys
+        if(Trie.searchWord("the") == true)
+            System.out.println("the --- " + output[1]);
+        else System.out.println("the --- " + output[0]);
+
+        if(Trie.searchWord("these") == true)
+            System.out.println("these --- " + output[1]);
+        else System.out.println("these --- " + output[0]);
+
+        if(Trie.searchWord("their") == true)
+            System.out.println("their --- " + output[1]);
+        else System.out.println("their --- " + output[0]);
+
+        if(Trie.searchWord("thaw") == true)
+            System.out.println("thaw --- " + output[1]);
+        else System.out.println("thaw --- " + output[0]);
+
+    }
+    static class TrieNode {
+        static Character c;
+        static Boolean isLeaf = false;
+        static HashMap<Character, TrieNode> children = new HashMap<>();
 
         TrieNode() {
 
@@ -17,20 +60,26 @@ public class Trie4 {
         }
     }
 
-    class Trie {
-        private TrieNode root;
+    static class Trie {
+        private static TrieNode root;
 
         Trie() {
             this.root = new TrieNode();
         }
 
-        void insertWord(String word) {
+        static void insertWord(String word) {
             if (word == null || word.length() < 1) return;
+
+            // get reference to root
             TrieNode cur = root;
+            // get children of root
             HashMap<Character,TrieNode> children = cur.children;
 
+            // iterate through the string input
             for (int i = 0; i < word.length(); i++) {
                 char c = word.charAt(i);
+                // check if dictionary has key, if not add,
+                // else set cur pointer to the node that contains key
                 if (children.containsKey(c)) {
                     cur = children.get(c);
                 } else {
@@ -39,15 +88,17 @@ public class Trie4 {
                     cur = node;
                 }
 
-                children = cur.children;
+                // TODO what is this for?
+//                children = cur.children;
 
+                // if at the end of trie, set leaf to true
                 if (i == word.length() - 1) {
                     cur.isLeaf = true;
                 }
             }
         }
 
-        boolean searchWord(String word) {
+        static boolean searchWord(String word) {
             TrieNode cur = root;
             HashMap<Character, TrieNode> children = cur.children;
             for (int i = 0; i < word.length(); i++) {
@@ -62,7 +113,7 @@ public class Trie4 {
             return cur.isLeaf;
         }
 
-        boolean searchPrefix(String word) {
+        static boolean searchPrefix(String word) {
             TrieNode cur = root;
             HashMap<Character, TrieNode> children = cur.children;
             for (int i = 0; i < word.length(); i++) {
