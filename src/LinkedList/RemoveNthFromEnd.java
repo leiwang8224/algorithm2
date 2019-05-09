@@ -4,6 +4,7 @@ public class RemoveNthFromEnd {
     public static void main(String[] args) {
         BuildLinkedList.printList((BuildLinkedList.returnNewList()));
         BuildLinkedList.printList(removeNthFromEnd(BuildLinkedList.returnNewList(),3));
+        BuildLinkedList.printList(removeNthFromEnd2(BuildLinkedList.returnNewList(),3));
     }
 
     private static ListNode removeNthFromEnd(ListNode head, int n) {
@@ -19,7 +20,7 @@ public class RemoveNthFromEnd {
         }
 
         //get nth node position in the list
-        nth = length-n;
+        nth = length-n+1;
 
         //remove nth node
         cur = head; // reset head to beginning
@@ -47,5 +48,35 @@ public class RemoveNthFromEnd {
             cur = cur.next;
         }
         return newHead;
+    }
+
+    private static ListNode removeNthFromEnd2(ListNode head, int n) {
+        ListNode temp = new ListNode(0);
+        temp.next = head;
+        ListNode cur = head;
+        ListNode prev = temp;
+        ListNode refCur = head;
+
+        int count = 0;
+        if (head != null) {
+            while (count < n) {
+                if (refCur == null) {
+                    // n is greater than no of nodes
+                    return null;
+                }
+                refCur = refCur.next;
+                count++;
+            }
+
+            while (refCur != null) {
+                prev = prev.next;
+                cur = cur.next;
+                refCur = refCur.next;
+            }
+            //cur is at n
+            prev.next = prev.next.next;
+            cur.next = null;
+        }
+        return head;
     }
 }
