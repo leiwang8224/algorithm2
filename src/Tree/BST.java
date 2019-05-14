@@ -153,6 +153,13 @@ public class BST {
         return minv;
     }
 
+    //find the min bst node
+    private static ListNode findMinNode(ListNode head) {
+        if (head == null) return null;
+        if (head.left == null) return head;
+        return findMinNode(head.left);
+    }
+
     /**
      * BSTIterator initializes with the root node of a BST
      * Calling next() will return the next smallest number in the
@@ -355,6 +362,47 @@ public class BST {
             }
         }
         return nodesByLevel;
+    }
+
+    // print a binary tree level by level and return to list
+    private static ArrayList<ArrayList<Integer>> printLevelByLevel(ListNode root) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        ArrayList<Integer> integerInThisLevel = new ArrayList<>();
+
+        if (root == null) return result;
+
+        Queue<ListNode> currLvl = new LinkedList<>();
+        Queue<ListNode> nextLvl = new LinkedList<>();
+        currLvl.add(root);
+
+        while (!currLvl.isEmpty()) {
+            ListNode curr = currLvl.poll();
+
+            // populate current level into result
+            // add next level nodes
+            if(curr != null) {
+                integerInThisLevel.add(curr.getVal());
+                nextLvl.add(curr.left);
+                nextLvl.add(curr.right);
+            }
+
+            // if the current level is empty
+            if (currLvl.isEmpty()) {
+                // if list is not empty add list to result
+                if (!integerInThisLevel.isEmpty()) {
+                    result.add(integerInThisLevel);
+                }
+                // clear the list
+                integerInThisLevel = new ArrayList<>();
+
+                // next level is not empty so add next level to current level
+                while(!nextLvl.isEmpty()) {
+                    currLvl.add(nextLvl.poll());
+                }
+            }
+        }
+        return result;
+
     }
 
 //    Given a BST, write a function to return its diameter.
