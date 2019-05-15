@@ -1,5 +1,7 @@
 package DP;
 
+import java.util.Arrays;
+
 /**
  * Created by leiwang on 3/25/18.
  */
@@ -7,11 +9,12 @@ public class EditDistance {
     public static void main(String args[]) {
 //        String str1 = "CAR";
 //        String str2 = "CAN";
-        String str1 = "MART";
+        String str1 = "KART";
         String str2 = "KARMA";
         System.out.println("edit Distance = " + editDistance(str1, str2, str1.length(), str2.length())); // returns 3
         System.out.println("edit Distance = " + editDistanceRecurse(str1, str2, 0, 0));  // returns 2
         System.out.println("edit Distance = " + editDistanceRecurse2(str1, str2, str1.length(), str2.length())); // returns 3
+        System.out.println("edit Distance = " + editDistance2(str1, str2));
     }
 
     //TODO this one has problem
@@ -56,17 +59,19 @@ public class EditDistance {
 
     private static int editDistance(String str1, String str2, int str1Length, int str2Length) {
         int dp[][] = new int[str1Length+1][str2Length+1];
-        for (int j = 0; j <= str1Length; j ++) // top row
-            dp[j][0] = j;
-        for (int i = 0; i <= str2Length; i ++) // left col
-            dp[0][i] = i;
+        for (int row = 0; row <= str1Length; row ++) // top row
+            dp[row][0] = row;
+        for (int col = 0; col <= str2Length; col ++) // left col
+            dp[0][col] = col;
 
-        for (int i = 1; i <= str1Length; i ++) {
-            for (int j = 1; j <= str2Length; j ++) {
-                if (str1.charAt(i-1) == str2.charAt(j-1))
-                    dp[i][j] = dp[i-1][j-1];
+        for (int row = 1; row <= str1Length; row ++) {
+            for (int col = 1; col <= str2Length; col ++) {
+                if (str1.charAt(row-1) == str2.charAt(col-1))
+                    dp[row][col] = dp[row-1][col-1];
                 else
-                    dp[i][j] = Math.min(dp[i][j-1],Math.min(dp[i-1][j],dp[i-1][j-1])) + 1;
+                    // else if not equal set to min of three cells + 1
+                    dp[row][col] = Math.min(dp[row][col-1],
+                                            Math.min(dp[row-1][col],dp[row-1][col-1])) + 1;
             }
         }
         System.out.println("dp table");
@@ -74,7 +79,45 @@ public class EditDistance {
             System.out.println(java.util.Arrays.toString(num));
 
         return dp[str1Length][str2Length];
+    }
 
+    private static int editDistance2(String a, String b) {
+        int lengthA = a.length();
+        int lengthB = b.length();
 
+        int[][] memo = new int[lengthA+1][lengthB+1];
+        //pre-fill first row and column ex, 0,1,2,3,4,5...
+        for (int row = 1; row <= lengthA; row++) {
+            memo[row][0] = row;
+        }
+        for (int col = 1; col <= lengthB; col++) {
+            memo[0][col] = col;
+        }
+
+        //traverse and fill cells
+        for (int row = 1; row <= lengthA; row++) {
+            char chA = a.charAt(row-1);
+            for (int col = 1; col <= lengthB; col++) {
+                char chB = b.charAt(col-1);
+                if (chA == chB) {
+                    memo[row][col] = memo[row-1][col-1];
+                } else {
+                    // cell left corner
+                    int replaceDist = 1 + memo[row-1][col-1];
+                    // cell left of the current cell
+                    int insertDist = 1 + memo[row][col-1];
+                    // cell above the current cell
+                    int deleteDist = 1 + memo[row-1][col];
+                    // find min of three cells
+                    int minDist = Math.min(replaceDist,Math.min(insertDist,deleteDist));
+                    memo[row][col] = minDist;
+                }
+            }
+        }
+
+        for (int[] row : memo) {
+            System.out.println(Arrays.toString(row));
+        }
+        return memo[lengthA][lengthB];
     }
 }

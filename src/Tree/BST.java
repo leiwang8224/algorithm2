@@ -386,7 +386,7 @@ public class BST {
                 nextLvl.add(curr.right);
             }
 
-            // if the current level is empty (all polled)
+            // if the current level is empty (all polled from the beginning of while loop)
             // indication that this level is finished, store in integer list
             if (currLvl.isEmpty()) {
                 // if list is not empty add list to result
