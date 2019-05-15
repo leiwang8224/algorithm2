@@ -79,4 +79,21 @@ public class RemoveNthFromEnd {
         }
         return head;
     }
+
+    private static ListNode removeNthFromEnd3(ListNode head, int n) {
+        if (head == null || n < 1) return head;
+
+        ListNode prev = head;
+        ListNode cur = head;
+
+        while (cur.next != null) {
+            if (--n < 0)
+                prev = prev.next;
+            cur = cur.next;
+        }
+
+        if (n<0)
+            prev.next = prev.next.next;
+        return (n == 1 && cur.next == null) ? head.next : head;
+    }
 }

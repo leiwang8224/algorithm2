@@ -386,7 +386,8 @@ public class BST {
                 nextLvl.add(curr.right);
             }
 
-            // if the current level is empty
+            // if the current level is empty (all polled)
+            // indication that this level is finished, store in integer list
             if (currLvl.isEmpty()) {
                 // if list is not empty add list to result
                 if (!integerInThisLevel.isEmpty()) {
@@ -396,6 +397,7 @@ public class BST {
                 integerInThisLevel = new ArrayList<>();
 
                 // next level is not empty so add next level to current level
+                // transfer from next level to current level queue
                 while(!nextLvl.isEmpty()) {
                     currLvl.add(nextLvl.poll());
                 }
