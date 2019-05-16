@@ -52,17 +52,17 @@ public class BoggleSearch {
         }
 
         char ch = board[row][col];
-        String s = predecessor + ch;
+        String stringFromBoard = predecessor + ch;
         boolean out = false;
-        if (s.equals(word)) return true;
+        if (stringFromBoard.equals(word)) return true;
         else {
             // not equals to word so set position as searched
             board[row][col] = '@';
             // search top, bottom, left and right (backtracking)
-            out = search(row-1, col, board, word, s)
-                    || search (row+1, col, board, word, s)
-                    || search (row,col-1, board, word, s)
-                    || search (row, col+1, board, word, s);
+            out = search(row-1, col, board, word, stringFromBoard)
+                    || search (row+1, col, board, word, stringFromBoard)
+                    || search (row,col-1, board, word, stringFromBoard)
+                    || search (row, col+1, board, word, stringFromBoard);
             // set char to the board position
             board[row][col] = ch;
         }
