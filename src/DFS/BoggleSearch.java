@@ -42,6 +42,8 @@ public class BoggleSearch {
         }
         System.out.println("end");
 
+        // if we are outside of the board, predecessor went out of the word,
+        // or board position is @, return false
         if (row > rows-1 ||
             row < 0 ||
             col > cols-1 ||
@@ -51,9 +53,12 @@ public class BoggleSearch {
             return false;
         }
 
+        // append current ch to the predecessor
         char ch = board[row][col];
         String stringFromBoard = predecessor + ch;
         boolean out = false;
+
+        // if the predecessor is equal to word, return true
         if (stringFromBoard.equals(word)) return true;
         else {
             // not equals to word so set position as searched
