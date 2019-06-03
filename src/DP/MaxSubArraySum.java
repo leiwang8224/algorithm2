@@ -42,21 +42,21 @@ public class MaxSubArraySum {
 
         // pre fill first column
         for (int i = 1; i < row; i++) {
-            // previous memo plus current grid element
+            // previous memo plus current grid element (row above)
             memo[i][0] = memo[i-1][0] + grid[i][0];
         }
 
-        // pre fill first column
+        // pre fill first row
         for (int j = 1; j < col; j++) {
-            // previous memo plus current grid element
+            // previous memo plus current grid element (column to left)
             memo[0][j] = memo[0][j-1] + grid[0][j];
         }
 
-        // fill remaining cells
+        // fill remaining cells using grid and memo
         for (int i = 1; i < row; i++) {
             for (int j = 1; j < col; j++) {
                 // take max of the left and upper element and add to original array
-                // store to current grid 
+                // store to current grid
                 memo[i][j] = grid[i][j] + Math.max(memo[i-1][j], memo[i][j-1]);
             }
         }
