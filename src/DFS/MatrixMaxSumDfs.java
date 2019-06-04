@@ -40,7 +40,8 @@ public class MatrixMaxSumDfs {
                 TravelNode t = stack.removeFirst();
                 //update maxSum if the last node is reached
                 if (t.row == rows-1 && t.col == cols - 1) {
-                    if (t.nodeSum > maxSum) maxSum = t.nodeSum;
+                    if (t.nodeSum > maxSum)
+                        maxSum = t.nodeSum;
                 } else {
                     // go right
                     if (t.col < cols-1) {

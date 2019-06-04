@@ -10,6 +10,7 @@ public class EditDistance {
         
         System.out.println("edit min distance = " + editDistance(str1, str2, 0, 0));//        editDistance(str1, str2, 0, 0);
         System.out.println("edit min distance2 = " + editDistance2(str1, str2, str1.length(), str2.length()));
+        System.out.println("edit min distance3 = " + editDistance3(str1, str2));
     }
 
     /**
@@ -59,5 +60,32 @@ public class EditDistance {
         return 1 + Math.min(editDistance2(str1, str2, charPosStr1 - 1, charPosStr2), // insert
                 Math.min(editDistance2(str1, str2, charPosStr1 - 1, charPosStr2 - 1), // remove
                         editDistance2(str1, str2, charPosStr1, charPosStr2 - 1))); // delete
+    }
+
+    private static int editDistance3(String str1, String str2) {
+        int lenA = str1.length(), lenB = str2.length();
+        int[][] memo = new int[lenA + 1][lenB + 1];
+
+        // prefill first row and column
+        for (int row = 1; row <= lenA; row++) memo[row][0] = row;
+        for (int col = 1; col <= lenB; col++) memo[0][col] = col;
+
+        // traverse and fill cells
+        for (int row = 1; row <= lenA; row++) {
+            char cStr1 = str1.charAt(row - 1);
+            for (int col = 1; col <= lenB; col++) {
+                char cStr2 = str2.charAt(col-1);
+                if (cStr1 == cStr2) {
+                    memo[row][col] = memo[row-1][col-1];
+                } else {
+                    int replaceDist = 1 + memo[row-1][col-1];
+                    int insertDist = 1 + memo[row][col-1];
+                    int deleteDist = 1 + memo[row-1][col];
+                    int minDist = Math.min(replaceDist, Math.min(insertDist, deleteDist));
+                    memo[row][col] = minDist;
+                }
+            }
+        }
+        return memo[lenA][lenB];
     }
 }
