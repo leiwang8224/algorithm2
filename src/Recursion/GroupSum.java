@@ -20,8 +20,19 @@ public class GroupSum {
     }
 
     // use target to keep track of what is left
+    // the recursive algorithm essentially would try two cases:
+    // 1. include the first number in the sum and try to see if target is achieved
+    // 2. exclude the first number in the sum and try to see if target is achieved
     private static boolean groupSum(int startIndex, int[] arr, int target) {
-        System.out.println("target = " + target + " index = " + startIndex);
+        String str = " not valid index";
+        if (startIndex >= 0 && startIndex < arr.length) {
+            str = String.valueOf(arr[startIndex]);
+        }
+        System.out.println("target = " +
+                           target +
+                           " index = " +
+                           startIndex +
+                           " num = " + str);
         // base case: there is no number left
         if (startIndex >= arr.length)
             return target == 0;

@@ -30,38 +30,45 @@ public class MaxSubArraySum {
         return maxSum;
     }
 
+    /**
+     * Since you can only go down and right, leverage this information to
+     * populate the first column and first row (accumulate):
+     * ex: cell(0,2) = cell(0,1) + cell(0,0)
+      * @param grid
+     * @return
+     */
     private static int matrixMaxSumDp2D(int[][] grid) {
         if (grid == null || grid.length == 0) return 0;
-        int row = grid.length, col = grid[0].length;
+        int numberRows = grid.length, numberCols = grid[0].length;
 
         // memo array size is the same as the original array
-        int[][] memo = new int[row][col];
+        int[][] memo = new int[numberRows][numberCols];
 
         // set first element the same as original array
         memo[0][0] = grid[0][0];
 
         // pre fill first column
-        for (int i = 1; i < row; i++) {
+        for (int row = 1; row < numberRows; row++) {
             // previous memo plus current grid element (row above)
-            memo[i][0] = memo[i-1][0] + grid[i][0];
+            memo[row][0] = memo[row-1][0] + grid[row][0];
         }
 
         // pre fill first row
-        for (int j = 1; j < col; j++) {
+        for (int col = 1; col < numberCols; col++) {
             // previous memo plus current grid element (column to left)
-            memo[0][j] = memo[0][j-1] + grid[0][j];
+            memo[0][col] = memo[0][col-1] + grid[0][col];
         }
 
         // fill remaining cells using grid and memo
-        for (int i = 1; i < row; i++) {
-            for (int j = 1; j < col; j++) {
+        for (int row = 1; row < numberRows; row++) {
+            for (int col = 1; col < numberCols; col++) {
                 // take max of the left and upper element and add to original array
                 // store to current grid
-                memo[i][j] = grid[i][j] + Math.max(memo[i-1][j], memo[i][j-1]);
+                memo[row][col] = grid[row][col] + Math.max(memo[row-1][col], memo[row][col-1]);
             }
         }
 
-        return memo[row-1][col-1];
+        return memo[numberRows-1][numberCols-1];
     }
 
     /**
