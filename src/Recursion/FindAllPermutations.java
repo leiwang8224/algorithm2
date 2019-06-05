@@ -1,7 +1,7 @@
 package Recursion;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 /**
  * Created by leiwang on 5/7/18.
@@ -16,9 +16,9 @@ import java.util.HashMap;
 public class FindAllPermutations {
     public static void main(String[] args) {
         int num = 2;
-        System.out.println("run 1");
         permute(0, num, new boolean[num], new int[num]);
-        System.out.println("run 2");
+
+        System.out.println(getLetterPermutations("ABC"));
 
     }
 
@@ -70,4 +70,42 @@ public class FindAllPermutations {
         Arrays.sort(nums, i + 1, n);
         return true;
     }
+
+    private static ArrayList<String> getLetterPermutations(String str) {
+        ArrayList<String> permutations = new ArrayList<>();
+        if (str == null) return null; //error case
+        else if (str.length() == 0) {
+            //base case, add empty string to the arraylist and return
+            permutations.add("");
+            return permutations;
+        }
+
+        char firstChar = str.charAt(0);  // get the first char
+        String remainderOfString = str.substring(1); // remove the first char
+
+        // recurse on the rest of the string (without the first char)
+        ArrayList<String> words = getLetterPermutations(remainderOfString);
+
+        System.out.println(words);
+        for(String word : words) {
+            for (int index = 0; index <= word.length(); index++) {
+                // essentially put the first char in each position in the string
+                // starting from first char
+                permutations.add(insertCharAt(word, firstChar, index));
+            }
+        }
+        return permutations;
+    }
+
+    private static String insertCharAt(String word, char charToInsert, int index) {
+        // get first char
+        String start = word.substring(0,index);
+        // get rest of string
+        String end = word.substring(index);
+
+        // insert the char in between the first char and rest string
+        return start + charToInsert + end;
+    }
+
+
 }
