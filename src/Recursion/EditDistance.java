@@ -5,8 +5,8 @@ package Recursion;
  */
 public class EditDistance {
     public static void main(String[] args) {
-        String str1 = "MART";
-        String str2 = "KARMA";
+        String str1 = "ABBA";
+        String str2 = "KABBA";
         
         System.out.println("edit min distance = " + editDistance(str1, str2, 0, 0));//        editDistance(str1, str2, 0, 0);
         System.out.println("edit min distance2 = " + editDistance2(str1, str2, str1.length(), str2.length()));
@@ -72,15 +72,17 @@ public class EditDistance {
 
         // traverse and fill cells
         for (int row = 1; row <= lenA; row++) {
-            char cStr1 = str1.charAt(row - 1);
+            char cStr1 = str1.charAt(row-1);
             for (int col = 1; col <= lenB; col++) {
                 char cStr2 = str2.charAt(col-1);
+                // if the characters are the same then use the previous value
                 if (cStr1 == cStr2) {
                     memo[row][col] = memo[row-1][col-1];
-                } else {
-                    int replaceDist = 1 + memo[row-1][col-1];
-                    int insertDist = 1 + memo[row][col-1];
-                    int deleteDist = 1 + memo[row-1][col];
+                } else { // else set the replace, insert and delete
+                    int replaceDist = 1 + memo[row-1][col-1];      // replace = 1 + previous
+                    int insertDist = 1 + memo[row][col-1];         // insert = 1 + previous col
+                    int deleteDist = 1 + memo[row-1][col];         // delete = 1 + previous row
+                    // find min by evaluate min of replace, insert and delete
                     int minDist = Math.min(replaceDist, Math.min(insertDist, deleteDist));
                     memo[row][col] = minDist;
                 }

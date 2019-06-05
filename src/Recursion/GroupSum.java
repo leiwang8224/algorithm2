@@ -2,7 +2,8 @@ package Recursion;
 
 public class GroupSum {
     public static void main(String[] args) {
-
+        int[] nums = new int[] {1,2,3,6,5};
+        System.out.println(groupSum(nums,10));
     }
 
 //    Given an array of integers and a target number,
@@ -20,14 +21,17 @@ public class GroupSum {
 
     // use target to keep track of what is left
     private static boolean groupSum(int startIndex, int[] arr, int target) {
+        System.out.println("target = " + target + " index = " + startIndex);
         // base case: there is no number left
         if (startIndex >= arr.length)
             return target == 0;
         else {
             // recursive case 1: include the 1st number, check the remain
+            System.out.println("entering recursive case 1");
             if (groupSum(startIndex + 1, arr, target - arr[startIndex]))
                 return true;
             // recursive case 2: does not include the first number, check the remain
+            System.out.println("entering recursive case 2");
             if (groupSum(startIndex + 1, arr, target))
                 return true;
         }
