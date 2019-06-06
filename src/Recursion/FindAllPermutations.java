@@ -73,6 +73,7 @@ public class FindAllPermutations {
 
     private static ArrayList<String> getLetterPermutations(String str) {
         ArrayList<String> permutations = new ArrayList<>();
+        System.out.println("begin "+ permutations + " str = " + str);
         if (str == null) return null; //error case
         else if (str.length() == 0) {
             //base case, add empty string to the arraylist and return
@@ -94,6 +95,7 @@ public class FindAllPermutations {
                 permutations.add(insertCharAt(word, firstChar, index));
             }
         }
+        System.out.println("end " + permutations);
         return permutations;
     }
 

@@ -1,5 +1,8 @@
 package DP;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 /**
  * Created by leiwang on 3/25/18.
  */
@@ -11,6 +14,9 @@ public class MaxSubArraySum {
         System.out.println("brute force method = " + maxSubArraySumForce(array, array.length));
         System.out.println("kadane's method = " + maxSubArraySumKadaneAlgorithm(array,array.length));
         System.out.println("2D array max sum = " + matrixMaxSumDp2D(array2D));
+        System.out.println("2D array max sum = " + matrixMaxSumDfsIterative(array2D));
+        System.out.println("2D array max sum = " + matrixMaxSumDfsRecursive(array2D));
+
     }
 
     //Recursive method = M(n) = max(M(n-1) + A[n], A[n])
@@ -24,6 +30,89 @@ public class MaxSubArraySum {
                 tempSum += array[j];
                 if (tempSum > maxSum) {
                     maxSum = tempSum;
+                }
+            }
+        }
+        return maxSum;
+    }
+
+    private static int matrixMaxSumDfsRecursive(int[][] grid) {
+        return dfs(0,0,grid);
+    }
+
+    private static int dfs(int row, int col, int[][] grid) {
+        // return last element in the matrix
+        if (row == grid.length-1 && col == grid[0].length-1) {
+            return grid[row][col];
+        }
+
+        // if not at the end, recurse below and recurse to the right grid
+        // take max of two and return
+        if (row < grid.length-1 && col < grid[0].length-1) {
+            int r1 = grid[row][col] + dfs(row+1, col, grid);
+            int r2 = grid[row][col] + dfs(row, col+1, grid);
+            return Math.max(r1,r2);
+        }
+
+        // if not at the end of the row, add current element and recurse on next row
+        if (row < grid.length-1) {
+            return grid[row][col] + dfs(row+1, col, grid);
+        }
+
+        // if not at the end of the column, add current element and recurse on next col
+        if (col < grid[0].length-1) {
+            return grid[row][col] + dfs(row, col+1, grid);
+        }
+
+        return 0;
+    }
+
+    /**
+     * This method is a duplicate, shown in another class.
+     * This is just for reference for comparison with the DP method
+     * @param grid
+     * @return
+     */
+    private static int matrixMaxSumDfsIterative(int[][] grid) {
+        class TravelNode {
+            int row;
+            int col;
+            int nodeSum;
+
+            TravelNode(int r, int c, int sum, int[][] grid) {
+                row = r;
+                col = c;
+                //note that the sum up to the current grid is stored here
+                sum += grid[r][c];
+                nodeSum = sum;
+            }
+        }
+
+        int maxSum = Integer.MIN_VALUE;
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        // base case just to return the first element
+        if (rows < 2 && cols < 2) return grid[0][0];
+        else {
+            Deque<TravelNode> stack = new LinkedList<>();
+            stack.addFirst(new TravelNode(0,0,0,grid));
+            while (!stack.isEmpty()) {
+                TravelNode t = stack.removeFirst();
+                System.out.println("row = " + t.row + " col = " + t.col + " sum value = " + t.nodeSum);
+                //update maxSum if the last node is reached
+                if (t.row == rows-1 && t.col == cols - 1) {
+                    if (t.nodeSum > maxSum)
+                        maxSum = t.nodeSum;
+                } else { // go right then go down and add info to stack
+                    // go right
+                    if (t.col < cols-1) {
+                        stack.addFirst(new TravelNode(t.row, t.col+1, t.nodeSum, grid));
+                    }
+                    // go down
+                    if (t.row < rows-1) {
+                        stack.addFirst(new TravelNode(t.row + 1, t.col, t.nodeSum, grid));
+                    }
                 }
             }
         }
