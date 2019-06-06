@@ -46,7 +46,7 @@ public class MaxSubArraySum {
             return grid[row][col];
         }
 
-        // if not at the end, recurse below and recurse to the right grid
+        // if not at the end of the grid, recurse below and recurse to the right grid
         // take max of two and return
         if (row < grid.length-1 && col < grid[0].length-1) {
             int r1 = grid[row][col] + dfs(row+1, col, grid);
@@ -54,12 +54,14 @@ public class MaxSubArraySum {
             return Math.max(r1,r2);
         }
 
-        // if not at the end of the row, add current element and recurse on next row
+        // if not at the end of the row but at the end of the column,
+        // add current element and recurse on next row
         if (row < grid.length-1) {
             return grid[row][col] + dfs(row+1, col, grid);
         }
 
-        // if not at the end of the column, add current element and recurse on next col
+        // if not at the end of the column but at the end of the row,
+        // add current element and recurse on next col
         if (col < grid[0].length-1) {
             return grid[row][col] + dfs(row, col+1, grid);
         }
