@@ -1,7 +1,6 @@
 package DP;
 
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.Stack;
 
 /**
  * Created by leiwang on 3/25/18.
@@ -56,6 +55,7 @@ public class MaxSubArraySum {
         }
 
         // if not at the end of the row but at the end of the column,
+        // since we are at the border, only need to recurse to one direction (down)
         // add current element and recurse on next row
         if (row < grid.length-1) {
             System.out.println("row = " + row + " col = " + col + " not at end of row");
@@ -63,6 +63,7 @@ public class MaxSubArraySum {
         }
 
         // if not at the end of the column but at the end of the row,
+        // since we are at the border, only need to recurse to one direction (right)
         // add current element and recurse on next col
         if (col < grid[0].length-1) {
             System.out.println("row = " + row + " col = " + col + " not at end of col");
@@ -100,10 +101,11 @@ public class MaxSubArraySum {
         // base case just to return the first element
         if (rows < 2 && cols < 2) return grid[0][0];
         else {
-            Deque<TravelNode> stack = new LinkedList<>();
-            stack.addFirst(new TravelNode(0,0,0,grid));
+            Stack<TravelNode> stack = new Stack<>();
+
+            stack.push(new TravelNode(0,0,0,grid));
             while (!stack.isEmpty()) {
-                TravelNode t = stack.removeFirst();
+                TravelNode t = stack.pop();
                 System.out.println("row = " + t.row + " col = " + t.col + " sum value = " + t.nodeSum);
                 //update maxSum if the last node is reached
                 if (t.row == rows-1 && t.col == cols - 1) {
@@ -112,11 +114,11 @@ public class MaxSubArraySum {
                 } else { // go right then go down and add info to stack
                     // go right
                     if (t.col < cols-1) {
-                        stack.addFirst(new TravelNode(t.row, t.col+1, t.nodeSum, grid));
+                        stack.push(new TravelNode(t.row, t.col+1, t.nodeSum, grid));
                     }
                     // go down
                     if (t.row < rows-1) {
-                        stack.addFirst(new TravelNode(t.row + 1, t.col, t.nodeSum, grid));
+                        stack.push(new TravelNode(t.row + 1, t.col, t.nodeSum, grid));
                     }
                 }
             }

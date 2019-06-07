@@ -11,10 +11,10 @@ public class EditDistance {
 //        String str2 = "CAN";
         String str1 = "KART";
         String str2 = "KARMA";
-        System.out.println("edit Distance = " + editDistance(str1, str2, str1.length(), str2.length())); // returns 3
-        System.out.println("edit Distance = " + editDistanceRecurse(str1, str2, 0, 0));  // returns 2
-        System.out.println("edit Distance = " + editDistanceRecurse2(str1, str2, str1.length(), str2.length())); // returns 3
-        System.out.println("edit Distance = " + editDistance2(str1, str2));
+        System.out.println("edit Distance1 = " + editDistance(str1, str2, str1.length(), str2.length())); // returns 3
+        System.out.println("edit Distance2 = " + editDistanceRecurse(str1, str2, 0, 0));  // returns 2
+        System.out.println("edit Distance3 = " + editDistanceRecurse2(str1, str2, str1.length(), str2.length())); // returns 3
+        System.out.println("edit Distance4 = " + editDistance2(str1, str2));
     }
 
     //TODO this one has problem
@@ -87,6 +87,7 @@ public class EditDistance {
 
         int[][] memo = new int[lengthA+1][lengthB+1];
         //pre-fill first row and column ex, 0,1,2,3,4,5...
+        //single char insertion and deletion use cases
         for (int row = 1; row <= lengthA; row++) {
             memo[row][0] = row;
         }
@@ -95,22 +96,24 @@ public class EditDistance {
         }
 
         //traverse and fill cells
-        for (int row = 1; row <= lengthA; row++) {
-            char chA = a.charAt(row-1);
-            for (int col = 1; col <= lengthB; col++) {
-                char chB = b.charAt(col-1);
+        for (int strAIndex = 1; strAIndex <= lengthA; strAIndex++) {
+            char chA = a.charAt(strAIndex-1);
+            for (int strBIndex = 1; strBIndex <= lengthB; strBIndex++) {
+                char chB = b.charAt(strBIndex-1);
                 if (chA == chB) {
-                    memo[row][col] = memo[row-1][col-1];
+                    // no tranformation required, just carry over the orignal matrix value
+                    // from row-1, col-1
+                    memo[strAIndex][strBIndex] = memo[strAIndex-1][strBIndex-1];
                 } else {
-                    // cell left corner
-                    int replaceDist = 1 + memo[row-1][col-1];
-                    // cell left of the current cell
-                    int insertDist = 1 + memo[row][col-1];
-                    // cell above the current cell
-                    int deleteDist = 1 + memo[row-1][col];
+                    // cell left corner for replacement
+                    int replaceDist = 1 + memo[strAIndex-1][strBIndex-1];
+                    // cell left of the current cell for insertion
+                    int insertDist = 1 + memo[strAIndex][strBIndex-1];
+                    // cell above the current cell for deletion
+                    int deleteDist = 1 + memo[strAIndex-1][strBIndex];
                     // find min of three cells
                     int minDist = Math.min(replaceDist,Math.min(insertDist,deleteDist));
-                    memo[row][col] = minDist;
+                    memo[strAIndex][strBIndex] = minDist;
                 }
             }
         }

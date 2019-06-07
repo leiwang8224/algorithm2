@@ -34,9 +34,10 @@ public class GroupSum {
                            startIndex +
                            " num = " + str);
         // base case: there is no number left
-        if (startIndex >= arr.length)
-            return target == 0;
-        else {
+        if (startIndex >= arr.length) {
+            if (target == 0)
+                return true;
+        } else {
             // recursive case 1: include the 1st number, check the remain
             System.out.println("entering recursive case 1");
             if (groupSum(startIndex + 1, arr, target - arr[startIndex]))

@@ -6,22 +6,36 @@ import java.util.Arrays;
 // in the board
 public class BoggleSearch {
     public static void main(String[] args) {
-        char[][] board = {{'a','b','c','d','e'},
-                        {'a','a','c','d','e'},
-                        {'a','s','e','f','e'},
-                        {'a','e','e','f','a'},
-                        {'a','e','e','f','a'}};
+        char[][] board = {{'a','b','c','d'},
+                        {'a','a','c','d'},
+                        {'a','s','e','f'},
+                        {'a','e','e','f'},
+                        {'a','e','e','f'}};
         System.out.println(boggleSearch(board, "acdffee"));
+
+        TrieNode root = new TrieNode();
+        insert(root,"acdffee");
+        findWords(board,root);
+
+
 //        findWords(board,new String[]{"acdffee"});
 
 
     }
 
+    /**
+     * Build up the word using the predecessor. Predecessor is a string
+     * picked up from the board. This is using the DFS approach.
+     * @param board
+     * @param word
+     * @return
+     */
     private static boolean boggleSearch(char[][] board, String word) {
         int rows = board.length;
         int cols = board[0].length;
 
         boolean out = false;
+        // for each char in the board, search exhaustively
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 out = search(row, col, board, word, "");
@@ -43,7 +57,6 @@ public class BoggleSearch {
         for (char[] line : board) {
             System.out.println(Arrays.toString(line));
         }
-        System.out.println("end");
 
         // if we are outside of the board, predecessor went out of the word,
         // or board position is @, return false
@@ -53,6 +66,7 @@ public class BoggleSearch {
             col < 0 ||
             !word.contains(predecessor) ||
             board[row][col] == '@') {
+            System.out.println("word = " + word + " pre = " + predecessor + " row = " + row + " col = " + col + " returning false");
             return false;
         }
 
@@ -64,9 +78,9 @@ public class BoggleSearch {
         // if the predecessor is equal to word, return true
         if (stringFromBoard.equals(word)) return true;
         else {
-            // 1. clear the grid position
+            // 1. clear the grid position by setting '@'
             // 2. backtrack
-            // 3. set the grid position
+            // 3. set the grid position by setting ch (original board[row][col]
             // not equals to word so set position as searched
             board[row][col] = '@';
             System.out.println("begin backtracking");
@@ -82,6 +96,7 @@ public class BoggleSearch {
         return out;
     }
 
+    ////////////////////////////////////////////////////////////////////
     // TODO something wrong with the implementation below
     private static void findWordsUtil(char boggle[][],
                                       boolean visited[][],
@@ -97,7 +112,6 @@ public class BoggleSearch {
         // if str is present in dict, then print it
         if (isWord(str, dict)) {
             System.out.println(str);
-
         }
 
         // traverse 8 adjacent cells of boggle[row][col]
@@ -134,4 +148,118 @@ public class BoggleSearch {
             }
         }
     }
-}
+
+    /////////////////////////////////////////////////////////////////////////
+    static class TrieNode {
+        TrieNode[] Child = new TrieNode[26];
+
+        // ifLeaf is true if the node represents end of word
+        boolean leaf;
+
+        // constructor
+        public TrieNode() {
+            leaf = false;
+            for (int i = 0; i < 26; i++) {
+                Child[i] = null;
+            }
+        }
+    }
+
+    // if not present, inserts a key into the trie
+    // if the key is a prefix of trie node, just
+    // marks leaf node
+    static void insert(TrieNode root, String key) {
+        int n = key.length();
+        TrieNode pChild = root;
+
+        for (int i = 0; i < n; i++) {
+            int index = key.charAt(i) - 'a';
+
+            if (pChild.Child[index] == null)
+                pChild.Child[index] = new TrieNode();
+
+            pChild = pChild.Child[index];
+        }
+
+        // make last node as leaf node
+        pChild.leaf = true;
+    }
+
+
+
+    // function to check that current location
+        // (i and j) is in matrix range
+        static boolean isSafe(int row, int col, boolean[][] visited) {
+            return (row >= 0 && row < visited.length && col >= 0 && col < visited[0].length && !visited[row][col]);
+        }
+
+        // recursive function to print all words represent on boggle
+        static void searchWord(TrieNode root, char board[][], int row, int col, boolean visisted[][], String str) {
+            // if we found word in trie /dict
+            if (root.leaf == true) {
+                System.out.println(str);
+            }
+
+            // if both row and col in range and we visited
+            // that element of matrix first time
+            if (isSafe(row, col, visisted)) {
+                // make it visited
+                visisted[row][col] = true;
+
+                // traverse all child of current node
+                for (int index = 0; index < 26; index++) {
+                    if (root.Child[index] != null) {
+                        // current char
+                        char ch = (char)(index + 'a');
+
+                        // recursively search remaining char of word
+                        // in trie for all 8 adjacent cells of boggle[row][col]
+                        if (isSafe(row+1, col+1, visisted) && board[row+1][col+1] == ch)
+                            searchWord(root.Child[index],board,row+1,col+1,visisted,str+ch);
+
+                        if (isSafe(row, col+1, visisted) && board[row][col+1] == ch)
+                            searchWord(root.Child[index],board,row,col+1,visisted,str+ch);
+
+                        if (isSafe(row-1,col+1,visisted) && board[row-1][col+1] == ch)
+                            searchWord(root.Child[index],board,row+1,col,visisted,str+ch);
+
+                        if (isSafe(row+1,col-1,visisted) && board[row+1][col-1] == ch)
+                            searchWord(root.Child[index],board,row+1,col-1,visisted,str+ch);
+
+                        if (isSafe(row,col-1,visisted) && board[row][col-1] == ch)
+                            searchWord(root.Child[index],board,row,col-1,visisted,str+ch);
+
+                        if(isSafe(row-1,col-1,visisted) && board[row-1][col-1] == ch)
+                            searchWord(root.Child[index],board,row-1,col-1,visisted,str+ch);
+
+                        if(isSafe(row-1,col,visisted) && board[row-1][col] == ch)
+                            searchWord(root.Child[index],board,row-1,col,visisted,str+ch);
+                    }
+                }
+
+                visisted[row][col] = false;
+            }
+        }
+
+        static void findWords(char[][] board, TrieNode root) {
+            // mark all chars as not visited
+            boolean[][] visited = new boolean[board.length][board[0].length];
+            TrieNode pChild = root;
+
+            String str = "";
+
+            // traverse all matrix elements
+            for (int row = 0; row < board.length; row++) {
+                for (int col = 0; col < board[0].length; col++) {
+                    // we start searching for word in dict
+                    // if we found a char which is child of
+                    // Trie root
+                    if (pChild.Child[(board[row][col]) - 'a'] != null) {
+                        str = str+ board[row][col];
+                        searchWord(pChild.Child[(board[row][col]) - 'a'],board,row,col,visited,str);
+                        str = "";
+                    }
+                }
+            }
+        }
+    }
