@@ -38,11 +38,12 @@ public class GroupSum {
             if (target == 0)
                 return true;
         } else {
-            // recursive case 1: include the 1st number, check the remain
+            // recursive case 1: try including the first number, check the remain
             System.out.println("entering recursive case 1");
             if (groupSum(startIndex + 1, arr, target - arr[startIndex]))
                 return true;
-            // recursive case 2: does not include the first number, check the remain
+            // assume case 1 did not work, perform the following
+            // recursive case 2: try excluding the first number, check the remain
             System.out.println("entering recursive case 2");
             if (groupSum(startIndex + 1, arr, target))
                 return true;

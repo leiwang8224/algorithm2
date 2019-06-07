@@ -76,7 +76,7 @@ public class BuildTree {
         }
     }
 
-    private static ListNode generateTree() {
+    public static ListNode generateTree() {
         ListNode head = new ListNode(1);
         head.left = new ListNode(2);
         head.right = new ListNode(3);
