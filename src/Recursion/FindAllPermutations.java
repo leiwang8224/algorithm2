@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class FindAllPermutations {
     public static void main(String[] args) {
         int num = 2;
-        permute(0, num, new boolean[num], new int[num]);
+//        permute(0, num, new boolean[num], new int[num]);
 
         System.out.println(getLetterPermutations("ABC"));
 
@@ -73,10 +73,11 @@ public class FindAllPermutations {
 
     private static ArrayList<String> getLetterPermutations(String str) {
         ArrayList<String> permutations = new ArrayList<>();
-        System.out.println("begin "+ permutations + " str = " + str);
+        System.out.println("begin with arrayList "+ permutations + " str = " + str);
         if (str == null) return null; //error case
         else if (str.length() == 0) {
             //base case, add empty string to the arraylist and return
+            //the permutation of empty string is empty string
             permutations.add("");
             return permutations;
         }
@@ -85,9 +86,10 @@ public class FindAllPermutations {
         String remainderOfString = str.substring(1); // remove the first char
 
         // recurse on the rest of the string (without the first char)
+        // cache the remainderOfString on to the heap, so that it can be restored when recurse call returns
         ArrayList<String> words = getLetterPermutations(remainderOfString);
 
-        System.out.println(words);
+        System.out.println("in the middle of method arrayList = " + words + " remainderOfString = " + remainderOfString);
         for(String word : words) {
             for (int index = 0; index <= word.length(); index++) {
                 // essentially put the first char in each position in the string
@@ -95,7 +97,7 @@ public class FindAllPermutations {
                 permutations.add(insertCharAt(word, firstChar, index));
             }
         }
-        System.out.println("end " + permutations);
+        System.out.println("end with arrayList " + permutations + " str = " + str);
         return permutations;
     }
 

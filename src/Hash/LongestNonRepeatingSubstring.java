@@ -25,16 +25,16 @@ public class LongestNonRepeatingSubstring {
     private static int longestNRSubstringLen(String input) {
         if (input == null)
             return 0;
-        char[] array = input.toCharArray();
+        char[] charArray = input.toCharArray();
         int maxDistinctNums = 0;
 
         HashMap<Character, Integer> characterMap = new HashMap<>();
 
         //Index is jumping around and not stable
         //Not really a good implementation???
-        for (int index = 0; index < array.length; index++) {
-            if (!characterMap.containsKey(array[index])) {
-                characterMap.put(array[index], index);
+        for (int index = 0; index < charArray.length; index++) {
+            if (!characterMap.containsKey(charArray[index])) {
+                characterMap.put(charArray[index], index);
             } else { // duplicate found!
                 // if the hashmap already has the key
                 // keep track of the max map size (max distinct elements in array)
@@ -44,7 +44,8 @@ public class LongestNonRepeatingSubstring {
                 // reposition the cursor index to the other repeating char
                 // in the next iteration of the for loop the index will increment 1,
                 // which will put the cursor at the next non-duplicate element
-                index = characterMap.get(array[index]);
+                // for example ABACD: cursor would move from the first A to B and loop continues
+                index = characterMap.get(charArray[index]);     // get the index of the duplicate char and clear map (start over)
                 characterMap.clear();
             }
         }
