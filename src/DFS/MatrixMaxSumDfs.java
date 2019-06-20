@@ -116,12 +116,12 @@ public class MatrixMaxSumDfs {
             return Math.max(goingDown,goingRight);
         }
 
-        // if not at the last row but at last col
+        // if not at the last row but at last col, take current grid value and add recurse call
         if (row < grid.length-1) {
             return grid[row][col] + matrixMaxSumRecurse(grid,row+1,col);
         }
 
-        // if not at the last col but at last row
+        // if not at the last col but at last row, take current grid value and add recurse call
         if (col < grid[0].length-1) {
             return grid[row][col] + matrixMaxSumRecurse(grid,row,col+1);
         }

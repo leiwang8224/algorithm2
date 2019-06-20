@@ -18,7 +18,10 @@ public class FindAllPermutations {
         int num = 2;
 //        permute(0, num, new boolean[num], new int[num]);
 
+        ArrayList<String> result = new ArrayList<>();
         System.out.println(getLetterPermutations("ABC"));
+        permuteLetters("ABC",0,2, result);
+        System.out.println(result);
 
     }
 
@@ -31,7 +34,7 @@ public class FindAllPermutations {
      * @param used
      * @param permutation
      */
-    private static void permute(int p, int num, boolean[] used, int[] permutation) {
+    private static void permuteNumbers(int p, int num, boolean[] used, int[] permutation) {
         if (p == num) {
             System.out.println(Arrays.toString(permutation));
             return;
@@ -45,32 +48,20 @@ public class FindAllPermutations {
                 // put the index in the permutation
                 permutation[p] = i;
                 // perform next permutation by adding 1
-                permute(p + 1, num, used, permutation);
+                permuteNumbers(p + 1, num, used, permutation);
                 // revert used index back to false
                 used[i] = false;
             }
         }
     }
 
-    private static boolean nextPermutation(int[] nums) {
-        int n = nums.length;
 
-        int i = n - 2;
-        while (i >= 0 && nums[i] >= nums[i+1]) i --;
-
-        if (i == -1) return false;
-
-        int x = nums[i];
-        int j = n - 1;
-        while (j > i && nums[j] <= x) j--;
-
-        nums[i] = nums[j];
-        nums[j] = x;
-
-        Arrays.sort(nums, i + 1, n);
-        return true;
-    }
-
+    /**
+     * Recursion based on the remainder of the string used for current state.
+     * Note that this does not use the index of the string for state representation.
+     * @param str
+     * @return
+     */
     private static ArrayList<String> getLetterPermutations(String str) {
         ArrayList<String> permutations = new ArrayList<>();
         System.out.println("begin with arrayList "+ permutations + " str = " + str);
@@ -90,6 +81,8 @@ public class FindAllPermutations {
         ArrayList<String> words = getLetterPermutations(remainderOfString);
 
         System.out.println("in the middle of method arrayList = " + words + " remainderOfString = " + remainderOfString);
+        // iterate through the arraylist of permutations and insert the first char
+        // at each index
         for(String word : words) {
             for (int index = 0; index <= word.length(); index++) {
                 // essentially put the first char in each position in the string
@@ -109,6 +102,49 @@ public class FindAllPermutations {
 
         // insert the char in between the first char and rest string
         return start + charToInsert + end;
+    }
+
+    /**
+     *                                              ABC
+     *                        /                     |                               \
+     *                      ABC                    BAC                              CBA
+     *             (swap A with A)          (swap A with B)                 (swap A with C)
+     *             /           \                /      \                        /         \
+     *         ABC            ACB             BAC       BCA                   CBA         CAB
+     *(swap B with B) (swap B with C) (swap A with A) (swap A with C) (swap B with B) (swap B with A)
+     * @param str
+     * @param left
+     * @param right
+     */
+    private static void permuteLetters(String str, int left, int right, ArrayList<String> result) {
+        if (left == right) {
+            System.out.println(str);
+            result.add(str);
+        } else {
+            // need to include the rightmost index (right is index, not length)
+            for (int index = left; index <= right; index++) {
+                // basically swap each index with the left index value
+                str = swap(str,left,index);
+                permuteLetters(str,left+1,right,result);
+                str = swap(str,left,index);
+            }
+        }
+    }
+
+    /**
+     * Swap chars from left index to right index and vice versa
+     * @param str
+     * @param leftIndex
+     * @param rightIndex
+     * @return
+     */
+    private static String swap(String str, int leftIndex, int rightIndex) {
+        char temp;
+        char[] charArray = str.toCharArray();
+        temp = charArray[leftIndex];
+        charArray[leftIndex] = charArray[rightIndex];
+        charArray[rightIndex] = temp;
+        return String.valueOf(charArray);
     }
 
 

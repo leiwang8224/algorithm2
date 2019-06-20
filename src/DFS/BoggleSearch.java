@@ -38,7 +38,7 @@ public class BoggleSearch {
         // for each char in the board, search exhaustively
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                out = search(row, col, board, word, "");
+                out = search(row, col, board, word, "","mainCall");
                 // once match is found, return immediately
                 if (out) return true;
             }
@@ -50,10 +50,11 @@ public class BoggleSearch {
                                   int col,
                                   char[][] board,
                                   String word,
-                                  String predecessor) {
+                                  String predecessor,
+                                  String callingFrom) {
         int rows = board.length;
         int cols = board[0].length;
-        System.out.println(predecessor + " row = " + row + " col = " + col);
+        System.out.println("beginning of method predecessor " + " row = " + row + " col = " + col + " calling from " + callingFrom);
         for (char[] line : board) {
             System.out.println(Arrays.toString(line));
         }
@@ -78,18 +79,18 @@ public class BoggleSearch {
         // if the predecessor is equal to word, return true
         if (stringFromBoard.equals(word)) return true;
         else {
-            // 1. clear the grid position by setting '@'
+            // 1. mark the grid position by setting '@' to indicate grid is visited
             // 2. backtrack
             // 3. set the grid position by setting ch (original board[row][col]
             // not equals to word so set position as searched
             board[row][col] = '@';
-            System.out.println("begin backtracking");
+            System.out.println("begin backtracking row = " + row + " col = " + col + " pred = " + predecessor);
             // search top, bottom, left and right (backtracking)
-            out = search(row-1, col, board, word, stringFromBoard)
-                    || search (row+1, col, board, word, stringFromBoard)
-                    || search (row,col-1, board, word, stringFromBoard)
-                    || search (row, col+1, board, word, stringFromBoard);
-            System.out.println("end backtracking");
+            out = search(row-1, col, board, word, stringFromBoard, "row below")
+                    || search (row+1, col, board, word, stringFromBoard, "row above")
+                    || search (row,col-1, board, word, stringFromBoard, "col to left")
+                    || search (row, col+1, board, word, stringFromBoard, "col to right");
+            System.out.println("end backtracking row = " + row + " col = " + col + " pred = " + predecessor);
             // set char to the board position
             board[row][col] = ch;
         }
