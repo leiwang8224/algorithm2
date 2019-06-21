@@ -7,8 +7,10 @@ package DFS;
 public class CoinChange {
     public static void main(String[] args) {
         int[] coins = new int[]{1,5,10,25};
-        System.out.println("findCoins return " + findCoinChange(0, coins, 16));
-        System.out.println("findCoins change " + findCoinChange(coins, 16));
+        System.out.println("findCoins return " + findCoinChange(0, coins, 10));
+        System.out.println("findCoins change " + findCoinChange(coins, 10));
+        int[] coins2 = new int[]{25,10,5,1};
+        System.out.println("make Change " + makeChange(coins2,10));
     }
 
     /**
@@ -65,6 +67,35 @@ public class CoinChange {
 
         }
         return -1;
+    }
+
+    private static int makeChange(int[] coins, int amount) {
+        if (coins != null && coins.length > 0 && amount >= 0) {
+            return makeChange(coins, amount, 0);
+        }
+        return 0;
+    }
+
+    /**
+     * Note that the assumption is the coins are sorted from largest to smallest
+     * @param coins
+     * @param amount
+     * @param currentIndex
+     * @return
+     */
+    private static int makeChange(int[] coins, int amount, int currentIndex) {
+        int nextCoinIndex;
+        if (currentIndex < coins.length-1) {
+            nextCoinIndex = currentIndex + 1;
+        } else {
+            return coins[currentIndex];
+        }
+
+        int res = 0;
+        for (int index = 0; index * coins[currentIndex] <= amount; index++) {
+            res += makeChange(coins,amount-index*coins[currentIndex],nextCoinIndex);
+        }
+        return res;
     }
 
     /**
