@@ -16,6 +16,7 @@ public class BoggleSearch {
         TrieNode root = new TrieNode();
         insert(root,"acdffee");
         findWords(board,root);
+        System.out.println(wordExist(board,"acdffee"));
 
 
 //        findWords(board,new String[]{"acdffee"});
@@ -263,4 +264,40 @@ public class BoggleSearch {
                 }
             }
         }
+
+        private static boolean wordExist(char[][] board, String word) {
+            if (board == null || board[0].length == 0) return false;
+
+            int numRows = board.length;
+            int numCols = board[0].length;
+
+            // direction of top, right, down, left in (x,y) coordinates
+            int[][] move = {{-1,0}, {0,1}, {1,0}, {0,-1}};
+            for (int row = 0; row < numRows; row++) {
+                for (int col = 0; col < numCols; col++) {
+                    if (existHelper(board, word, row, col, 0, move)) return true;
+                }
+            }
+
+            return false;
+        }
+
+    private static boolean existHelper(char[][] board,
+                                String word,
+                                int row,
+                                int col,
+                                int index,
+                                int[][] move) {
+        if (row < 0 || row >= board.length || col <0 || col >= board[0].length|| board[row][col] == '@') return false;
+        if (board[row][col] == word.charAt(index)) {
+            if (index == word.length()-1) return true;
+            char ch = board[row][col];
+            board[row][col] = '@';
+            for (int[] m : move) {
+                if (existHelper(board, word, row +m[0], col + m[1], index+1, move)) return true;
+            }
+            board[row][col] = ch;
+        }
+        return false;
     }
+}
