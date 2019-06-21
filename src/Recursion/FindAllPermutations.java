@@ -22,6 +22,11 @@ public class FindAllPermutations {
         System.out.println(getLetterPermutations("ABC"));
         permuteLetters("ABC",0,2, result);
         System.out.println(result);
+        result.clear();
+
+        permutations("","ABC",result);
+        System.out.println(result);
+        System.out.println(permutationsIterative("ABC"));
 
     }
 
@@ -145,6 +150,52 @@ public class FindAllPermutations {
         charArray[leftIndex] = charArray[rightIndex];
         charArray[rightIndex] = temp;
         return String.valueOf(charArray);
+    }
+
+    private static void permutations(String candidate, String remaining, ArrayList<String> result) {
+        if (remaining.length() == 0) result.add(candidate);
+
+        for (int index = 0; index < remaining.length(); index++) {
+            // for each new candidate add the remaining char at each index
+            String newCandidate = candidate + remaining.charAt(index);
+
+            // note substring when beginning = end, no substring is selected (empty substring)
+            String newRemaining = remaining.substring(0, index) + remaining.substring(index + 1);
+
+            // for each index recurse on the new candidate and remaining letters
+            permutations(newCandidate,newRemaining,result);
+        }
+    }
+
+    private static ArrayList<String> permutationsIterative(String str) {
+        // empty arraylist to store partial permutations
+        ArrayList<String> partial = new ArrayList<>();
+
+        // init list with the first char of the string
+        partial.add(String.valueOf(str.charAt(0)));
+
+        // do for every char of the specified string
+        for (int index = 1; index < str.length(); index++) {
+
+            //consider previously constructed partial permutation one by one
+
+            // iterate backwards to avoid concurrent modification
+            for (int backWardIndex = partial.size() - 1; backWardIndex >= 0; backWardIndex--) {
+                // remove current partial permutation from arraylist
+                String s = partial.remove(backWardIndex);
+
+                // insert next char of the specified string in all
+                // possible positions of current partial permutation.
+                // Then insert each of these newly constructed string in the list
+                for (int subIndex = 0; subIndex <= s.length(); subIndex++) {
+                    partial.add(s.substring(0, subIndex) +
+                                str.charAt(index) +
+                                s.substring(subIndex));
+                }
+            }
+        }
+
+        return partial;
     }
 
 

@@ -278,7 +278,6 @@ public class BoggleSearch {
                     if (existHelper(board, word, row, col, 0, move)) return true;
                 }
             }
-
             return false;
         }
 
@@ -289,6 +288,7 @@ public class BoggleSearch {
                                 int index,
                                 int[][] move) {
         if (row < 0 || row >= board.length || col <0 || col >= board[0].length|| board[row][col] == '@') return false;
+        System.out.println("checking row = " + row + " col = " + col + " index = " + index);
         if (board[row][col] == word.charAt(index)) {
             if (index == word.length()-1) return true;
             char ch = board[row][col];

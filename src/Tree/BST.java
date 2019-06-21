@@ -23,6 +23,10 @@ public class BST {
         printBST(delete(generateBST(), 3));
         printBST(generateBST());
 
+        System.out.println("afterDeletion2");
+        printBST(delete2(generateBST(), 3));
+        printBST(generateBST());
+
         BSTIterator bstIterator = new BSTIterator(generateBST());
         System.out.println("using BST Iterator");
         while (bstIterator.hasNext())
@@ -135,6 +139,37 @@ public class BST {
 
             // delete the inorder successor
             head.right = delete(head.right, head.getVal());
+        }
+        return head;
+    }
+
+//    1. First case: left and right child nodes are null.
+//
+//    Simply remove the node from the tree.
+//
+//    2. Second and Third cases: Either the Left child node or the right child node is null .
+//
+//    Remove the node and replace it with its child.
+//
+//    3. Fourth case: Left and right child nodes are not null.
+//
+//    Find the node with the minimum value in the right subtree of the node to be deleted.
+//    Put this minimum value in the node to be deleted. Delete the node which had the minimum value.
+    private static ListNode delete2(ListNode head, int key) {
+        if (head == null) return  head;
+        else if (key < head.getVal())
+            head.left = delete2(head.left,key);
+        else if (key < head.getVal())
+            head.right = delete2(head.right,key);
+        else {
+            if (head.left != null && head.right != null) {
+                head.setVal(minVal(head.right));
+                head.right = delete2(head.right, head.getVal());
+            } else if (head.left == null && head.right == null) {
+                head = null;
+            }
+            else if (head.left == null) head = head.right;
+            else if (head.right == null) head = head.left;
         }
         return head;
     }

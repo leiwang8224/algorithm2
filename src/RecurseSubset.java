@@ -36,6 +36,9 @@ public class RecurseSubset {
         for (ArrayList<Integer> list : newList) {
             System.out.println(Arrays.toString(list.toArray()));
         }
+
+        ArrayList<String> result = getCombPerms("ABC");
+        System.out.println(result);
     }
 
     /**
@@ -63,6 +66,35 @@ public class RecurseSubset {
             subList.remove(subList.size()-1);
             System.out.println("end of for loop after removal subList = " + subList);
         }
+    }
+
+    private static ArrayList<String> getCombPerms(String str) {
+        ArrayList<String> permutations = new ArrayList<>();
+        if (str == null) return null; // error case
+        else if (str.length() == 1) {
+            permutations.add(str);
+            return permutations;
+        }
+
+        String firstChar = str.substring(0,1);
+        permutations.add(firstChar);
+
+        String remainder = str.substring(1);
+        // recurse on remainder
+        ArrayList<String> words = getCombPerms(remainder);
+
+        // insert the first char into each possible position in permutation
+        for (String word : words)
+            for (int index = 0; index <= word.length(); index++)
+                permutations.add(insertCharAt(word, firstChar, index));
+        permutations.addAll(words); // add permutations without the first char
+        return permutations;
+    }
+
+    private static String insertCharAt(String word, String ch, int index) {
+        String start = word.substring(0, index);
+        String end = word.substring(index);
+        return start + ch + end;
     }
 }
 

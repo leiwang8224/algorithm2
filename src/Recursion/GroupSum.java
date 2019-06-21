@@ -4,6 +4,7 @@ public class GroupSum {
     public static void main(String[] args) {
         int[] nums = new int[] {1,2,3,6,5};
         System.out.println(groupSum(nums,10));
+        System.out.println(groupSum(nums,10,0));
     }
 
 //    Given an array of integers and a target number,
@@ -50,5 +51,16 @@ public class GroupSum {
         }
 
         return false;
+    }
+
+    private static boolean groupSum(int[] arr, int target, int index) {
+        if (arr == null || arr.length == 0) return false;
+        if (index == arr.length-1) {
+            if (target == 0) return true;
+            else return false;
+        }
+
+        return groupSum(arr, target - arr[index], index + 1) ||
+               groupSum(arr, target, index + 1);
     }
 }
