@@ -293,9 +293,13 @@ public class BoggleSearch {
             if (index == word.length()-1) return true;
             char ch = board[row][col];
             board[row][col] = '@';
-            for (int[] m : move) {
-                if (existHelper(board, word, row +m[0], col + m[1], index+1, move)) return true;
-            }
+            if (existHelper(board, word, row-1, col, index+1, move) ||
+                existHelper(board, word, row, col-1, index+1, move) ||
+                existHelper(board, word, row+1, col, index+1, move) ||
+                existHelper(board, word, row, col+1, index+1, move)) return true;
+//            for (int[] m : move) {
+//                if (existHelper(board, word, row+m[0], col+m[1], index+1, move)) return true;
+//            }
             board[row][col] = ch;
         }
         return false;
