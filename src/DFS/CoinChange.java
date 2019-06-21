@@ -78,6 +78,7 @@ public class CoinChange {
 
     /**
      * Note that the assumption is the coins are sorted from largest to smallest
+     * also assume there are infinite number of coins for 1,5,10,25
      * @param coins
      * @param amount
      * @param currentIndex
@@ -92,8 +93,12 @@ public class CoinChange {
         }
 
         int res = 0;
-        for (int index = 0; index * coins[currentIndex] <= amount; index++) {
-            res += makeChange(coins,amount-index*coins[currentIndex],nextCoinIndex);
+        for (int numberOfCoinsForCurrentIndex = 0;
+             numberOfCoinsForCurrentIndex * coins[currentIndex] <= amount;
+             numberOfCoinsForCurrentIndex++) {
+            res += makeChange(coins,
+                              amount - numberOfCoinsForCurrentIndex * coins[currentIndex],
+                              nextCoinIndex);
         }
         return res;
     }
