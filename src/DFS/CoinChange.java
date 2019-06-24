@@ -50,6 +50,7 @@ public class CoinChange {
         if (target == 0)
             return 0;
         if (coinidx < coins.length && target > 0) {
+            // for this specific target, how many coins do I need for coinidx?
             int maxVal = target / coins[coinidx];
             int minCost = Integer.MAX_VALUE;
 

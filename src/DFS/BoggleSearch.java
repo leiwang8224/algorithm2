@@ -11,15 +11,20 @@ public class BoggleSearch {
                         {'a','s','e','f'},
                         {'a','e','e','f'},
                         {'a','e','e','f'}};
-        System.out.println(boggleSearch(board, "acdffee"));
+
+        char[][] board2 = {{'a','b','c','d'},
+                          {'a','a','c','d'},
+                          {'a','s','e','f'},
+                          {'a','e','e','f'},
+                          {'a','e','e','f'}};
+        System.out.println("boggle search = " + boggleSearch(board, "acdffee"));
 
         TrieNode root = new TrieNode();
         insert(root,"acdffee");
-        findWords(board,root);
-        System.out.println(wordExist(board,"acdffee"));
+        System.out.println("word exist = " + wordExist(board2,"acdffee"));
 
-
-//        findWords(board,new String[]{"acdffee"});
+        //        findWords(board,root);
+        //        findWords(board,new String[]{"acdffee"});
 
 
     }
@@ -75,7 +80,6 @@ public class BoggleSearch {
         // append current ch to the predecessor
         char ch = board[row][col];
         String stringFromBoard = predecessor + ch;
-        boolean out = false;
 
         // if the predecessor is equal to word, return true
         if (stringFromBoard.equals(word)) return true;
@@ -87,15 +91,15 @@ public class BoggleSearch {
             board[row][col] = '@';
             System.out.println("begin backtracking row = " + row + " col = " + col + " pred = " + predecessor);
             // search top, bottom, left and right (backtracking)
-            out = search(row-1, col, board, word, stringFromBoard, "row below")
+            if (search(row-1, col, board, word, stringFromBoard, "row below")
                     || search (row+1, col, board, word, stringFromBoard, "row above")
                     || search (row,col-1, board, word, stringFromBoard, "col to left")
-                    || search (row, col+1, board, word, stringFromBoard, "col to right");
+                    || search (row, col+1, board, word, stringFromBoard, "col to right")) return true;
             System.out.println("end backtracking row = " + row + " col = " + col + " pred = " + predecessor);
             // set char to the board position
             board[row][col] = ch;
         }
-        return out;
+        return false;
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -275,9 +279,12 @@ public class BoggleSearch {
             int[][] move = {{-1,0}, {0,1}, {1,0}, {0,-1}};
             for (int row = 0; row < numRows; row++) {
                 for (int col = 0; col < numCols; col++) {
+                    // call recursion function to exhaustively search the grid
                     if (existHelper(board, word, row, col, 0, move)) return true;
                 }
             }
+            // would have returned true if the word is found
+            // at this point there is no hope
             return false;
         }
 
@@ -290,9 +297,17 @@ public class BoggleSearch {
         if (row < 0 || row >= board.length || col <0 || col >= board[0].length|| board[row][col] == '@') return false;
         System.out.println("checking row = " + row + " col = " + col + " index = " + index);
         if (board[row][col] == word.charAt(index)) {
+            // if at the end of the word and there is no return false
+            // and current board position is equal to the current char in word
+            // then we are definitely returning true
             if (index == word.length()-1) return true;
+
+            // get the char from the current board position and set
+            // the current position to visisted '@'
             char ch = board[row][col];
             board[row][col] = '@';
+
+            // exhaustively search the nearby positions
             if (existHelper(board, word, row-1, col, index+1, move) ||
                 existHelper(board, word, row, col-1, index+1, move) ||
                 existHelper(board, word, row+1, col, index+1, move) ||
@@ -300,8 +315,12 @@ public class BoggleSearch {
 //            for (int[] m : move) {
 //                if (existHelper(board, word, row+m[0], col+m[1], index+1, move)) return true;
 //            }
+
+            // set the current position back to ch (after row and col have been updated by recursion)
             board[row][col] = ch;
         }
+
+        // return false in the end since all other cases would have returned true
         return false;
     }
 }
