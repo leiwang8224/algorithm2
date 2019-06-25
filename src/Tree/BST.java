@@ -159,7 +159,7 @@ public class BST {
         if (head == null) return  head;
         else if (key < head.getVal())
             head.left = delete2(head.left,key);
-        else if (key < head.getVal())
+        else if (key > head.getVal())
             head.right = delete2(head.right,key);
         else {
             if (head.left != null && head.right != null) {
