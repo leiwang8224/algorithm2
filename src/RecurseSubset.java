@@ -68,28 +68,98 @@ public class RecurseSubset {
         }
     }
 
+
+
+//1. Initialize an ArrayList to store all the permutations.
+//
+//2. Check for the base conditions i.e. if the input is null,
+    // return the input itself. If the input is a single
+    // Character or an empty String, add it to the list.
+//
+//3. Separate out the first character and recursively find the
+    // permutation of the remainder String.
+//
+//4. Iterate and insert the separated character at every position
+    // in all the words obtained from the recursive call.
+//
+//5. Return the list of all the words.
+
     private static ArrayList<String> getCombPerms(String str) {
+        //initialize array for result
         ArrayList<String> permutations = new ArrayList<>();
+
+        //check for base conditions, input is null, input has one char
         if (str == null) return null; // error case
         else if (str.length() == 1) {
+            System.out.println("adding the one char and return " + str);
             permutations.add(str);
             return permutations;
         }
 
+        // separate out the first char and recurse on remaining
         String firstChar = str.substring(0,1);
+
+        // this is the diff between combperms and perms (perms do not add the one char)
         permutations.add(firstChar);
 
         String remainder = str.substring(1);
-        // recurse on remainder
+
+        System.out.println("calling recursion on remainder = " + remainder);
+        // recurse on remainder and get list of words back
         ArrayList<String> words = getCombPerms(remainder);
 
-        // insert the first char into each possible position in permutation
-        for (String word : words)
-            for (int index = 0; index <= word.length(); index++)
+        // insert the first char into each possible position in current
+        // permutation of words list
+        for (String word : words) {
+            System.out.println("for word = " + word);
+            for (int index = 0; index <= word.length(); index++) {
+                System.out.println("inserting char " + firstChar + " in " +
+                                   word + " at " + index + " which makes " + insertCharAt(word, firstChar, index));
+                // for each word in the word list, insert the letter at each position
+                // and add to the permutations list
                 permutations.add(insertCharAt(word, firstChar, index));
+            }
+        }
+        System.out.println("adding all words " + words.toString());
+        
+        // also this is the diff between combperms and perms (add all of the words)
+        // now add all of the words in word list to the permutations
         permutations.addAll(words); // add permutations without the first char
         return permutations;
     }
+
+//    private static ArrayList<String> getLetterPermutations(String str) {
+//        ArrayList<String> permutations = new ArrayList<>();
+//        System.out.println("begin with arrayList "+ permutations + " str = " + str);
+//        if (str == null) return null; //error case
+//        else if (str.length() == 0) {
+//            //base case, add empty string to the arraylist and return
+//            //the permutation of empty string is empty string
+//            permutations.add("");
+//            return permutations;
+//        }
+//
+//        char firstChar = str.charAt(0);  // get the first char
+//        String remainderOfString = str.substring(1); // remove the first char
+//
+//        // recurse on the rest of the string (without the first char)
+//        // cache the remainderOfString on to the heap, so that it can be restored when recurse call returns
+//        ArrayList<String> words = getLetterPermutations(remainderOfString);
+//
+//        System.out.println("in the middle of method arrayList = " + words + " remainderOfString = " + remainderOfString);
+//        // iterate through the arraylist of permutations and insert the first char
+//        // at each index
+//        for(String word : words) {
+//            for (int index = 0; index <= word.length(); index++) {
+//                // essentially put the first char in each position in the string
+//                // starting from first char
+//                permutations.add(insertCharAt(word, firstChar, index));
+//            }
+//        }
+//        System.out.println("end with arrayList " + permutations + " str = " + str);
+//        return permutations;
+//    }
+
 
     private static String insertCharAt(String word, String ch, int index) {
         String start = word.substring(0, index);
