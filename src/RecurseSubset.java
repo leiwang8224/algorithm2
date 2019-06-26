@@ -37,7 +37,7 @@ public class RecurseSubset {
             System.out.println(Arrays.toString(list.toArray()));
         }
 
-        ArrayList<String> result = getCombPerms("ABC");
+        ArrayList<String> result = getCombPerms("ABC",0);
         System.out.println(result);
     }
 
@@ -84,14 +84,14 @@ public class RecurseSubset {
 //
 //5. Return the list of all the words.
 
-    private static ArrayList<String> getCombPerms(String str) {
+    private static ArrayList<String> getCombPerms(String str, int level) {
         //initialize array for result
         ArrayList<String> permutations = new ArrayList<>();
 
         //check for base conditions, input is null, input has one char
         if (str == null) return null; // error case
         else if (str.length() == 1) {
-            System.out.println("adding the one char and return " + str);
+            System.out.println(getIndentationFromLevel(level) + "adding the one char and return " + str);
             permutations.add(str);
             return permutations;
         }
@@ -104,28 +104,36 @@ public class RecurseSubset {
 
         String remainder = str.substring(1);
 
-        System.out.println("calling recursion on remainder = " + remainder);
+        System.out.println(getIndentationFromLevel(level) + "calling recursion on remainder = " + remainder);
         // recurse on remainder and get list of words back
-        ArrayList<String> words = getCombPerms(remainder);
+        ArrayList<String> words = getCombPerms(remainder, level + 1);
 
         // insert the first char into each possible position in current
         // permutation of words list
         for (String word : words) {
-            System.out.println("for word = " + word);
+            System.out.println(getIndentationFromLevel(level) + "for word = " + word);
             for (int index = 0; index <= word.length(); index++) {
-                System.out.println("inserting char " + firstChar + " in " +
+                System.out.println(getIndentationFromLevel(level) + "inserting char " + firstChar + " in " +
                                    word + " at " + index + " which makes " + insertCharAt(word, firstChar, index));
                 // for each word in the word list, insert the letter at each position
                 // and add to the permutations list
                 permutations.add(insertCharAt(word, firstChar, index));
             }
         }
-        System.out.println("adding all words " + words.toString());
+        System.out.println(getIndentationFromLevel(level) + "adding all words " + words.toString());
         
         // also this is the diff between combperms and perms (add all of the words)
         // now add all of the words in word list to the permutations
         permutations.addAll(words); // add permutations without the first char
         return permutations;
+    }
+
+    private static String getIndentationFromLevel(int level) {
+        StringBuilder str = new StringBuilder();
+        for (int index = 0; index < level; index++) {
+            str.append("    ");
+        }
+        return str.toString();
     }
 
 //    private static ArrayList<String> getLetterPermutations(String str) {

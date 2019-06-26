@@ -19,7 +19,7 @@ public class FindAllPermutations {
 //        permute(0, num, new boolean[num], new int[num]);
 
         ArrayList<String> result = new ArrayList<>();
-        System.out.println(getLetterPermutations("ABC"));
+        System.out.println(getLetterPermutations("ABC",0));
         permuteLetters("ABC",0,2, result);
         System.out.println(result);
         result.clear();
@@ -67,9 +67,9 @@ public class FindAllPermutations {
      * @param str
      * @return
      */
-    private static ArrayList<String> getLetterPermutations(String str) {
+    private static ArrayList<String> getLetterPermutations(String str, int level) {
         ArrayList<String> permutations = new ArrayList<>();
-        System.out.println("begin with arrayList "+ permutations + " str = " + str);
+        System.out.println(getIndentationFromLevel(level) + "begin with arrayList "+ permutations + " str = " + str);
         if (str == null) return null; //error case
         else if (str.length() == 0) {
             //base case, add empty string to the arraylist and return
@@ -83,9 +83,9 @@ public class FindAllPermutations {
 
         // recurse on the rest of the string (without the first char)
         // cache the remainderOfString on to the heap, so that it can be restored when recurse call returns
-        ArrayList<String> words = getLetterPermutations(remainderOfString);
+        ArrayList<String> words = getLetterPermutations(remainderOfString, level + 1);
 
-        System.out.println("in the middle of method arrayList = " + words + " remainderOfString = " + remainderOfString);
+        System.out.println(getIndentationFromLevel(level) + "returning from recursion arrayList = " + words + " remainderOfString = " + remainderOfString);
         // iterate through the arraylist of permutations and insert the first char
         // at each index
         for(String word : words) {
@@ -95,8 +95,16 @@ public class FindAllPermutations {
                 permutations.add(insertCharAt(word, firstChar, index));
             }
         }
-        System.out.println("end with arrayList " + permutations + " str = " + str);
+        System.out.println(getIndentationFromLevel(level) + "end with arrayList " + permutations + " str = " + str);
         return permutations;
+    }
+
+    private static String getIndentationFromLevel(int level) {
+        StringBuilder str = new StringBuilder();
+        for (int index = 0; index < level; index++) {
+            str.append("    ");
+        }
+        return str.toString();
     }
 
     private static String insertCharAt(String word, char charToInsert, int index) {
