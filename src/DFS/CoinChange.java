@@ -106,6 +106,8 @@ public class CoinChange {
                               amount - numberOfCoinsForCurrentIndex * coins[currentIndex],
                               nextCoinIndex,
                               depth + 1);
+            System.out.println(getDepthString(depth) + "return from recursion making changes with " + coins[currentIndex] +
+                    " with the number of coins = " + numberOfCoinsForCurrentIndex + " res = " + res);
         }
         return res;
     }
