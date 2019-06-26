@@ -81,6 +81,8 @@ public class FindAllPermutations {
         char firstChar = str.charAt(0);  // get the first char
         String remainderOfString = str.substring(1); // remove the first char
 
+        System.out.println(getIndentationFromLevel(level) + "start recursion on remainder = "+ remainderOfString + " str = " + str);
+
         // recurse on the rest of the string (without the first char)
         // cache the remainderOfString on to the heap, so that it can be restored when recurse call returns
         ArrayList<String> words = getLetterPermutations(remainderOfString, level + 1);

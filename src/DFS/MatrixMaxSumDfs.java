@@ -16,8 +16,8 @@ public class MatrixMaxSumDfs {
 
         System.out.println(matrixMaxSumDfs(grid));
         System.out.println(matrixMaxSumDfs(grid2));
-        System.out.println(matrixMaxSumRecurse(grid,0,0));
-        System.out.println(matrixMaxSumRecurse(grid2,0,0));
+        System.out.println(matrixMaxSumRecurse(grid,0,0,0));
+        System.out.println(matrixMaxSumRecurse(grid2,0,0,0));
         System.out.println(matrixMaxSumDp(grid));
         System.out.println(matrixMaxSumDp(grid2));
     }
@@ -105,28 +105,40 @@ public class MatrixMaxSumDfs {
         return maxSum;
     }
 
-    private static int matrixMaxSumRecurse(int[][] grid, int row, int col) {
+    private static int matrixMaxSumRecurse(int[][] grid, int row, int col, int level) {
         if (row == grid.length-1 && col == grid[0].length-1) {
             return grid[row][col];
         }
 
         if (row < grid.length-1 && col < grid[0].length-1) {
-            int goingDown = grid[row][col] + matrixMaxSumRecurse(grid,row + 1, col);
-            int goingRight = grid[row][col] + matrixMaxSumRecurse(grid, row, col + 1);
+            System.out.println(getIndentationFromLevel(level) + "Recursion starts with row = " + row + " col = " + col);
+            int goingDown = grid[row][col] + matrixMaxSumRecurse(grid,row + 1, col, level + 1);
+            int goingRight = grid[row][col] + matrixMaxSumRecurse(grid, row, col + 1, level + 1);
+            System.out.println(getIndentationFromLevel(level) + "Recursion returns with row = " + row + " col = " + col);
             return Math.max(goingDown,goingRight);
         }
 
         // if not at the last row but at last col, take current grid value and add recurse call
         if (row < grid.length-1) {
-            return grid[row][col] + matrixMaxSumRecurse(grid,row+1,col);
+            System.out.println(getIndentationFromLevel(level) + "Recursion returns with row = " + row + " col = " + col);
+            return grid[row][col] + matrixMaxSumRecurse(grid,row+1,col, level+1);
         }
 
         // if not at the last col but at last row, take current grid value and add recurse call
         if (col < grid[0].length-1) {
-            return grid[row][col] + matrixMaxSumRecurse(grid,row,col+1);
+            System.out.println(getIndentationFromLevel(level) + "Recursion returns with row = " + row + " col = " + col);
+            return grid[row][col] + matrixMaxSumRecurse(grid,row,col+1, level+1);
         }
 
         return 0;
+    }
+
+    private static String getIndentationFromLevel (int level) {
+        StringBuilder str = new StringBuilder();
+        for (int index = 0; index < level; index++) {
+            str.append("    ");
+        }
+        return str.toString();
     }
 
     private static int matrixMaxSumDp(int[][] grid) {

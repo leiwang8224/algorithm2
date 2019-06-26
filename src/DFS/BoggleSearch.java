@@ -315,6 +315,7 @@ public class BoggleSearch {
             char ch = board[row][col];
             board[row][col] = '@';
 
+            System.out.println(getDepthString(depth) + " begin recursion row = " + row + " col = " + col + " index = " + index + " word = " + word);
             // exhaustively search the nearby positions
             if (existHelper(board, word, row-1, col, index+1, depth+1) ||
                 existHelper(board, word, row, col-1, index+1, depth+1) ||
@@ -323,6 +324,8 @@ public class BoggleSearch {
 //            for (int[] m : move) {
 //                if (existHelper(board, word, row+m[0], col+m[1], index+1, move)) return true;
 //            }
+
+            System.out.println(getDepthString(depth) + " return from recursion row = " + row + " col = " + col + " index = " + index + " word = " + word);
 
             // set the current position back to ch (after row and col have been updated by recursion)
             board[row][col] = ch;

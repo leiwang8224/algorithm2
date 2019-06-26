@@ -7,7 +7,7 @@ package DFS;
 public class CoinChange {
     public static void main(String[] args) {
         int[] coins = new int[]{1,5,10,25};
-        System.out.println("findCoins return " + findCoinChange(0, coins, 10));
+        System.out.println("findCoins return " + findCoinChange(0, coins, 10, 0));
         System.out.println("findCoins change " + findCoinChange(coins, 10));
         int[] coins2 = new int[]{25,10,5,1};
         System.out.println("make Change finally returns " + makeChange(coins2,10));
@@ -46,21 +46,23 @@ public class CoinChange {
      * @param target
      * @return
      */
-    private static int findCoinChange(int coinidx, int[] coins, int target) {
+    private static int findCoinChange(int coinidx, int[] coins, int target, int depth) {
         if (target == 0)
             return 0;
         if (coinidx < coins.length && target > 0) {
             // for this specific target, how many coins do I need for coinidx?
-            int maxVal = target / coins[coinidx];
+            int maxNumOfCoins = target / coins[coinidx];
             int minCost = Integer.MAX_VALUE;
 
             // for each coin
-            for (int x = 0; x <= maxVal; x++) {
+            for (int numberOfCoins = 0; numberOfCoins <= maxNumOfCoins; numberOfCoins++) {
                 // if the coin is less or equal to target
-                if (target >= x * coins[coinidx]) {
-                    int res = findCoinChange(coinidx + 1, coins, target - x * coins[coinidx]);
+                if (target >= numberOfCoins * coins[coinidx]) {
+                    System.out.println(getDepthString(depth) + "calling recursion coin = " + coins[coinidx] + " target = " + target);
+                    int res = findCoinChange(coinidx + 1, coins, target - numberOfCoins * coins[coinidx], depth+1);
+                    System.out.println(getDepthString(depth) + "returning recursion coin = " + coins[coinidx] + " target = " + target);
                     if (res != -1)
-                        minCost = Math.min(minCost, res + x);
+                        minCost = Math.min(minCost, res + numberOfCoins);
 
                 }
             }
@@ -92,22 +94,26 @@ public class CoinChange {
             nextCoinIndex = currentIndex + 1;
             System.out.println(getDepthString(depth) + "increment coin index to " + nextCoinIndex);
         } else {
-            System.out.println(getDepthString(depth) + "returning current coin " + coins[currentIndex] + " current Index = " + currentIndex);
-            return coins[currentIndex];
+            // at the last coin which is 1 cent, return that 1 cent
+            System.out.println(getDepthString(depth) + "returning current coin amount " + coins[currentIndex] + " current Index = " + currentIndex);
+            return 1;   // returning 1 for one way of make change
+//            return coins[currentIndex];
         }
 
         int res = 0;
         for (int numberOfCoinsForCurrentIndex = 0;
              numberOfCoinsForCurrentIndex * coins[currentIndex] <= amount;
              numberOfCoinsForCurrentIndex++) {
-            System.out.println(getDepthString(depth) + "making changes with " + coins[currentIndex] +
-                               " with the number of coins = " + numberOfCoinsForCurrentIndex);
+            System.out.println(getDepthString(depth) + "call recursion making changes with " + coins[currentIndex] +
+                               " with the number of coins = " + numberOfCoinsForCurrentIndex + " res = " + res +
+                               " currentIdx = " + currentIndex + " nextIdx = " + nextCoinIndex);
             res += makeChange(coins,
                               amount - numberOfCoinsForCurrentIndex * coins[currentIndex],
                               nextCoinIndex,
                               depth + 1);
             System.out.println(getDepthString(depth) + "return from recursion making changes with " + coins[currentIndex] +
-                    " with the number of coins = " + numberOfCoinsForCurrentIndex + " res = " + res);
+                    " with the number of coins = " + numberOfCoinsForCurrentIndex + " res = " + res + " currentIdx = " + currentIndex
+                               + " nextIdx = " + nextCoinIndex);
         }
         return res;
     }
