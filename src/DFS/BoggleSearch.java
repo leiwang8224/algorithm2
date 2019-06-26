@@ -44,7 +44,7 @@ public class BoggleSearch {
         // for each char in the board, search exhaustively
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                out = search(row, col, board, word, "","mainCall");
+                out = search(row, col, board, word, "",0);
                 // once match is found, return immediately
                 if (out) return true;
             }
@@ -57,10 +57,10 @@ public class BoggleSearch {
                                   char[][] board,
                                   String word,
                                   String predecessor,
-                                  String callingFrom) {
+                                  int depth) {
         int rows = board.length;
         int cols = board[0].length;
-        System.out.println("beginning of method predecessor " + " row = " + row + " col = " + col + " calling from " + callingFrom);
+        System.out.println(getDepthString(depth) + "beginning of method predecessor " + " row = " + row + " col = " + col);
         for (char[] line : board) {
             System.out.println(Arrays.toString(line));
         }
@@ -73,7 +73,7 @@ public class BoggleSearch {
             col < 0 ||
             !word.contains(predecessor) ||
             board[row][col] == '@') {
-            System.out.println("word = " + word + " pre = " + predecessor + " row = " + row + " col = " + col + " returning false");
+            System.out.println(getDepthString(depth) + "word = " + word + " pre = " + predecessor + " row = " + row + " col = " + col + " returning false");
             return false;
         }
 
@@ -89,17 +89,25 @@ public class BoggleSearch {
             // 3. set the grid position by setting ch (original board[row][col]
             // not equals to word so set position as searched
             board[row][col] = '@';
-            System.out.println("begin backtracking row = " + row + " col = " + col + " pred = " + predecessor);
+            System.out.println(getDepthString(depth) + "begin backtracking row = " + row + " col = " + col + " pred = " + predecessor);
             // search top, bottom, left and right (backtracking)
-            if (search(row-1, col, board, word, stringFromBoard, "row below")
-                    || search (row+1, col, board, word, stringFromBoard, "row above")
-                    || search (row,col-1, board, word, stringFromBoard, "col to left")
-                    || search (row, col+1, board, word, stringFromBoard, "col to right")) return true;
-            System.out.println("end backtracking row = " + row + " col = " + col + " pred = " + predecessor);
+            if (search(row-1, col, board, word, stringFromBoard, depth+1)
+                    || search (row+1, col, board, word, stringFromBoard, depth+1)
+                    || search (row,col-1, board, word, stringFromBoard, depth+1)
+                    || search (row, col+1, board, word, stringFromBoard, depth+1)) return true;
+            System.out.println(getDepthString(depth) + "end backtracking row = " + row + " col = " + col + " pred = " + predecessor);
             // set char to the board position
             board[row][col] = ch;
         }
         return false;
+    }
+
+    private static String getDepthString(int depth) {
+        StringBuilder str = new StringBuilder();
+        for (int index = 0; index < depth; index++) {
+            str.append("    ");
+        }
+        return str.toString();
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -280,7 +288,7 @@ public class BoggleSearch {
             for (int row = 0; row < numRows; row++) {
                 for (int col = 0; col < numCols; col++) {
                     // call recursion function to exhaustively search the grid
-                    if (existHelper(board, word, row, col, 0, move)) return true;
+                    if (existHelper(board, word, row, col, 0, 0)) return true;
                 }
             }
             // would have returned true if the word is found
@@ -293,9 +301,9 @@ public class BoggleSearch {
                                 int row,
                                 int col,
                                 int index,
-                                int[][] move) {
+                                int depth) {
         if (row < 0 || row >= board.length || col <0 || col >= board[0].length|| board[row][col] == '@') return false;
-        System.out.println("checking row = " + row + " col = " + col + " index = " + index);
+        System.out.println(getDepthString(depth) + "checking row = " + row + " col = " + col + " index = " + index);
         if (board[row][col] == word.charAt(index)) {
             // if at the end of the word and there is no return false
             // and current board position is equal to the current char in word
@@ -308,10 +316,10 @@ public class BoggleSearch {
             board[row][col] = '@';
 
             // exhaustively search the nearby positions
-            if (existHelper(board, word, row-1, col, index+1, move) ||
-                existHelper(board, word, row, col-1, index+1, move) ||
-                existHelper(board, word, row+1, col, index+1, move) ||
-                existHelper(board, word, row, col+1, index+1, move)) return true;
+            if (existHelper(board, word, row-1, col, index+1, depth+1) ||
+                existHelper(board, word, row, col-1, index+1, depth+1) ||
+                existHelper(board, word, row+1, col, index+1, depth+1) ||
+                existHelper(board, word, row, col+1, index+1, depth+1)) return true;
 //            for (int[] m : move) {
 //                if (existHelper(board, word, row+m[0], col+m[1], index+1, move)) return true;
 //            }

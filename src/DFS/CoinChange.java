@@ -10,7 +10,7 @@ public class CoinChange {
         System.out.println("findCoins return " + findCoinChange(0, coins, 10));
         System.out.println("findCoins change " + findCoinChange(coins, 10));
         int[] coins2 = new int[]{25,10,5,1};
-        System.out.println("make Change " + makeChange(coins2,10));
+        System.out.println("make Change finally returns " + makeChange(coins2,10));
     }
 
     /**
@@ -72,7 +72,7 @@ public class CoinChange {
 
     private static int makeChange(int[] coins, int amount) {
         if (coins != null && coins.length > 0 && amount >= 0) {
-            return makeChange(coins, amount, 0);
+            return makeChange(coins, amount, 0,0);
         }
         return 0;
     }
@@ -85,11 +85,14 @@ public class CoinChange {
      * @param currentIndex
      * @return
      */
-    private static int makeChange(int[] coins, int amount, int currentIndex) {
+    private static int makeChange(int[] coins, int amount, int currentIndex,int depth) {
         int nextCoinIndex;
+        System.out.println(getDepthString(depth) + "remaining amount is " + amount);
         if (currentIndex < coins.length-1) {
             nextCoinIndex = currentIndex + 1;
+            System.out.println(getDepthString(depth) + "increment coin index to " + nextCoinIndex);
         } else {
+            System.out.println(getDepthString(depth) + "returning current coin " + coins[currentIndex] + " current Index = " + currentIndex);
             return coins[currentIndex];
         }
 
@@ -97,11 +100,22 @@ public class CoinChange {
         for (int numberOfCoinsForCurrentIndex = 0;
              numberOfCoinsForCurrentIndex * coins[currentIndex] <= amount;
              numberOfCoinsForCurrentIndex++) {
+            System.out.println(getDepthString(depth) + "making changes with " + coins[currentIndex] +
+                               " with the number of coins = " + numberOfCoinsForCurrentIndex);
             res += makeChange(coins,
                               amount - numberOfCoinsForCurrentIndex * coins[currentIndex],
-                              nextCoinIndex);
+                              nextCoinIndex,
+                              depth + 1);
         }
         return res;
+    }
+
+    private static String getDepthString(int depth) {
+        StringBuilder str = new StringBuilder();
+        for (int index = 0; index < depth; index++) {
+            str.append("    ");
+        }
+        return str.toString();
     }
 
     /**

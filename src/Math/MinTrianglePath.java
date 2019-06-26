@@ -26,10 +26,10 @@ public class MinTrianglePath {
         list2.add(2);
         list2.add(3);
         list3.add(4);
-        list3.add(5);
+        list3.add(3);
         list3.add(6);
         list4.add(7);
-        list4.add(8);
+        list4.add(7);
         list4.add(9);
         list4.add(10);
         //
@@ -60,7 +60,8 @@ public class MinTrianglePath {
             outBuffer[index] = input.get(height-1).get(index);
         }
 
-        // move up the triangle
+        // move up the triangle and overwrite outBuffer with the min of the row
+        // below the current row added on top of current row number of interest
         for (int r = height-2; r>=0; r--) {
             ArrayList<Integer> row = input.get(r);
             for (int index = 0; index < row.size(); index++) {
