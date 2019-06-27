@@ -108,6 +108,10 @@ public class RecurseSubset {
         // recurse on remainder and get list of words back
         ArrayList<String> words = getCombPerms(remainder, level + 1);
 
+        // also this is the diff between combperms and perms (add all of the words)
+        // now add all of the words in word list to the permutations
+        permutations.addAll(words); // add permutations without first char
+        
         // insert the first char into each possible position in current
         // permutation of words list
         for (String word : words) {
@@ -120,11 +124,7 @@ public class RecurseSubset {
                 permutations.add(insertCharAt(word, firstChar, index));
             }
         }
-        System.out.println(getIndentationFromLevel(level) + "adding all words " + words.toString());
-        
-        // also this is the diff between combperms and perms (add all of the words)
-        // now add all of the words in word list to the permutations
-        permutations.addAll(words); // add permutations without the first char
+
         return permutations;
     }
 

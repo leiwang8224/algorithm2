@@ -91,9 +91,11 @@ public class FindAllPermutations {
         // iterate through the arraylist of permutations and insert the first char
         // at each index
         for(String word : words) {
+            // NOTE: word.length() inclusive due to the inserting at the last position (greater than word.length()-1)
             for (int index = 0; index <= word.length(); index++) {
                 // essentially put the first char in each position in the string
                 // starting from first char
+                System.out.println(getIndentationFromLevel(level) + "inserting char " + firstChar + " at position " + index + " word length = " + word.length());
                 permutations.add(insertCharAt(word, firstChar, index));
             }
         }

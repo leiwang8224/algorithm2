@@ -26,12 +26,28 @@ public class MinTrianglePath {
         list2.add(2);
         list2.add(3);
         list3.add(4);
-        list3.add(3);
+        list3.add(5);
         list3.add(6);
         list4.add(7);
-        list4.add(7);
+        list4.add(8);
         list4.add(9);
         list4.add(10);
+
+        ArrayList<Integer> list5 = new ArrayList<>();
+        ArrayList<Integer> list6 = new ArrayList<>();
+        ArrayList<Integer> list7 = new ArrayList<>();
+        ArrayList<Integer> list8 = new ArrayList<>();
+
+        list5.add(1);
+        list6.add(1);
+        list6.add(0);
+        list7.add(1);
+        list7.add(2);
+        list7.add(3);
+        list8.add(7);
+        list8.add(2);
+        list8.add(3);
+        list8.add(1);
         //
         //     [1],
         //   [2, 3],
@@ -45,6 +61,18 @@ public class MinTrianglePath {
         inputArray.add(list4);
 
         System.out.println(minTriangleDepth(inputArray));
+
+        //         1
+        //        1 0
+        //       1 2 3
+        //      7 2 3 1
+        inputArray.clear();
+        inputArray.add(list5);
+        inputArray.add(list6);
+        inputArray.add(list7);
+        inputArray.add(list8);
+
+        System.out.println(minTriangleDepth(inputArray));
     }
 //
 //    Use a buffer array that is the length of the base of the triangle.
@@ -56,6 +84,9 @@ public class MinTrianglePath {
         int[] outBuffer = new int[input.get(height-1).size()];
 
         // init with the values from the bottom of the triangle
+        // note that the last index will not get updated as we traverse
+        // upwards in the triangle. Therefore the first element will
+        // always be the final answer
         for (int index = 0; index < input.get(height-1).size(); index++) {
             outBuffer[index] = input.get(height-1).get(index);
         }
@@ -65,10 +96,15 @@ public class MinTrianglePath {
         for (int r = height-2; r>=0; r--) {
             ArrayList<Integer> row = input.get(r);
             for (int index = 0; index < row.size(); index++) {
+                // take min of output buffer indices next to each other
+                // and add to current row with index
+                System.out.println("set index " + index + " with min of " + outBuffer[index] + " and " + outBuffer[index+1]);
                 outBuffer[index] = row.get(index) + Math.min(outBuffer[index], outBuffer[index+1]);
             }
             System.out.println("for r = " + r + " outBuffer = " + Arrays.toString(outBuffer));
         }
+
+        // the leftmost value is the smallest value
         return outBuffer[0];
     }
 }
