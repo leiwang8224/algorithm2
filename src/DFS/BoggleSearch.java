@@ -1,6 +1,8 @@
 package DFS;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.TreeSet;
 
 // given a dictionary and board of letters, find all the words in the dictionary
 // in the board
@@ -333,5 +335,65 @@ public class BoggleSearch {
 
         // return false in the end since all other cases would have returned true
         return false;
+    }
+
+    class TrieImpl {
+
+        boolean searchPrefix(String word) {
+            return true;
+        }
+
+        boolean searchWord(String word) {
+            return true;
+        }
+
+    }
+    private ArrayList<String> boggleSearchWithDict(char[][] board, TrieImpl dictionary) {
+        // TreeSet to make sure the output is in alphabetical order
+        TreeSet<String> outputHolder = new TreeSet<>();
+        int rows = board.length;
+        int cols = board[0].length;
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                searchBoard(row, col, board, dictionary,"",outputHolder);
+            }
+        }
+        return new ArrayList<>(outputHolder);
+    }
+
+    private void searchBoard(int row,
+                             int col,
+                             char[][] board,
+                             TrieImpl dictionary,
+                             String prefix,
+                             TreeSet<String> outputHolder) {
+        int rows = board.length;
+        int cols = board[0].length;
+
+        if (row > rows - 1 ||
+            row < 0 ||
+            col > cols - 1 ||
+            col < 0 ||
+            !dictionary.searchPrefix(prefix) ||
+            board[row][col] == '@') {
+            return;
+        }              
+
+        char ch = board[row][col];
+        String str = prefix + ch;
+        if (dictionary.searchWord(str)) {
+            outputHolder.add(str);      // add to the treeSet
+        }
+
+        // label as visited
+        board[row][col] = '@';          // mark the board node as visited
+
+        searchBoard(row-1, col, board, dictionary, str, outputHolder);
+        searchBoard(row+1,col,board,dictionary,str,outputHolder);
+        searchBoard(row,col-1,board,dictionary,str,outputHolder);
+        searchBoard(row,col+1,board,dictionary,str,outputHolder);
+
+        // put the char back in the board position
+        board[row][col] = ch;
     }
 }

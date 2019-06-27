@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class SwapOddEvenBits {
     public static void main(String[] args) {
-        System.out.println(swapOddEvenBits(5));
+        System.out.println(swapOddEvenBits(42));
     }
 
     private static int swapOddEvenBits(int x) {
@@ -17,12 +17,13 @@ public class SwapOddEvenBits {
 //        3. Bitswise OR | the outputs of the first and second steps to reach the final result.
         System.out.println(Integer.toBinaryString(x));
         // mask all odd bits
-        System.out.println(Integer.toBinaryString((x & 0xAAAAAAAA) >> 1));
+        System.out.println(Integer.toBinaryString((x & 0xAAAAAAAA) >> 1)); // even
         // mask all even bits
-        System.out.println(Integer.toBinaryString((x & 0x55555555) << 1));
+        System.out.println(Integer.toBinaryString((x & 0x55555555) << 1)); // odd
         // print final results
         System.out.println(Integer.toBinaryString(((x & 0xAAAAAAAA) >> 1 | ((x & 0x55555555) << 1))));
-        return ((x & 0xAAAAAAAA) >> 1 | ((x & 0x55555555) << 1));
+//        return ((x & 0xAAAAAAAA) >> 1 | ((x & 0x55555555) << 1));
+        return ((x & 0xAAAAAAAA) >> 1 | ((x & 0x55555555) >> 1));
     }
 
     private static String printNumBinary(int num) {
