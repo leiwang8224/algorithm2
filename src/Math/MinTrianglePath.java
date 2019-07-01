@@ -60,7 +60,7 @@ public class MinTrianglePath {
         inputArray.add(list3);
         inputArray.add(list4);
 
-        System.out.println(minTriangleDepth(inputArray));
+        System.out.println("min Triangle Depth = " + minTriangleDepth2(inputArray));
 
         //         1
         //        1 0
@@ -72,7 +72,7 @@ public class MinTrianglePath {
         inputArray.add(list7);
         inputArray.add(list8);
 
-        System.out.println(minTriangleDepth(inputArray));
+        System.out.println("min Triangle Depth = " + minTriangleDepth2(inputArray));
     }
 //
 //    Use a buffer array that is the length of the base of the triangle.
@@ -106,5 +106,20 @@ public class MinTrianglePath {
 
         // the leftmost value is the smallest value
         return outBuffer[0];
+    }
+
+    private static int minTriangleDepth2(ArrayList<ArrayList<Integer>> input) {
+        int[] curRow = new int[input.size()];
+        for(int index = 0; index < input.get(input.size()-1).size(); index++) {
+            curRow[index] = (input.get(input.size()-1).get(index));
+        }
+
+        for(int rowIdx = input.size()-2; rowIdx >= 0; rowIdx--) {
+            for (int colIdx = 0; colIdx < input.get(rowIdx).size(); colIdx++) {
+                curRow[colIdx] = input.get(rowIdx).get(colIdx) + Math.min(curRow[colIdx],curRow[colIdx+1]);
+            }
+        }
+
+        return curRow[0];
     }
 }
