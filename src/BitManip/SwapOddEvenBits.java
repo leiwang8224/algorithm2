@@ -5,6 +5,8 @@ import java.util.Stack;
 public class SwapOddEvenBits {
     public static void main(String[] args) {
         System.out.println(swapOddEvenBits(42));
+        System.out.println(swapOddEvenBitsIntuitive(42));
+        System.out.println(swapOddEvenBits2(42));
     }
 
     private static int swapOddEvenBits(int x) {
@@ -22,8 +24,7 @@ public class SwapOddEvenBits {
         System.out.println(Integer.toBinaryString((x & 0x55555555) << 1)); // odd
         // print final results
         System.out.println(Integer.toBinaryString(((x & 0xAAAAAAAA) >> 1 | ((x & 0x55555555) << 1))));
-//        return ((x & 0xAAAAAAAA) >> 1 | ((x & 0x55555555) << 1));
-        return ((x & 0xAAAAAAAA) >> 1 | ((x & 0x55555555) >> 1));
+        return ((x & 0xAAAAAAAA) >> 1 | ((x & 0x55555555) << 1));
     }
 
     private static String printNumBinary(int num) {
@@ -40,5 +41,34 @@ public class SwapOddEvenBits {
         }
 
         return str.toString();
+    }
+
+    private static int swapOddEvenBitsIntuitive(int x) {
+        int mask=0b01010101010101010101010101010101;
+        int odds=x & mask;
+        mask=0b10101010101010101010101010101010;
+        int evens= x & mask;
+        odds<<=1;
+        evens>>=1;
+        return (odds | evens);
+    }
+
+    private static int swapOddEvenBits2(int x) {
+        int bit = 0;
+
+        while (bit < 32) {
+            int even = (x >> bit) % 2;
+
+            int odd = (x >> bit + 1) % 2;
+
+            if (even != odd) {
+                x = x ^ (int) Math.pow(2, bit);
+                x = x ^ (int) Math.pow(2, bit + 1);
+            }
+
+            bit += 2;
+        }
+
+        return x;
     }
 }
