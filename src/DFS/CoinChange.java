@@ -57,7 +57,7 @@ public class CoinChange {
             // for each coin
             for (int numberOfCoins = 0; numberOfCoins <= maxNumOfCoins; numberOfCoins++) {
                 // if the coin is less or equal to target
-                if (target >= numberOfCoins * coins[coinidx]) {
+                if (numberOfCoins * coins[coinidx] <= target) {
                     System.out.println(getDepthString(depth) + "calling recursion coin = " + coins[coinidx] + " target = " + target);
                     int res = findCoinChange(coinidx + 1, coins, target - numberOfCoins * coins[coinidx], depth+1);
                     System.out.println(getDepthString(depth) + "returning recursion coin = " + coins[coinidx] + " target = " + target);
@@ -90,14 +90,15 @@ public class CoinChange {
     private static int makeChange(int[] coins, int amount, int currentIndex,int depth) {
         int nextCoinIndex;
         System.out.println(getDepthString(depth) + "remaining amount is " + amount);
+        // if current index is not at the end increment one
         if (currentIndex < coins.length-1) {
             nextCoinIndex = currentIndex + 1;
             System.out.println(getDepthString(depth) + "increment coin index to " + nextCoinIndex);
-        } else {
+        } else { // else we are at the end, return 1 for one cent
             // at the last coin which is 1 cent, return that 1 cent
             System.out.println(getDepthString(depth) + "returning current coin amount " + coins[currentIndex] + " current Index = " + currentIndex);
-            return 1;   // returning 1 for one way of make change
-//            return coins[currentIndex];
+            return 1;
+//            return coins[currentIndex]; // if the last coin is not one cent use this statement
         }
 
         int res = 0;
@@ -135,21 +136,25 @@ public class CoinChange {
     private static int findCoinChange (int[] coins, int target) {
         int max = target + 1;
         int[] dp = new int[target+1];
+
+        // populate initial array with values target+1
+        // first element is 0 because there is 0 ways to come up with target 0
         for (int i = 0; i < dp.length; i ++) {
             dp[i] = max;
         }
         dp[0] = 0;
 
         // for each number below target, gather coins to add up
-        for (int i = 1; i <= target; i++) {
+        for (int eachNumBelowTarget = 1; eachNumBelowTarget <= target; eachNumBelowTarget++) {
             // for each coin check to see if we can add up to the value
-            for (int j = 0; j < coins.length; j++) {
-                if (coins[j] <= i) {
-                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+            for (int coinIdx = 0; coinIdx < coins.length; coinIdx++) {
+                if (coins[coinIdx] <= eachNumBelowTarget) {
+                    dp[eachNumBelowTarget] = Math.min(dp[eachNumBelowTarget], dp[eachNumBelowTarget - coins[coinIdx]] + 1);
                 }
             }
         }
-        return dp[target] > target ? -1 : dp[target];
-    }
 
+        if (dp[target] > target) return -1;
+        else return dp[target];
+    }
 }

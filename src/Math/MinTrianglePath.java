@@ -93,6 +93,8 @@ public class MinTrianglePath {
 
         // move up the triangle and overwrite outBuffer with the min of the row
         // below the current row added on top of current row number of interest
+        // make sure to include the 0 index as when looping upwards we don't include
+        // the last index (0 indexed)
         for (int r = height-2; r>=0; r--) {
             ArrayList<Integer> row = input.get(r);
             for (int index = 0; index < row.size(); index++) {
@@ -115,6 +117,7 @@ public class MinTrianglePath {
         }
 
         for(int rowIdx = input.size()-2; rowIdx >= 0; rowIdx--) {
+            System.out.println("getting row number " + rowIdx);
             for (int colIdx = 0; colIdx < input.get(rowIdx).size(); colIdx++) {
                 curRow[colIdx] = input.get(rowIdx).get(colIdx) + Math.min(curRow[colIdx],curRow[colIdx+1]);
             }

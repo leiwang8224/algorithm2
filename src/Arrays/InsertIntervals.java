@@ -30,7 +30,7 @@ public class InsertIntervals {
         Interval interval5 = new Interval(12,16);
         Interval addInterval = new Interval(4,9);
 
-        List<Interval> list = new ArrayList<>();
+        ArrayList<Interval> list = new ArrayList<>();
         list.add(interval1);
         list.add(interval2);
         list.add(interval3);
@@ -39,7 +39,7 @@ public class InsertIntervals {
 
         System.out.println(java.util.Arrays.toString(insert(list, addInterval).toArray()));
         System.out.println(java.util.Arrays.toString(insert2(list, addInterval).toArray()));
-
+        System.out.println(Arrays.toString(insertRange(list,addInterval).toArray()));
     }
 
     public static class Interval {
@@ -112,6 +112,33 @@ public class InsertIntervals {
         }
         if (newInterval != null)
             result.add(newInterval);
+        return result;
+    }
+
+//    This problem simplifies things from the start by stating that the List of Intervals is
+//    already sorted, and is non-overlapping. Use this knowledge to map out 3 possible scenarios
+//    of Range insertion. They will be :
+//    a) The input range lies completely in front of the Range in consideration
+//    b) The input ranges lies completely behind the Range in consideration
+//    c) There is an overlap between the input Range and the Range in consideration
+    private static ArrayList<Interval> insertRange(ArrayList<Interval> intervalsList, Interval insert) {
+        ArrayList<Interval> result = new ArrayList<>();
+
+        for (Interval interval : intervalsList) {
+            if (interval.end < insert.start) {
+                result.add(interval);
+            } else if (interval.start > insert.end) {
+                result.add(insert);
+                // modify insert to be the new interval
+                insert = interval;
+            } else if (interval.start <= insert.end || interval.end >= insert.start) {
+                // since there is intersection, make new interval by merging and modify insert
+                int newStart = Math.min(interval.start, insert.start);
+                int newEnd = Math.max(interval.end, insert.end);
+                insert = new Interval(newStart, newEnd);
+            }
+        }
+        result.add(insert);
         return result;
     }
 
