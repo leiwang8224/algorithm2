@@ -14,8 +14,50 @@ public class FindMaxSumLevel {
         root.right.right = new ListNode(7);
         root.left.left.left = new ListNode(8);
 
+        ListNode root2 = new ListNode(1);
+        root2.left = new ListNode(2);
+        root2.right = new ListNode(3);
+        root2.left.left = new ListNode(4);
+        root2.left.right = new ListNode(5);
+        root2.right.left = new ListNode(6);
+        root2.right.right = new ListNode(7);
+        root2.left.left.left = new ListNode(8);
         System.out.println("max is " + findMaxSumLevel(root));
+        System.out.println("max is " + findMaxSumLevel2(root2));
 
+    }
+
+    private static int findMaxSumLevel2(ListNode root) {
+        if (root == null) return -1;
+        int currSum = 0, maxSum = 0;
+        int currLevel = 0, maxLevel = 0;
+
+        Queue<ListNode> q = new LinkedList<>();
+        q.offer(root);
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int index = 0; index < size; index++) {
+                ListNode node = q.poll();
+
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+                // NOTE this is currSum from last level,
+                // so need to subtract one level in result
+                currSum = currSum + node.getVal();
+            }
+            if (currSum > maxSum) {
+                maxSum = currSum;
+                maxLevel = currLevel-1;
+            }
+            currLevel++;
+            printQueue(q,currLevel,currSum);
+        }
+        return maxLevel;
     }
 
     private static int findMaxSumLevel(ListNode root) {
@@ -39,8 +81,9 @@ public class FindMaxSumLevel {
                 }
 
                 currSum = 0; // reset
+                // if q is not empty, that means there is more nodes (next level)
                 if (!q.isEmpty()) {
-                    q.add(null); // end of level indicator
+                    q.add(null); // add end of level indicator
                 }
                 currLevel++; // begin next level
             } else {
@@ -50,7 +93,19 @@ public class FindMaxSumLevel {
                 if (cur.right != null)
                     q.add(cur.right);
             }
+            printQueue(q,currLevel,currSum);
         }
+        System.out.println();
         return maxLevel;
+    }
+
+    private static void printQueue(Queue<ListNode> q, int level, int currSum) {
+        StringBuilder str = new StringBuilder();
+        System.out.print("level = " + level + " sum = " + currSum + " - ");
+        for (ListNode node : q) {
+            if (node == null) str.append("null,");
+            else str.append(node.getVal() + ",");
+        }
+        System.out.println(str.toString());
     }
 }
