@@ -66,6 +66,7 @@ public class GetStringsFromPhoneNums {
         // DFS
         while (!stack.isEmpty()) {
             PhoneNode node = stack.pop();
+            // all digits are there (num digits = length), add result
             if (node.digitCount == len) result.add(node.word);
             else {
                 for (Character ch : mapping.get(digits.charAt(node.digitCount)).toCharArray()) {

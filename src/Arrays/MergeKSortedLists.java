@@ -1,11 +1,11 @@
 package Arrays;
 
-import LinkedList.ListNode;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
+
+import LinkedList.ListNode;
 
 /**
  * Merge k linked lists
@@ -76,10 +76,12 @@ public class MergeKSortedLists {
         ListNode dummy = new ListNode(0);
         ListNode tail=dummy;
 
+        // fill priority queue with the top list nodes of each sorted list
         for (ListNode node:lists)
             if (node!=null)
                 queue.add(node);
 
+        // while the queue is not empty, poll the min element
         while (!queue.isEmpty()){
             tail.next=queue.poll();
             tail=tail.next;
@@ -88,6 +90,46 @@ public class MergeKSortedLists {
                 queue.add(tail.next);
         }
         return dummy.next;
+    }
+
+//    Heaps are great for these types of problems - where you have k lists or
+//    arrays that need to be sorted. Why? Visualize a heap as a pipe that takes
+//    in stuff from multiple sources - in this case multiple lists - rearranges
+//    that stuff to ensure that the smallest element is always at the top of the
+//    heap (Min Heap) - and spits out this element to an output list. Now if we
+//    use a heap as a sorting pipe, we simply need to keep this pipe filled and
+//    collect whatever comes out of the other end in a master list.
+//    In Java, heaps are PriorityQueue s.
+    private static ListNode mergeKLists4(ArrayList<ListNode> lists) {
+        if (lists.size() == 0) return null;
+        PriorityQueue<ListNode> queue = new PriorityQueue<>(lists.size(),
+                                                            new Comparator<ListNode>() {
+                                                                @Override
+                                                                public int compare(ListNode node1,
+                                                                                   ListNode node2) {
+                                                                    if (node1.getVal() > node2.getVal()) return 1;
+                                                                    else if (node1.getVal() == node2.getVal()) return 0;
+                                                                    else return -1;
+                                                                }
+                                                            });
+        for (ListNode node : lists) {
+            if (node != null)
+                queue.add(node);
+        }
+
+        ListNode head = new ListNode(0), curr = head;
+
+        // while queue is not empty, get the smallest element
+        // and add to the next pointer in the new linkedlist
+        while (queue.size() > 0) {
+            ListNode temp = queue.poll();
+            curr.next = temp;
+            if (temp.next != null)
+                queue.add(temp.next);
+            curr = curr.next;
+        }
+
+        return head.next;
     }
 
     public static ListNode mergeKLists2(ListNode[] lists){
