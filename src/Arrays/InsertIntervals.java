@@ -125,19 +125,23 @@ public class InsertIntervals {
         ArrayList<Interval> result = new ArrayList<>();
 
         for (Interval interval : intervalsList) {
-            if (interval.end < insert.start) {
+            if (insert.start > interval.end) {                 // insert is at end
                 result.add(interval);
-            } else if (interval.start > insert.end) {
+            } else if (insert.end < interval.start) {          // insert is at beginning
                 result.add(insert);
-                // modify insert to be the new interval
+                // reset insert to be the new interval
+                // because the insert is before the current interval
+                // the intervals thereafter needs to be compared to the beginning interval
                 insert = interval;
-            } else if (interval.start <= insert.end || interval.end >= insert.start) {
+            } else if (insert.end >= interval.start || insert.start <= interval.end) {
+                // the assumption is insert.start < interval.end || insert.end > interval.start
                 // since there is intersection, make new interval by merging and modify insert
                 int newStart = Math.min(interval.start, insert.start);
                 int newEnd = Math.max(interval.end, insert.end);
                 insert = new Interval(newStart, newEnd);
             }
         }
+        // remember to add the last updated insert at the end of the loop
         result.add(insert);
         return result;
     }

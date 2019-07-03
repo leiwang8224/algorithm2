@@ -24,6 +24,8 @@ import java.util.Stack;
 public class GetStringsFromPhoneNums {
     public static void main(String[] args) {
         printArrayList(getStringsFromNums("34"));
+        System.out.println();
+        printArrayList(getStringsFromNumsRecurse("34"));
     }
 
     private static void printArrayList(ArrayList<String> result) {
@@ -44,12 +46,13 @@ public class GetStringsFromPhoneNums {
         mapping.put('8',"tuv");
         mapping.put('9',"wxyz");
 
+//        PhoneNode that stores the possible String up to that point in the stack, along with the number of digits remaining.
         class PhoneNode {
             String word;
-            int digitCount;
+            int digitsUsed;
             PhoneNode(String word, int count) {
                 this.word = word;
-                this.digitCount = count;
+                this.digitsUsed = count;
             }
         }
 
@@ -59,6 +62,7 @@ public class GetStringsFromPhoneNums {
         int len = digits.length();
 
         // push the first node into the stack
+        // the first node is the first char from the digits string, with char being used = 1
         for (Character ch : mapping.get(digits.charAt(0)).toCharArray()) {
             stack.push(new PhoneNode(String.valueOf(ch), 1));
         }
@@ -67,13 +71,43 @@ public class GetStringsFromPhoneNums {
         while (!stack.isEmpty()) {
             PhoneNode node = stack.pop();
             // all digits are there (num digits = length), add result
-            if (node.digitCount == len) result.add(node.word);
+            if (node.digitsUsed == len) result.add(node.word);
             else {
-                for (Character ch : mapping.get(digits.charAt(node.digitCount)).toCharArray()) {
-                    stack.push(new PhoneNode(node.word + ch, node.digitCount+1));
+                for (Character ch : mapping.get(digits.charAt(node.digitsUsed)).toCharArray()) {
+                    // increment the digitsUsed counter and add the char
+                    stack.push(new PhoneNode(node.word + ch, node.digitsUsed + 1));
                 }
             }
         }
         return result;
+    }
+
+    private static ArrayList<String> getStringsFromNumsRecurse(String digits) {
+        HashMap<Character,String> mapping = new HashMap<>();
+
+        mapping.put('2',"abc");
+        mapping.put('3',"def");
+        mapping.put('4',"ghi");
+        mapping.put('5',"jkl");
+        mapping.put('6',"mno");
+        mapping.put('7',"pqrs");
+        mapping.put('8',"tuv");
+        mapping.put('9',"wxyz");
+        ArrayList<String> result = new ArrayList<>();
+
+        getStringFromNums(digits,mapping,result,0,"");
+
+        return result;
+    }
+
+    private static void getStringFromNums(String digits, HashMap<Character, String> map, ArrayList<String> result, int numDigits, String word) {
+        if (numDigits == digits.length()) {
+            result.add(word);
+            return;
+        } else {
+            for (Character ch : map.get(digits.charAt(numDigits)).toCharArray()) {
+                getStringFromNums(digits,map,result,numDigits+1,word+ch);
+            }
+        }
     }
 }
