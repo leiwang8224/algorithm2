@@ -105,6 +105,8 @@ public class GetStringsFromPhoneNums {
             result.add(word);
             return;
         } else {
+            // get all chars in the String and add to the word
+            // recurse on each char from digits mapping
             for (Character ch : map.get(digits.charAt(numDigits)).toCharArray()) {
                 getStringFromNums(digits,map,result,numDigits+1,word+ch);
             }
