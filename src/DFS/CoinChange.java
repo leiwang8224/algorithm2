@@ -11,6 +11,7 @@ public class CoinChange {
         System.out.println("findCoins change " + findCoinChange(coins, 10));
         int[] coins2 = new int[]{25,10,5,1};
         System.out.println("make Change finally returns " + makeChange(coins2,10));
+        System.out.println("make Change2 finally returns " + makeChange2(coins2, 10));
     }
 
     /**
@@ -117,6 +118,30 @@ public class CoinChange {
                                + " nextIdx = " + nextCoinIndex);
         }
         return res;
+    }
+
+    private static int makeChange2(int[] coins, int amount) {
+        if (coins.length == 0 || amount <= 0) {
+            return 0;
+        }
+
+        // separate the first coin and the rest
+        int firstCoin = coins[0];
+
+        // rest of the coins
+        int[] otherCoins = java.util.Arrays.copyOfRange(coins, 1, coins.length);
+
+        // add one way to make change if the first coin is already the amount
+        if (firstCoin == amount) {
+            return 1 + makeChange2(otherCoins, amount);
+            // else if the first coin is > amount, recurse on the rest of the coins
+        } else if (firstCoin > amount) {
+            return makeChange2(otherCoins, amount);
+        } else {
+            // else the first coin is < amount, recurse on the rest of the amount +
+            // the number of ways to use rest of the coins to make the change
+            return makeChange2(coins, amount - firstCoin) + makeChange2(otherCoins, amount);
+        }
     }
 
     private static String getDepthString(int depth) {

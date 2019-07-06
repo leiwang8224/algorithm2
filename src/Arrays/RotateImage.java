@@ -46,6 +46,7 @@ public class RotateImage {
 //        8  5  2
 //        9  6  3
     private static void rotateImage(int[][] matrix) {
+        // transpose operation
         for(int row = 0; row<matrix.length; row++){
             for(int col = row; col<matrix[0].length; col++){
                 int temp = 0;
@@ -58,6 +59,8 @@ public class RotateImage {
         for (int i = 0; i < matrix.length; i ++) {
             System.out.println(java.util.Arrays.toString(matrix[i]));
         }
+
+        // flip vertically
         for(int row =0 ; row<matrix.length; row++){
             for(int col = 0; col<matrix[0].length/2; col++){
                 System.out.println("i = " + row + " j = " + col);

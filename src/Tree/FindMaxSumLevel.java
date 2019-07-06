@@ -22,11 +22,18 @@ public class FindMaxSumLevel {
         root2.right.left = new ListNode(6);
         root2.right.right = new ListNode(7);
         root2.left.left.left = new ListNode(8);
-        System.out.println("max is " + findMaxSumLevel(root));
-        System.out.println("max is " + findMaxSumLevel2(root2));
+
+        ListNode rootNotBalanced = new ListNode(9);
+        rootNotBalanced.left = new ListNode(8);
+        rootNotBalanced.left.left = new ListNode(4);
+        rootNotBalanced.left.left.right = new ListNode(6);
+        System.out.println("max is " + findMaxSumLevel(rootNotBalanced));
+        System.out.println("max is " + findMaxSumLevel2(rootNotBalanced));
 
     }
 
+    //NOTE THIS IMPLEMENTATION IS WRONG TO SHOW THAT NOT ALL LEVEL ORDER TRAVERSAL WORKS
+    //ONLY WORKS FOR BALANCED TREES!
     private static int findMaxSumLevel2(ListNode root) {
         if (root == null) return -1;
         int currSum = 0, maxSum = 0;
@@ -69,11 +76,13 @@ public class FindMaxSumLevel {
         Queue<ListNode> q = new LinkedList<>();
 
         q.add(root);
+        // push null for level delimiter
         q.add(null); // end of first level indicator
 
         while (!q.isEmpty()) {
             cur = q.poll();
             // if at the end of the current level, compare sum and process result
+            // if null is found we are at the end of the level
             if (cur == null) {
                 if (currSum > maxSum) {
                     maxSum = currSum;

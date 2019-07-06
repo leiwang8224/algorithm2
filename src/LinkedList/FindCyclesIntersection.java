@@ -25,6 +25,8 @@ public class FindCyclesIntersection {
         System.out.println("intersection node = " + getIntersectionNode(head, head2).getVal());
     }
 
+
+
     private static int getLength(ListNode list) {
         int len = 0;
         ListNode ptr = list;

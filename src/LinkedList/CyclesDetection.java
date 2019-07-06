@@ -8,12 +8,36 @@ public class CyclesDetection {
 
         System.out.println("list with cycle");
 //        BuildLinkedList.printList(generateCycleList()); this will go forever
+        System.out.println(isCyclic(BuildLinkedList.returnNewList()));
+        System.out.println(isCyclic(generateCycleList()));
         System.out.println("detectAndRemoveLoop without cycle" +detectAndRemoveLoop(BuildLinkedList.returnNewList()));
         System.out.println("detectAndRemoveLoop with cycle");
         BuildLinkedList.printList(detectAndRemoveLoopOptimized(generateCycleList()));
         System.out.println("detectAndRemoveLoop with cycle Floyd");
         BuildLinkedList.printList(removeLoopFloyd(generateCycleList(),null));
 
+    }
+
+    private static boolean isCyclic(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (slow != null && fast != null) {
+            // slow move 1 node
+            slow = slow.next;
+            // fast move 2 nodes
+            if (fast.next != null) {
+                fast = fast.next.next;
+            } else {
+                break;
+            }
+
+            // if slow and fast meet, there is a loop
+            if (slow == fast)
+                return true;
+
+        }
+        return false;
     }
 
     private static ListNode generateCycleList() {
