@@ -22,15 +22,20 @@ public class CyclesDetection {
         ListNode slow = head;
         ListNode fast = head;
 
+        // slow or fast could land on null node
         while (slow != null && fast != null) {
             // slow move 1 node
             slow = slow.next;
-            // fast move 2 nodes
+            // fast move 2 nodes if fast.next is not null
             if (fast.next != null) {
                 fast = fast.next.next;
             } else {
                 break;
             }
+
+            // OR:
+            // if (fast.next == null) break;
+            // else fast = fast.next.next;
 
             // if slow and fast meet, there is a loop
             if (slow == fast)
