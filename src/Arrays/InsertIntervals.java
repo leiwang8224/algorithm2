@@ -119,8 +119,16 @@ public class InsertIntervals {
 //    already sorted, and is non-overlapping. Use this knowledge to map out 3 possible scenarios
 //    of Range insertion. They will be :
 //    a) The input range lies completely in front of the Range in consideration
+    //   Add the interval into the list
 //    b) The input ranges lies completely behind the Range in consideration
+    //   Add the insert into the list
+    //   Modify the insert as the interval
 //    c) There is an overlap between the input Range and the Range in consideration
+    //   Take min of interval start and insert start
+    //   Take max of interval end and insert end
+    //   Put it into insert
+    //Finally add the insert into the list
+    //Always update insert with the interval that is furthest ahead and add to list the interval that is furthest back
     private static ArrayList<Interval> insertRange(ArrayList<Interval> intervalsList, Interval insert) {
         ArrayList<Interval> result = new ArrayList<>();
 
@@ -132,7 +140,7 @@ public class InsertIntervals {
                 // reset insert to be the new interval
                 // because the insert is before the current interval
                 // the intervals thereafter needs to be compared to the beginning interval
-                insert = interval;
+                insert = interval;                              // update insert with interval because insert is before interval
             } else if (insert.end >= interval.start || insert.start <= interval.end) {
                 // the assumption is insert.start < interval.end || insert.end > interval.start
                 // since there is intersection, make new interval by merging and modify insert
