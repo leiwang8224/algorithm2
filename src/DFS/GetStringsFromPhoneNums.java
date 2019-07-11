@@ -101,15 +101,25 @@ public class GetStringsFromPhoneNums {
     }
 
     private static void getStringFromNums(String digits, HashMap<Character, String> map, ArrayList<String> result, int numDigits, String word) {
+        System.out.println(getIndentation(numDigits) + " numDigits = " + numDigits + " word = " + word);
         if (numDigits == digits.length()) {
             result.add(word);
             return;
-        } else {
-            // get all chars in the String and add to the word
-            // recurse on each char from digits mapping
-            for (Character ch : map.get(digits.charAt(numDigits)).toCharArray()) {
-                getStringFromNums(digits,map,result,numDigits+1,word+ch);
-            }
         }
+        // get all chars in the String and add to the word
+        // recurse on each char from digits mapping
+        for (Character ch : map.get(digits.charAt(numDigits)).toCharArray()) {
+            getStringFromNums(digits, map, result, numDigits + 1, word + ch);
+        }
+    }
+
+    private static String getIndentation(int level) {
+        StringBuilder str = new StringBuilder();
+
+        for (int index = 0; index < level; index++) {
+            str.append("    ");
+        }
+
+        return str.toString();
     }
 }

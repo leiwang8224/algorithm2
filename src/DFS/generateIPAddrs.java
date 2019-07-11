@@ -5,18 +5,18 @@ import java.util.Stack;
 
 public class generateIPAddrs {
     public static void main(String[] args) {
-        ArrayList<String> result = generateIPAddrs("25525511135");
-        ArrayList<String> result2 = generateIPAddrsRecurse("25525511135");
+//        ArrayList<String> result = generateIPAddrs("25525511135");
+//        ArrayList<String> result2 = generateIPAddrsRecurse("25525511135");
         ArrayList<String> result3 = restoreIpAddresses("25525511135");
         ArrayList<String> result4 = restoreIpAddress("25525511135");
-        for (String word : result) {
-            System.out.println(word);
-        }
-
-        System.out.println(" start 2 ");
-        for (String word : result2) {
-            System.out.println(word);
-        }
+//        for (String word : result) {
+//            System.out.println(word);
+//        }
+//
+//        System.out.println(" start 2 ");
+//        for (String word : result2) {
+//            System.out.println(word);
+//        }
 
         System.out.println(" start 3 ");
         for (String word : result3) {
@@ -114,7 +114,7 @@ public class generateIPAddrs {
                            pred +
                            " successor = " +
                            successor);
-        if (level == 3 && successor.length() == 0) {
+        if (level == 4 && successor.length() == 0) {
             result.add(pred);
             return;
         }
@@ -164,19 +164,32 @@ public class generateIPAddrs {
         if (ipSegments > 4) {
             return;
         }
+
+        // at the end of the ip, 4th segment, output string index is equal to ip length
         if (ipSegments == 4 && outputStrIndex == ip.length()) {
             result.add(restoredIp);
+            printArrayList(result);
         }
-        //        System.out.println("ip = " +
-        //                           ip +
-        //                           " index = " +
-        //                           outputStrIndex +
-        //                           " restoredIP = " +
-        //                           restoredIp +
-        //                           " ipSeg = " +
-        //                           ipSegments);
-        printArrayList(result);
+        System.out.println(getIndentation(ipSegments) +
+                           "ip = " +
+                           ip +
+                           " index = " +
+                           outputStrIndex +
+                           " restoredIP = " +
+                           restoredIp +
+                           " ipSeg = " +
+                           ipSegments);
+//        printArrayList(result);
+
+        // apply offset to the starting index to produce different permutations
         for (int indexOffset = 1; indexOffset < 4; indexOffset++) {
+            System.out.println(getIndentation(ipSegments) +
+                               "outputStrIndex = " +
+                               outputStrIndex +
+                               " indexOffset = " +
+                               indexOffset +
+                               " ip length = " +
+                               ip.length());
             // constraint: output string index needs to be within the length of input string
             if (outputStrIndex + indexOffset > ip.length()) {
                 break;
@@ -192,14 +205,17 @@ public class generateIPAddrs {
                 continue;
             }
 
-            // recurse on index + offset and 
-            restoreIpRecurse(ip,
-                             result,
-                             outputStrIndex + indexOffset,
-                             // if ipSegments is 3, we are one segment away from end of the ip address,
-                             // so no period for the next segment (4)
-                             restoredIp + substring + (ipSegments == 3 ? "" : "."),
-                             ipSegments + 1);
+//            if ((!substring.startsWith("0") && substring.length() <= 1) &&
+//                (indexOffset != 3 && Integer.parseInt(substring) < 256)) {
+                // recurse on index + offset and
+                restoreIpRecurse(ip,
+                                 result,
+                                 outputStrIndex + indexOffset,
+                                 // if ipSegments is 3, we are one segment away from end of the ip address,
+                                 // so no period for the next segment (4)
+                                 restoredIp + substring + (ipSegments == 3 ? "" : "."),
+                                 ipSegments + 1);
+//            }
         }
     }
 
@@ -243,6 +259,14 @@ public class generateIPAddrs {
             System.out.print(word + ",");
         }
         System.out.println();
+    }
+
+    private static java.lang.String getIndentation(int level) {
+        StringBuilder str = new StringBuilder();
+        for (int index = 0; index < level; index++) {
+            str.append("    ");
+        }
+        return str.toString();
     }
 }
 
