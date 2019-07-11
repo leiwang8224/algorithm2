@@ -22,8 +22,13 @@ public class GetNodeDistance {
     private static int getNodeDistance(ListNode root, int n1, int n2) {
         int distN1 = pathLenFromRoot(root, n1) - 1;
         int distN2 = pathLenFromRoot(root, n2) - 1;
+
+        // find least common ancestor for the two nodes
         int lcaData = findLCA(root, n1, n2).getVal();
+
+        // find distance from root node to lca node
         int lcaDistance = pathLenFromRoot(root, lcaData) - 1;
+
         return (distN1 + distN2) - 2 * lcaDistance;
     }
 
@@ -51,8 +56,10 @@ public class GetNodeDistance {
 
         // or just return the left or right node if not null
         // (the two values are on either left or right branch)
-        return left != null ? left : right;
-
+        if (left != null)
+            return left;
+        else
+            return right;
     }
 
     private static int pathLenFromRoot(ListNode root, int n1) {
@@ -71,7 +78,8 @@ public class GetNodeDistance {
         // check if n1 is present at root or in left subtree
         // or right subtree
         if (root.getVal() == n1 || outLeft > 0 || outRight > 0) {
-            return outLeft > 0 ? outLeft + 1 : outRight + 1;
+            if (outLeft > 0) return outLeft + 1;
+            else return outRight + 1;
         }
 
         return 0;
