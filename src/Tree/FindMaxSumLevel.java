@@ -83,6 +83,7 @@ public class FindMaxSumLevel {
             cur = q.poll();
             // if at the end of the current level, compare sum and process result
             // if null is found we are at the end of the level
+            // pop the node, if null and q is not empty then push another null node
             if (cur == null) {
                 if (currSum > maxSum) {
                     maxSum = currSum;
@@ -91,6 +92,7 @@ public class FindMaxSumLevel {
 
                 currSum = 0; // reset
                 // if q is not empty, that means there is more nodes (next level)
+                // queue up the null for this level of nodes
                 if (!q.isEmpty()) {
                     q.add(null); // add end of level indicator
                 }

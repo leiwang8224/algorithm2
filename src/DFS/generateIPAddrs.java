@@ -161,12 +161,15 @@ public class generateIPAddrs {
                                          int outputStrIndex,
                                          String restoredIp,
                                          int ipSegments) {
-        if (ipSegments > 4) {
+        final int NUM_DIGITS_PER_SEGMENT = 3;
+        final int MAX_SEGMENTS = 4;
+
+        if (ipSegments > MAX_SEGMENTS) {
             return;
         }
 
         // at the end of the ip, 4th segment, output string index is equal to ip length
-        if (ipSegments == 4 && outputStrIndex == ip.length()) {
+        if (ipSegments == MAX_SEGMENTS && outputStrIndex == ip.length()) {
             result.add(restoredIp);
             printArrayList(result);
         }
@@ -181,8 +184,11 @@ public class generateIPAddrs {
                            ipSegments);
 //        printArrayList(result);
 
+
+
         // apply offset to the starting index to produce different permutations
-        for (int indexOffset = 1; indexOffset < 4; indexOffset++) {
+        // NOTE 0 based indices so need to add 1 to max num digits
+        for (int indexOffset = 1; indexOffset < NUM_DIGITS_PER_SEGMENT+1; indexOffset++) {
             System.out.println(getIndentation(ipSegments) +
                                "outputStrIndex = " +
                                outputStrIndex +
@@ -201,19 +207,23 @@ public class generateIPAddrs {
             // need to filter out the cases where:
             // ip = 011.11.11.11 OR ip = 257.11.11.11
             if ((substring.startsWith("0") && substring.length() > 1) ||
-                (indexOffset == 3 && Integer.parseInt(substring) >= 256)) {
+                (indexOffset == NUM_DIGITS_PER_SEGMENT && Integer.parseInt(substring) >= 256)) {
                 continue;
             }
+
+            // next index will need to add the indexOffset (skip indices that were worked on)
+            int nextIndex = outputStrIndex + indexOffset;
+            String restoredIpForNextIter = restoredIp + substring + (ipSegments == MAX_SEGMENTS - 1 ? "" : ".");
 
 //            if ((!substring.startsWith("0") && substring.length() <= 1) &&
 //                (indexOffset != 3 && Integer.parseInt(substring) < 256)) {
                 // recurse on index + offset and
                 restoreIpRecurse(ip,
                                  result,
-                                 outputStrIndex + indexOffset,
+                                 nextIndex,
                                  // if ipSegments is 3, we are one segment away from end of the ip address,
                                  // so no period for the next segment (4)
-                                 restoredIp + substring + (ipSegments == 3 ? "" : "."),
+                                 restoredIpForNextIter,
                                  ipSegments + 1);
 //            }
         }
