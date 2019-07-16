@@ -9,6 +9,7 @@ public class GetNodeDistance {
         root.right.right = new ListNode(5);
         System.out.println(getNodeDistance(root,2,5));
 
+        System.out.println(findDistanceByLevelAndLCA(root,2,5));
     }
 
 //           1
@@ -30,6 +31,50 @@ public class GetNodeDistance {
         int lcaDistance = pathLenFromRoot(root, lcaData) - 1;
 
         return (distN1 + distN2) - 2 * lcaDistance;
+    }
+
+    private static ListNode findLCAByNode(ListNode root, ListNode node1, ListNode node2) {
+        if (root == null || root == node1 || root == node2) return root;
+        ListNode left = findLCAByNode(root.left, node1, node2);
+        ListNode right = findLCAByNode(root.right, node1, node2);
+
+        if (left != null && right != null) return root;
+
+        if (left != null) return left;
+        if (right != null) return right;
+
+        return null;
+    }
+
+    private static ListNode findLCA2(ListNode root, int n1, int n2) {
+        if (root == null || root.getVal() == n1 || root.getVal() == n2) return root;
+
+        ListNode left = findLCA2(root.left, n1, n2);
+        ListNode right = findLCA2(root.right, n1, n2);
+
+        if (left != null && right != null) return root;
+
+        if (left != null) return findLCA2(root.left, n1, n2);
+        else return findLCA2(root.right, n1, n2);
+    }
+
+    private static int findLevel(ListNode root, int a, int level) {
+        if (root == null) return -1;
+        if (root.getVal() == a) return level;
+        int left = findLevel(root.left, a, level + 1);
+        if (left == -1) return findLevel(root.right, a, level + 1);
+        return left;
+    }
+
+    private static int findDistanceByLevelAndLCA(ListNode root, int a, int b) {
+        // find LCA
+        ListNode lca = findLCA2(root, a, b);
+
+        // find level using LCA
+        int d1 = findLevel(lca, a, 0);
+        int d2 = findLevel(lca, b, 0);
+
+        return d1 + d2;
     }
 
     private static ListNode findLCA(ListNode root, int n1, int n2) {
