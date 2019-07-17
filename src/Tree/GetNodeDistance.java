@@ -124,6 +124,7 @@ public class GetNodeDistance {
 
         // check if n1 is present at root or in left subtree
         // or right subtree
+        // increment 1 on the left or right node to accumulate the number of nodes
         if (root.getVal() == n1 || outLeft > 0 || outRight > 0) {
             if (outLeft > 0) return outLeft + 1;
             else return outRight + 1;
