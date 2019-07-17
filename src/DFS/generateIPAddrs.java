@@ -158,30 +158,30 @@ public class generateIPAddrs {
     //    has progressed to the string's length).
     private static void restoreIpRecurse(String ip,
                                          ArrayList<String> result,
-                                         int outputStrIndex,
+                                         int outputStrIndexWithoutPeriod,
                                          String restoredIp,
-                                         int ipSegments) {
+                                         int numIpSegments) {
         final int NUM_DIGITS_PER_SEGMENT = 3;
         final int MAX_SEGMENTS = 4;
 
-        if (ipSegments > MAX_SEGMENTS) {
+        if (numIpSegments > MAX_SEGMENTS) {
             return;
         }
 
         // at the end of the ip, 4th segment, output string index is equal to ip length
-        if (ipSegments == MAX_SEGMENTS && outputStrIndex == ip.length()) {
+        if (numIpSegments == MAX_SEGMENTS && outputStrIndexWithoutPeriod == ip.length()) {
             result.add(restoredIp);
             printArrayList(result);
         }
-        System.out.println(getIndentation(ipSegments) +
+        System.out.println(getIndentation(numIpSegments) +
                            "ip = " +
                            ip +
                            " index = " +
-                           outputStrIndex +
+                           outputStrIndexWithoutPeriod +
                            " restoredIP = " +
                            restoredIp +
                            " ipSeg = " +
-                           ipSegments);
+                           numIpSegments);
 //        printArrayList(result);
 
 
@@ -189,31 +189,36 @@ public class generateIPAddrs {
         // apply offset to the starting index to produce different permutations
         // NOTE 0 based indices so need to add 1 to max num digits
         for (int indexOffset = 1; indexOffset < NUM_DIGITS_PER_SEGMENT+1; indexOffset++) {
-            System.out.println(getIndentation(ipSegments) +
+            System.out.println(getIndentation(numIpSegments) +
                                "outputStrIndex = " +
-                               outputStrIndex +
+                               outputStrIndexWithoutPeriod +
                                " indexOffset = " +
                                indexOffset +
                                " ip length = " +
                                ip.length());
             // constraint: output string index needs to be within the length of input string
-            if (outputStrIndex + indexOffset > ip.length()) {
+            if (outputStrIndexWithoutPeriod + indexOffset > ip.length()) {
                 break;
             }
 
             // take substring of the ip
-            String substring = ip.substring(outputStrIndex, outputStrIndex + indexOffset);
+            String ipSegment = ip.substring(outputStrIndexWithoutPeriod, outputStrIndexWithoutPeriod + indexOffset);
 
             // need to filter out the cases where:
             // ip = 011.11.11.11 OR ip = 257.11.11.11
-            if ((substring.startsWith("0") && substring.length() > 1) ||
-                (indexOffset == NUM_DIGITS_PER_SEGMENT && Integer.parseInt(substring) >= 256)) {
+            if ((ipSegment.startsWith("0") && ipSegment.length() > 1) ||
+                (indexOffset == NUM_DIGITS_PER_SEGMENT && Integer.parseInt(ipSegment) >= 256)) {
                 continue;
             }
 
             // next index will need to add the indexOffset (skip indices that were worked on)
-            int nextIndex = outputStrIndex + indexOffset;
-            String restoredIpForNextIter = restoredIp + substring + (ipSegments == MAX_SEGMENTS - 1 ? "" : ".");
+            int nextIndex = outputStrIndexWithoutPeriod + indexOffset;
+
+            // this is to prevent putting a period at the end of the ip address
+            // put a period there as long as we are not at the last segment (blank for last segment)
+            String ipSegmentEndStr = numIpSegments == MAX_SEGMENTS - 1 ? "" : ".";
+
+            String restoredIpForNextIter = restoredIp + ipSegment + ipSegmentEndStr;
 
 //            if ((!substring.startsWith("0") && substring.length() <= 1) &&
 //                (indexOffset != 3 && Integer.parseInt(substring) < 256)) {
@@ -224,7 +229,7 @@ public class generateIPAddrs {
                                  // if ipSegments is 3, we are one segment away from end of the ip address,
                                  // so no period for the next segment (4)
                                  restoredIpForNextIter,
-                                 ipSegments + 1);
+                                 numIpSegments + 1);
 //            }
         }
     }

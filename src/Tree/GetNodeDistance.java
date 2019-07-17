@@ -66,6 +66,8 @@ public class GetNodeDistance {
         return left;
     }
 
+    //  findDistanceByLevelAndLCA(A,B) = findLevel(findLCA2(root,a,b),a,0)
+    //                                 + findLevel(findLCA2(root,a,b),b,0)
     private static int findDistanceByLevelAndLCA(ListNode root, int a, int b) {
         // find LCA
         ListNode lca = findLCA2(root, a, b);
