@@ -100,16 +100,17 @@ public class GetStringsFromPhoneNums {
         return result;
     }
 
-    private static void getStringFromNums(String digits, HashMap<Character, String> map, ArrayList<String> result, int numDigits, String word) {
-        if (numDigits == digits.length()) {
+    private static void getStringFromNums(String digits, HashMap<Character, String> map, ArrayList<String> result, int indexOfDigits, String word) {
+        if (indexOfDigits == digits.length()) {
             result.add(word);
             return;
         } else {
-            Character digitAtPos = digits.charAt(numDigits);
+            Character digitAtPos = digits.charAt(indexOfDigits);
+            String digitMappedToStr = map.get(digitAtPos);
             // get all chars in the String and add to the word
             // recurse on each char from digits mapping
-            for (Character ch : map.get(digitAtPos).toCharArray()) {
-                getStringFromNums(digits,map,result,numDigits+1,word+ch);
+            for (Character ch : digitMappedToStr.toCharArray()) {
+                getStringFromNums(digits,map,result,indexOfDigits+1,word+ch);
             }
         }
     }

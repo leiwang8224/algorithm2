@@ -7,9 +7,17 @@ package Arrays;
 // element. If no gain is possible, return 0.
 public class MaxGain {
     public static void main(String[] args) {
-
+        int[] array = new int[]{1,2,3,4,5,6,7,8,9,10};
+        System.out.println(maxGain(array));
     }
-
+//
+//    Since the larger element must always appear
+//    after the smaller element, this problem can
+//    be solved in a single pass. Keep a record of
+//    the maximum gain found so far, and the minimum
+//    element. When finding the maximum gain, use
+//    the difference between the current element and
+//    the minimum element found so far.
     private static int maxGain(int arr[]) {
         int max = arr[1]- arr[0];
         int min = arr[0];

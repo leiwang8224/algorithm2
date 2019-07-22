@@ -188,6 +188,7 @@ public class generateIPAddrs {
 
         // apply offset to the starting index to produce different permutations
         // NOTE 0 based indices so need to add 1 to max num digits
+        // index starts from 1 to offset from the period (ex. .255)
         for (int indexOffset = 1; indexOffset < NUM_DIGITS_PER_SEGMENT+1; indexOffset++) {
             System.out.println(getIndentation(numIpSegments) +
                                "outputStrIndex = " +

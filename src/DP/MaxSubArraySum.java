@@ -16,6 +16,50 @@ public class MaxSubArraySum {
         System.out.println("2D array max sum = " + matrixMaxSumDfsIterative(array2D));
         System.out.println("2D array max sum = " + matrixMaxSumDfsRecursive(array2D));
 
+        System.out.println("Returning max with indices = " + java.util.Arrays.toString(maxContinguousSeq(array)));
+
+    }
+    
+    private static int[] maxContinguousSeq(int[] arr) {
+        int currStartIndex = 0;
+        int curEndIndex = 0;
+        int curSum = 0;
+
+        int maxStartIndex = 0;
+        int maxEndIndex = -1;
+        int maxSum = 0;
+
+        if (arr.length > 0) {
+            curSum = arr[0];
+            maxSum = arr[0];
+            maxEndIndex = 0;
+        }
+
+        for (int index = 1; index < arr.length; index++) {
+            int sum = arr[index] + curSum;
+
+            // if the max sum plus the current item is less than the
+            // item, then we should set max sum to be the current item
+            if (arr[index] > sum) {
+                currStartIndex = index;
+                curEndIndex = index;
+                curSum = arr[index];
+            } else {
+                // otherwise include the current item into our subsequence
+                curEndIndex ++;
+                curSum += arr[index];
+            }
+
+            //if the sum of our subsequence is greater than global max so far
+            if (curSum > maxSum) {
+                maxSum = curSum;    // update the global max subsequence
+                maxStartIndex = currStartIndex;
+                maxEndIndex = curEndIndex;
+            }
+        }
+
+        int[] result = {maxSum, maxStartIndex,maxEndIndex};
+        return result;
     }
 
     //Recursive method = M(n) = max(M(n-1) + A[n], A[n])
