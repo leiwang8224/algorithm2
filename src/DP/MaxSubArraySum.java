@@ -12,11 +12,12 @@ public class MaxSubArraySum {
 
         System.out.println("brute force method = " + maxSubArraySumForce(array, array.length));
         System.out.println("kadane's method = " + maxSubArraySumKadaneAlgorithm(array,array.length));
+        System.out.println("Returning max with indices = " + java.util.Arrays.toString(maxContinguousSeq(array)));
+
         System.out.println("2D array max sum = " + matrixMaxSumDp2D(array2D));
         System.out.println("2D array max sum = " + matrixMaxSumDfsIterative(array2D));
         System.out.println("2D array max sum = " + matrixMaxSumDfsRecursive(array2D));
 
-        System.out.println("Returning max with indices = " + java.util.Arrays.toString(maxContinguousSeq(array)));
 
     }
     
