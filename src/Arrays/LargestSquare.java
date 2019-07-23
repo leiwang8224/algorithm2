@@ -1,5 +1,7 @@
 package Arrays;
 
+import java.util.Arrays;
+
 public class LargestSquare {
     public static void main(String[] args) {
         char[][] input = new char[3][4];
@@ -65,6 +67,10 @@ public class LargestSquare {
                     max = t[row][col];
                 }
             }
+        }
+
+        for (int[] row : t) {
+            System.out.println(Arrays.toString(row));
         }
 
         return max * max;

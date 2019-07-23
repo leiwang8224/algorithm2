@@ -19,9 +19,11 @@ public class MaxGain {
 //    the difference between the current element and
 //    the minimum element found so far.
     private static int maxGain(int arr[]) {
+        // keep track of max and min as traversing the array
         int max = arr[1]- arr[0];
         int min = arr[0];
 
+        // start from index 1 and find diffs to update max and min
         for (int i = 1; i < arr.length; i++) {
             if (arr[i] - min > max)
                 max = arr[i] - min;

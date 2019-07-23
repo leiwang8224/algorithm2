@@ -20,12 +20,22 @@ public class MaxSubArraySum {
 
 
     }
-    
+
+//    Given an array of integers consisting of both positive and negative
+//    numbers, find the contiguous subsequence that has the maximum sum among
+//    all subsequences in the array (click the red text to learn more about
+//    subsequences). Write a method that takes in an array of integers arr
+//    and returns an array res containing 3 integers in the following format:
+//    res[0] = max sum
+//    res[1] = starting index of the subsequence
+//    res[2] = ending index of the subsequence
     private static int[] maxContinguousSeq(int[] arr) {
+        // keep track stats on current trend
         int currStartIndex = 0;
         int curEndIndex = 0;
         int curSum = 0;
 
+        // keep track stats on global trend
         int maxStartIndex = 0;
         int maxEndIndex = -1;
         int maxSum = 0;
@@ -41,13 +51,17 @@ public class MaxSubArraySum {
 
             // if the max sum plus the current item is less than the
             // item, then we should set max sum to be the current item
+            // also set start and end index to the index of the number
             if (arr[index] > sum) {
                 currStartIndex = index;
                 curEndIndex = index;
+                // the element is greater than sum so set sum to be element
                 curSum = arr[index];
             } else {
                 // otherwise include the current item into our subsequence
+                // increment end index to include the current item and add to curSum
                 curEndIndex ++;
+                // add the element
                 curSum += arr[index];
             }
 

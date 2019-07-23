@@ -2,6 +2,7 @@ package DFS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.TreeSet;
 
 // given a dictionary and board of letters, find all the words in the dictionary
@@ -19,11 +20,26 @@ public class BoggleSearch {
                           {'a','s','e','f'},
                           {'a','e','e','f'},
                           {'a','e','e','f'}};
+
+        char[][] board3 = {{'a','b','c','d'},
+                           {'a','a','c','d'},
+                           {'a','s','e','f'},
+                           {'a','e','e','f'},
+                           {'a','e','e','f'}};
         System.out.println("boggle search = " + boggleSearch(board, "acdffee"));
 
         TrieNode root = new TrieNode();
         insert(root,"acdffee");
         System.out.println("word exist = " + wordExist(board2,"acdffee"));
+
+        ArrayList<String> dict = new ArrayList<>();
+        dict.add("acdffee");
+        ArrayList<String> result = boggleSearchWithDict(board3, dict);
+        System.out.println("boggle search with dict");
+        for (String re : result) {
+            System.out.println(re);
+        }
+
 
         //        findWords(board,root);
         //        findWords(board,new String[]{"acdffee"});
@@ -337,31 +353,101 @@ public class BoggleSearch {
         return false;
     }
 
-    class TrieImpl {
+    static class TrieNodeChars {
+        Character c;
+        Boolean isLeaf = false;
+        HashMap<Character, TrieNodeChars> children = new HashMap<>();
+        public TrieNodeChars() {}
+        public TrieNodeChars(Character c) {
+            this.c = c;
+        }
+    }
+
+    static class TrieImpl {
+        private TrieNodeChars root;
+
+        public TrieImpl() {
+            this.root = new TrieNodeChars();
+        }
+
+        void insertWord(String word) {
+            TrieNodeChars cur = root;
+            HashMap<Character, TrieNodeChars> children = cur.children;
+
+            for (int index = 0; index < word.length(); index++) {
+                char ch = word.charAt(index);
+                if (children.containsKey(ch)) {
+                    cur = children.get(ch);
+                } else {
+                    TrieNodeChars n = new TrieNodeChars(ch);
+                    children.put(ch,n);
+                    cur = n;
+                }
+                children = cur.children;
+
+                if (index == word.length()-1) cur.isLeaf = true;
+            }
+        }
 
         boolean searchPrefix(String word) {
+            TrieNodeChars cur = root;
+            HashMap<Character, TrieNodeChars> children = cur.children;
+
+            for (int index = 0; index < word.length(); index++) {
+                char ch = word.charAt(index);
+                if (children.containsKey(ch)) {
+                    cur = children.get(ch);
+                    children = cur.children;
+                } else return false;
+            }
             return true;
         }
 
         boolean searchWord(String word) {
-            return true;
+            TrieNodeChars cur = root;
+            HashMap<Character, TrieNodeChars> children = cur.children;
+            for (int index = 0; index < word.length(); index++) {
+                char ch = word.charAt(index);
+                if (children.containsKey(ch)) {
+                    cur = children.get(ch);
+                    children = cur.children;
+                } else return false;
+            }
+            return cur.isLeaf;
+        }
+    }
+
+    //    You're given a 2D Boggle Board which contains an m x n matrix of chars - char[][] board,
+    //    and a rudimentary, paper Dictionary in the form of an ArrayList of close to 10,000
+    //    words. Write a method - boggleByot that searches the Boggle Board for words in the dictionary.
+    //    Your method should return an alphabetically sorted ArrayList of words that are present on
+    //    the board as well as in the dictionary. Words on the board can be constructed with
+    //    sequentially adjacent letters, where adjacent letters are horizontal or vertical neighbors
+    //    (not diagonal). Also, each letter on the Boggle Board must be used only once.
+
+    private static ArrayList<String> boggleSearchWithDict(char[][] board, ArrayList<String> dictionary) {
+        // TreeSet to make sure the output is in alphabetical order
+        TrieImpl prefixTree = new TrieImpl();
+
+        for (String word : dictionary) {
+            prefixTree.insertWord(word);
         }
 
-    }
-    private ArrayList<String> boggleSearchWithDict(char[][] board, TrieImpl dictionary) {
-        // TreeSet to make sure the output is in alphabetical order
         TreeSet<String> outputHolder = new TreeSet<>();
-        int rows = board.length;
-        int cols = board[0].length;
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                searchBoard(row, col, board, dictionary,"",outputHolder);
+
+        int numRows = board.length;
+        int numCols = board[0].length;
+
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                searchBoard(row, col, board, prefixTree, "", outputHolder);
             }
         }
+
         return new ArrayList<>(outputHolder);
     }
 
-    private void searchBoard(int row,
+    private static void searchBoard(int row,
                              int col,
                              char[][] board,
                              TrieImpl dictionary,
