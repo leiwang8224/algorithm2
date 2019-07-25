@@ -51,23 +51,28 @@ public class MaxSubArraySum {
             // item, then we should set max sum to be the current item
             // because add the current element makes total sum less.
             // also set start and end index to the index of the number
-            if (arr[index] > arr[index] + curSum) {
-                currStartIndex = index;
-                curEndIndex = index;
-                // the element is greater than sum so set sum to be element
-                // start over with the indexing
-                curSum = arr[index];
-            } else {
+            if (arr[index] < arr[index] + curSum) {
                 // otherwise include the current item into our subsequence
                 // increment end index to include the current item and add to curSum
                 curEndIndex ++;
                 // add the element
                 curSum += arr[index];
+            } else {
+                // adding the current element would reduce the sum
+                // hence restart the start and end index count
+                currStartIndex = index;
+                curEndIndex = index;
+                // the element is greater than sum so set sum to be element
+                // start over with the indexing
+                // always set the curSum to be the first indexed element
+                // and add on top of it
+                curSum = arr[index];
             }
 
             //if the sum of our subsequence is greater than global max so far
             if (curSum > maxSum) {
                 maxSum = curSum;    // update the global max subsequence
+                // reset the max start and end index
                 maxStartIndex = currStartIndex;
                 maxEndIndex = curEndIndex;
             }

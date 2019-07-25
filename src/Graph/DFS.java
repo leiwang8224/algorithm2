@@ -2,6 +2,7 @@ package Graph;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 public class DFS {
@@ -28,6 +29,7 @@ public class DFS {
         rightNode.adjacentNodes.add(leftRightNode);
 
         System.out.println(dfs(rootNode,"cherry"));
+        System.out.println(bfs(rootNode,"cherry"));
 
 
 
@@ -62,6 +64,32 @@ public class DFS {
                 }
             }
         }
+        return false;
+    }
+
+    private static boolean bfs(GraphNode rootNode, String data) {
+        Queue<GraphNode> q = new LinkedList<>();
+
+        q.offer(rootNode);
+
+        while (!q.isEmpty()) {
+            GraphNode node = q.poll();
+
+            if (node != null) {
+                if (node.data != null && node.data.equals(data)) {
+                    return true;
+                }
+
+                node.visited = true;
+
+                for (GraphNode n : node.adjacentNodes) {
+                    if (n.visited == false) {
+                        q.offer(n);
+                    }
+                }
+            }
+        }
+
         return false;
     }
 
