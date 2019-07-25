@@ -24,6 +24,7 @@ public class LongestPalinSubstring {
         System.out.println(longestPalin2(str));
         System.out.println(longestPalSubstr(str));
 
+        System.out.println(longestPalSubstr2(str));
     }
 
     //Time O(n2)
@@ -73,18 +74,59 @@ public class LongestPalinSubstring {
         System.out.println(str.substring(low, high + 1));
     }
 
-    public static int getLCS(String str1, String str2, int str1Length, int str2Length) {
-        if (str1Length == 0 || str2Length == 0)
-            return 0;
+    private static String longestPalSubstr2(String str) {
+        if (str == null || str.length() < 2) return str;
 
-        if (str1.charAt(str1Length-1) == str2.charAt(str2Length-1)) // last char same
-        {
-            return 1 + getLCS(str1, str2, str1Length - 1, str2Length - 1);
-        } else {
-            return getMax(getLCS(str1, str2, str1Length, str2Length-1),
-                          getLCS(str1, str2, str1Length-1, str2Length));
+        int len = str.length();
+
+        // memo[start][finish] is true if the String is palindrome
+        // between .charAt(start) and .charAt(finish)
+        boolean[][] memo = new boolean[len][len];
+        int maxSubstrLen = 1;
+        int maxSubstrStartIndex = 0;
+
+        // mark all length 1 substrings as palindromes
+        for (int index = 0; index < len; index++) {
+            memo[index][index] = true;
         }
+
+        // selectively mark all length 2 substrings as palindromes
+        // in a single pass
+        for (int index = 0; index < len - 1; index++) {
+            if (str.charAt(index) == str.charAt(index+1)) {
+                memo[index][index+1] = true;
+                maxSubstrLen = 2;
+                maxSubstrStartIndex = index;
+            }
+        }
+
+        // scan for substrings of length > 2 and length < len.
+        // Remember that memo[1][] represents the starting char
+        // str.charAt(1) and memo[][1] represents the ending char
+        // in our check.
+        for (int l = 3; l <= len; l++) {
+            // Run the check until you reach the end of the string.
+            // i is the start index
+            for (int i = 0; i + l-1 < len; i++) {
+                // j is the end index
+                int j = i + l - 1;
+
+                // in a string 'abba', if we are at the second 'b' -> 'abb',
+                // 'abba' is a palindrome only if 'bb' were a palindrome and 'a'=='a'
+                // at the opposite ends of the string. Can be translated to the following
+                // condition using the memo pad:
+                if (memo[i+1][j-1] && str.charAt(i) == str.charAt(j)) {
+                    memo[i][j] = true;
+                    maxSubstrLen = l;
+                    maxSubstrStartIndex = i;
+                }
+            }
+        }
+
+        return str.substring(maxSubstrStartIndex, maxSubstrStartIndex + maxSubstrLen);
     }
+
+
 
     private static int getMax(int x, int y) {
         return (x > y)? x : y;

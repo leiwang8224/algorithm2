@@ -19,7 +19,7 @@ public class LongestCommonSeq {
         printLCS(str1,str2,str1.length(),str2.length());
         System.out.println(lcsRecurse(str1,str2));
     }
-
+    
     public static int getLCS(String str1, String str2, int str1Length, int str2Length) {
         if (str1Length == 0 || str2Length == 0)
             return 0;
@@ -28,7 +28,8 @@ public class LongestCommonSeq {
         {
             return 1 + getLCS(str1, str2, str1Length - 1, str2Length - 1);
         } else {
-            return getMax(getLCS(str1, str2, str1Length, str2Length-1), getLCS(str1, str2, str1Length-1, str2Length));
+            return getMax(getLCS(str1, str2, str1Length, str2Length-1),
+                          getLCS(str1, str2, str1Length-1, str2Length));
         }
     }
 
