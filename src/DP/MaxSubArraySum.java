@@ -47,15 +47,15 @@ public class MaxSubArraySum {
         }
 
         for (int index = 1; index < arr.length; index++) {
-            int sum = arr[index] + curSum;
-
             // if the max sum plus the current item is less than the
             // item, then we should set max sum to be the current item
+            // because add the current element makes total sum less.
             // also set start and end index to the index of the number
-            if (arr[index] > sum) {
+            if (arr[index] > arr[index] + curSum) {
                 currStartIndex = index;
                 curEndIndex = index;
                 // the element is greater than sum so set sum to be element
+                // start over with the indexing
                 curSum = arr[index];
             } else {
                 // otherwise include the current item into our subsequence

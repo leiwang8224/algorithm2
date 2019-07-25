@@ -80,6 +80,7 @@ public class DjikstraShortestPath {
         source.minDistance = 0;
         PriorityQueue<Vertex> vertexPriorityQueue = new PriorityQueue<>();
 
+        //BFS traversal
         vertexPriorityQueue.add(source);
 
         while (!vertexPriorityQueue.isEmpty()) {
