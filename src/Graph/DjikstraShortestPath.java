@@ -69,8 +69,12 @@ public class DjikstraShortestPath {
     }
     private static List<Vertex> getShortestPathTo(Vertex target) {
         List<Vertex> path = new ArrayList<>();
+
+        // add all of the vertex into the list
         for (Vertex vertex = target; vertex != null; vertex = vertex.previous)
             path.add(vertex);
+
+        // reverse sort based on the min distance, shortest first, longest last
         Collections.reverse(path);
         return path;
     }
@@ -84,18 +88,23 @@ public class DjikstraShortestPath {
         vertexPriorityQueue.add(source);
 
         while (!vertexPriorityQueue.isEmpty()) {
+            // this poll always returns the shortest distance vertex (priority Q)
             Vertex vertex = vertexPriorityQueue.poll();
 
-            //visit each edge exiting vertex
-            for (Edge e : vertex.adjacencies) {
-                Vertex v = e.target;
-                double edgeWeight = e.weight;
-                double distanceThruVertex = vertex.minDistance + edgeWeight;
-                if (distanceThruVertex < v.minDistance) {
-                    vertexPriorityQueue.remove(v);
-                    v.minDistance = distanceThruVertex;
-                    v.previous = vertex;
-                    vertexPriorityQueue.add(v);
+            //visit each edge exiting vertex (adjacencies)
+            for (Edge edgeInVertex : vertex.adjacencies) {
+                // calculate new distance between edgeInVertex and target
+                Vertex targetVertex = edgeInVertex.target;
+                double edgeWeightForThisVertex = edgeInVertex.weight;
+                double distanceThruVertex = vertex.minDistance + edgeWeightForThisVertex;
+                if (distanceThruVertex < targetVertex.minDistance) {
+                    // modify the targetVertex with new calculated minDistance and previous vertex
+                    // by removing the old vertex and add new vertex with updates
+                    vertexPriorityQueue.remove(targetVertex);
+                    targetVertex.minDistance = distanceThruVertex;
+                    // update previous with the shortest distance vertex
+                    targetVertex.previous = vertex;
+                    vertexPriorityQueue.add(targetVertex);
                 }
             }
         }
@@ -105,6 +114,7 @@ public class DjikstraShortestPath {
 
         public final String name;
         public Edge[] adjacencies;
+        // minDistance to keep track of the minimum distances
         public double minDistance = Double.POSITIVE_INFINITY;
         public Vertex previous; // previous optimal path node
 
