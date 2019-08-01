@@ -100,15 +100,15 @@ public class BFSShortestDistBetweenXAndY {
      * @return
      */
     private static Queue<Point> getCoordOfXFromGrid(char[][] grid) {
-        Queue<Point> xs = new LinkedList<>();
+        Queue<Point> xCoords = new LinkedList<>();
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 if (grid[r][c] == 'X') {
-                    xs.add(new Point(r,c));
+                    xCoords.add(new Point(r,c));
                 }
             }
         }
-        return xs;
+        return xCoords;
     }
 
     private static class Point {
