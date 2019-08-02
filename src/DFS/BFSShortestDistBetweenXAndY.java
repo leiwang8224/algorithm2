@@ -111,7 +111,7 @@ public class BFSShortestDistBetweenXAndY {
         return xCoords;
     }
 
-    private static class Point {
+    static class Point {
         int r, c;
         Point (int r, int c) {
             this.r = r;
