@@ -23,13 +23,13 @@ public class PalindromePerm {
 
     // Returns the equivalent ASCII code for the character
     private static int getCharASCII(Character c) {
-        int a = Character.getNumericValue('a');
-        int z = Character.getNumericValue('z');
+        int aNumeric = Character.getNumericValue('a');
+        int zNumeric = Character.getNumericValue('z');
 
-        int val = Character.getNumericValue(c);
+        int currentCharNumeric = Character.getNumericValue(c);
 
-        if (a <= val && val <= z) {
-            return val - a;
+        if (aNumeric <= currentCharNumeric && currentCharNumeric <= zNumeric) {
+            return currentCharNumeric - aNumeric;
         }
         
         return -1;
