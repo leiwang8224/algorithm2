@@ -1,5 +1,6 @@
 package Arrays;
 
+//Rotate the image 90 degrees in clockwise direction
 public class RotateImage {
     public static void main(String[] args) {
         int[][] matrix = new int[][] {{1,2,3},{4,5,6},{7,8,9}};
@@ -116,6 +117,7 @@ public class RotateImage {
             }
         }
 
+        // flip on the vertical axis
         for (int row = 0; row < n; row++) {
             int head = 0;
             int tail = n - 1;
