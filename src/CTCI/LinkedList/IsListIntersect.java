@@ -67,18 +67,18 @@ public class IsListIntersect {
         if (list1 == null || list2 == null) return null;
 
         // get tail and sizes
-        Result result1 = getTailAndSize(list1);
-        Result result2 = getTailAndSize(list2);
+        Result tailAndSizeList1 = getTailAndSize(list1);
+        Result tailAndSizeList2 = getTailAndSize(list2);
 
         // if different tail nodes, then there is no intersection
-        if (result1.tail != result2.tail) return null;
+        if (tailAndSizeList1.tail != tailAndSizeList2.tail) return null;
 
         // set pointers to the start of each linked list
-        ListNode shorterList = result1.size < result2.size ? list1 : list2;
-        ListNode longerList = result1.size < result2.size ? list2 : list1;
+        ListNode shorterList = tailAndSizeList1.size < tailAndSizeList2.size ? list1 : list2;
+        ListNode longerList = tailAndSizeList1.size < tailAndSizeList2.size ? list2 : list1;
 
         // advance the pointer for the longer linked list by diff in lengths
-        ListNode kthNodeLongerList = getKthNode(longerList, Math.abs(result1.size - result2.size));
+        ListNode kthNodeLongerList = getKthNode(longerList, Math.abs(tailAndSizeList1.size - tailAndSizeList2.size));
 
         // move both pointers until you have a collision
         while (shorterList != kthNodeLongerList) {
