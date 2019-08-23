@@ -6,6 +6,11 @@ public class StackUsingArrays {
 
     }
 
+    /**
+     * Number of stacks = 3
+     * Capacity of stack is passed in parameter
+     * Virtual size is the index bounds for each stack
+     */
     private static class FixedStack {
         private int numberOfStacks = 3;
         private int stackCapacity;
@@ -22,6 +27,7 @@ public class StackUsingArrays {
         void push(int stackNum, int value) {
             // increment stack pointer and then update top value
             virtualSizes[stackNum]++;
+            // set the value on top of stack
             values[indexOfTop(stackNum)] = value;
         }
 
