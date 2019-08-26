@@ -43,27 +43,34 @@ public class BFSShortestDistBetweenXAndY {
         System.out.println(bfsFindShortest(grid2));
     }
 
+    /**
+     * Uses BFS to find the minimum distance between 'X' and 'Y'
+     * Modifies the array with visited places as 'X' (replace '0')
+     * @param grid
+     * @return
+     */
     private static int minDist(char[][] grid) {
         Queue<Point> queueOfXCoords = getCoordOfXFromGrid(grid);
-        for (int dist = 1; !queueOfXCoords.isEmpty(); dist++) {
+        // increment distance by 1 at end of loop to move up, left, right, down
+        for (int distResult = 1; !queueOfXCoords.isEmpty(); distResult++) {
             // iterate through the queue
             for (int size = queueOfXCoords.size(); size > 0; size--) {
                 Point p = queueOfXCoords.poll();
 
-                // apply DIRS to the directions
+                // apply DIRS to the directions, up, down, left, right
                 for (int[] direction : DIRS) {
                     // x (col)
                     int r = p.r + direction[0];
                     // y (row)
                     int c = p.c + direction[1];
 
-                    // check if grid[r][c] is valid
+                    // check if grid[r][c] is valid after moving up, down, left, right
                     if (isSafe(grid, r, c)) {
                         // return dist if we find 'Y'
-                        if (grid[r][c] == 'Y') return dist;
+                        if (grid[r][c] == 'Y') return distResult;
                         // else set cell to 'X'
                         grid[r][c] = 'X';
-                        // put coordinate of X in queue
+                        // put coordinate of 'X' in queue
                         queueOfXCoords.offer(new Point(r,c));
                     }
                 }
@@ -72,6 +79,13 @@ public class BFSShortestDistBetweenXAndY {
         return -1;
     }
 
+    /**
+     * isSafe verifies that the row and column is valid and the cell is not 'X' (visited or origin)
+     * @param grid
+     * @param r
+     * @param c
+     * @return
+     */
     private static boolean isSafe(char[][] grid, int r, int c) {
         return r >= 0 &&
                r < grid.length &&
@@ -86,18 +100,18 @@ public class BFSShortestDistBetweenXAndY {
      * @return
      */
     private static Queue<Point> getCoordOfXFromGrid(char[][] grid) {
-        Queue<Point> xs = new LinkedList<>();
+        Queue<Point> xCoords = new LinkedList<>();
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 if (grid[r][c] == 'X') {
-                    xs.add(new Point(r,c));
+                    xCoords.add(new Point(r,c));
                 }
             }
         }
-        return xs;
+        return xCoords;
     }
 
-    private static class Point {
+    static class Point {
         int r, c;
         Point (int r, int c) {
             this.r = r;

@@ -40,12 +40,14 @@ public class ReturnKthToLast {
 
     private static ListNode kthToLast(ListNode head, int k) {
         Index idx = new Index();
+        // idx starts at 0 and count up to k
         return kthToLast(head, k, idx);
     }
 
     private static ListNode kthToLast(ListNode head, int k, Index idx) {
         if (head == null) return null;
 
+        // backward recursion
         ListNode node = kthToLast(head.next, k, idx);
 
         idx.value++;
