@@ -1,7 +1,5 @@
 package CTCI.TreesAndGraphs;
 
-import apple.laf.JRSUIUtils;
-
 // Given sorted array of unique elements. Build binary search tree
 // with minimal height
 public class MinimalBinarySearchTree {
