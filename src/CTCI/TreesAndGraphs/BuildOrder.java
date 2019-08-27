@@ -47,6 +47,7 @@ public class BuildOrder {
      * Assumes a pair is listed in build order (which is the reverse
      * of dependency order). The pair (a, b) in dependencies indicates
      * that b depends on a and a must be built before a.
+     * This builds a graph of interdependencies
      * @param projects list of projects to be built
      * @param dependencies list of projects along with its dependencies
      * @return
@@ -55,6 +56,7 @@ public class BuildOrder {
         Graph graph = new Graph();
         for (String[] dependency : dependencies) {
             // second depends on the first
+            // first add edge to second
             String first = dependency[0];
             String second = dependency[1];
             graph.addEdge(first, second);
@@ -74,21 +76,31 @@ public class BuildOrder {
     static boolean doDFS(Project project, Stack<Project> stack) {
         // return false if we have visited this node (project)
         // in other words, cycle is detected in the graph
+        // we have seen this node before and the second time we see it indicate a cycle
+        // in the graph
         if (project.getState() == State.PARTIAL) return false; // cycle
 
         // if not visited, set state to visited
         if (project.getState() == State.BLANK) {
-            // set state to visited
+            // set state to visited but needs to resolve dependencies
+            System.out.println("set node " + project.getName() + " to PARTIAL");
             project.setState(State.PARTIAL);
             // get list of dependencies
             ArrayList<Project> dependenciesOfProject = project.getChildren();
+            System.out.print("project " + project.getName() + " has dependencies: ");
+            for (Project dependency : dependenciesOfProject) {
+                System.out.print(dependency.name + "-");
+            }
+            System.out.println();
             // for each dependency traverse deeper
             for (Project dependency : dependenciesOfProject) {
+                // resolve the dependencies by dfs traversal
                 if (!doDFS(dependency, stack)) return false;
             }
 
-            // set status to complete
+            // set status to complete when there is no dependencies to resolve
             project.setState(State.COMPLETE);
+            System.out.println("set node " + project.getName() + " to COMPLETE");
             stack.push(project);
         }
         return true;
@@ -103,6 +115,7 @@ public class BuildOrder {
      */
     static Stack<Project> orderProjects(ArrayList<Project> projects) {
         Stack<Project> stack = new Stack<>();
+        // iterate through project and perform dfs on each project
         for (Project project : projects) {
             if (project.getState() == State.BLANK) {
                 // perform DFS traversal
@@ -145,6 +158,10 @@ public class BuildOrder {
         return buildOrderString;
     }
 
+    /**
+     * Graph class is a container for all the nodes (projects) and
+     * interdependencies
+     */
     private static class Graph {
         // all of the nodes in the graph
         private ArrayList<Project> nodes = new ArrayList<>();
@@ -173,8 +190,14 @@ public class BuildOrder {
         }
     }
 
+    /**
+     * Project is modelled as a node in a graph
+     */
     private static class Project {
+        // children are the projects that depends on this project
         private ArrayList<Project> children = new ArrayList<>();
+
+        // hashmap which maps the depedencies to the nodes of interest
         private HashMap<String, Project> map = new HashMap<>();
         private String name;
         private State state = State.BLANK;
