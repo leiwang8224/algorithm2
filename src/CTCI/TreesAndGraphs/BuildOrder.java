@@ -127,6 +127,8 @@ public class BuildOrder {
 
     /**
      * Convert build order of projects from stack to array of string
+     * beginning with the projects to build first and end with
+     * projects that build last.
      * @param projects stack of projects
      * @return
      */
