@@ -11,6 +11,18 @@ import java.util.Random;
  */
 public class RandomTreeNode {
     public static void main(String[] args) {
+        RandomNode root = new RandomNode(10);
+        root.insertInOrder(1);
+        root.insertInOrder(2);
+        root.insertInOrder(3);
+        root.insertInOrder(4);
+        root.insertInOrder(6);
+        root.insertInOrder(7);
+
+        System.out.println(root.getRandomNode().val);
+        System.out.println(root.getRandomNode().val);
+        System.out.println(root.getRandomNode().val);
+        System.out.println(root.getRandomNode().val);
 
     }
 
@@ -65,8 +77,10 @@ public class RandomTreeNode {
 
         RandomNode getIthNode(int i) {
             int leftSize = left == null ? 0 : left.size;
+            // if i less than leftSize then it's in left Tree
             if (i < leftSize) return left.getIthNode(i);
             else if (i == leftSize) return this;
+            // else i is greater than leftSize then it's in right Tree
             else return right.getIthNode(i - (leftSize + 1));
         }
     }
