@@ -12,7 +12,7 @@ package DP;
 
  How many possible unique paths are there?
  */
-public class TotalPathCount {
+public class TotalPathCountTwoDimArray {
     public static void main(String[] args) {
         System.out.println(numOfPaths(2,3));
         System.out.println(numOfPathsDP(2, 3));

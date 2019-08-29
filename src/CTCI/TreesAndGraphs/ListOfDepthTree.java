@@ -5,6 +5,9 @@ import java.util.LinkedList;
 
 import CTCI.TreesAndGraphs.TreeUtils.TreeNode;
 
+/**
+ * For each level of the tree, return the list of the nodes values
+ */
 public class ListOfDepthTree {
     public static void main(String[] args) {
         printListOfList(getListEachLevelBFS(TreeUtils.generateTree()));
