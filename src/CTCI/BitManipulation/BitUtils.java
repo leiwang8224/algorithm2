@@ -67,6 +67,7 @@ public class BitUtils {
      */
     int clearBitsMSBthroughI(int num, int i) {
         // ex: if i = 4: 0001000 - 1 => 0000111, clears the first 4 bits
+        // remember to subtract 1 to the result
         int mask = (1 << i) - 1;
         return num & mask;
     }
@@ -83,6 +84,7 @@ public class BitUtils {
     int clearBitsIthrough0(int num, int i) {
         // Note it is i through (0), so add 1 for 0 index
         // ex: if i = 4: 1111111 << 5 = 1110000, clears the last 4 bits plus 0 bit
+        // remember to add 1 to the position
         int mask = (-1 << (i + 1));
         return num & mask;
     }
@@ -105,6 +107,19 @@ public class BitUtils {
         int mask = ~(1 << i);
         // update the value in the mask position
         return (num & mask) | (value << i);
+    }
+
+    /**
+     * number and (number - 1) does not share a 1
+     * when you subtract 1 from a number, you look at the LSB, if it's a 1
+     * you change it to 0, and you are done. If it's a zero, you must borrow
+     * from a larger bit. So you go increasingly larger bits, changing each bit from
+     * a 0 to a 1, until you find a 1. You flip the 1 to a 0 and you are done.
+     * @param number
+     * @return
+     */
+    boolean isPowerOf2(int number) {
+        return (number & (number - 1)) == 0;
     }
 
     //TODO broke
