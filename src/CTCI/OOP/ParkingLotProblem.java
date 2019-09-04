@@ -31,6 +31,14 @@ public class ParkingLotProblem {
         lot.print();
     }
 
+    /**
+     * ParkingLot is a wrapper class for an array of levels. By implementing
+     * this way we are able to separate out logic that deals with actually finding
+     * free spots and parking cars out from the broader actions of the ParkingLot.
+     * If we didn't do it this way, we would need to hold parking spots in some
+     * sort of double array (or hash table which maps from a level number to
+     * the list of spots). It's cleaner just separate ParkingLot from Level.
+     */
     static class ParkingLot {
         private Level[] levels;
         private final int NUM_LEVELS = 5;
