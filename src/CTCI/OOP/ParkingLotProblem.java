@@ -110,6 +110,10 @@ public class ParkingLotProblem {
         }
     }
 
+    /**
+     * Note that the vehicle is also tied to the parking spot
+     * Information for the parking lot is embedded in the vehicle
+     */
     static abstract class Vehicle {
         protected ArrayList<ParkingSpot> parkingSpots = new ArrayList<ParkingSpot>();
         protected String licensePlate;
@@ -139,6 +143,12 @@ public class ParkingLotProblem {
         abstract void print();
     }
 
+    /**
+     *  Find available spots
+     *  Can I park a vehicle?
+     *  Park a vehicle starting at position...
+     *  Open up spot at the level
+     */
     static class Level {
         private int floor;
         private ParkingSpot[] spots;
@@ -230,6 +240,12 @@ public class ParkingLotProblem {
 
     }
 
+    /**
+     *   Is the parking spot available?
+     *   Can I fit a vehicle inside?
+     *   Park the vehicle
+     *   Remove the vehicle
+     */
     static class ParkingSpot {
         private Vehicle vehicle;
         private VehicleSize spotSize;
