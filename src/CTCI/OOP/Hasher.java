@@ -4,7 +4,34 @@ import java.util.ArrayList;
 
 public class Hasher {
     public static void main(String[] args) {
+        Dummy bob= new Dummy("Bob", 20);
+        Dummy jim = new Dummy("Jim", 25);
+        Dummy alex = new Dummy("Alex", 30);
+        Dummy tim = new Dummy("Tim", 35);
 
+        Dummy[] dummies = {bob, jim, alex, tim};
+
+        HasherImpl<String, Dummy> hash = new HasherImpl<>(3);
+        for (Dummy d : dummies) {
+            System.out.println(hash.put(d.name, d));
+        }
+
+        hash.printTable();
+
+    }
+
+    static class Dummy {
+        private String name;
+        private int age;
+        Dummy(String n, int a) {
+            name = n;
+            age = a;
+        }
+
+        int getAge() {return age;}
+        String getName() {return name;}
+        @Override
+        public String toString() {return "(" + name + ", " + age + ")";}
     }
     static class HasherImpl<K, V> {
         static class LinkedListNode<K, V> {
