@@ -51,6 +51,7 @@ public class TripleStep {
      */
     static int countWays(int n, int[] memo) {
         if (n < 0) return 0;
+        // one way for reaching 0 steps
         else if (n == 0) return 1;
         else if (memo[n] > -1) return memo[n];
         else {
