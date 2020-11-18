@@ -41,18 +41,73 @@ public class HouseRobber {
         // The logical thought process is:
         // If I don't steal from current house, I get the max value from the prev house (steal or not steal)
         // If I steal from the current house, I get the value of the current house + the value I get from not stealing prev house
-        System.out.println("max profit from stealing house = " + rob(nums));
-        System.out.println("max profit from stealing house2 = " + rob2(nums));
-
+        System.out.println("max profit from stealing house = " + robDP(nums));
+        System.out.println("max profit from stealing house2 = " + robTwoVars(nums));
+        System.out.println("max profit from stealing house recurse = " + robRecursive(nums));
+        System.out.println("max profit from stealing house memo = " + robMemo(nums));
     }
 
-    private static int rob(int[] num) {
+    /**
+     * Recursive Top-down
+     * Brute force method which fails time limitations
+     * A robber has 2 options: a) rob current house i; b) don't rob current house.
+     * If an option "a" is selected it means she can't rob previous i-1 house but can
+     * safely proceed to the one before previous i-2 and gets all cumulative loot that follows.
+     * If an option "b" is selected the robber gets all the possible loot from robbery of i-1
+     * and all the following buildings.
+     * So it boils down to calculating what is more profitable:
+     *     robbery of current house + loot from houses before the previous
+     *     loot from the previous house robbery and any loot captured before that
+     * @param nums
+     * @return
+     */
+    private static int robRecursive(int[] nums) {
+        return rob(nums, nums.length-1);
+    }
+
+    private static int rob(int[] nums, int i) {
+        if (i < 0) return 0;
+        // pick one from the previous two
+        // if (i-2) is picked then the current num is picked as well
+        // if (i-1) is picked then no need to add current num
+        return Math.max(rob(nums, i - 2) + nums[i], rob(nums, i-1));
+    }
+
+    static int[] memo;
+
+    /**
+     * Recursive / memo top down
+     * time O(n), space O(n)
+     * @param nums
+     * @return
+     */
+    private static int robMemo(int[] nums) {
+        memo = new int[nums.length+1];
+        Arrays.fill(memo, -1);
+        return robMemoHelper(nums, nums.length-1);
+    }
+
+    private static int robMemoHelper(int[] nums, int index) {
+        if (index < 0) {
+            return 0;
+        }
+        if (memo[index] >= 0) {
+            return memo[index];
+        }
+        int result = Math.max(rob(nums, index - 2) + nums[index], rob(nums, index - 1));
+        memo[index] = result;
+        return result;
+    }
+
+    private static int robDP(int[] num) {
         // n+1 rows and 2 columns, first row is 0
         int[][] dp = new int[num.length + 1][2];
-        for (int i = 1; i <= num.length; i++) {
+        for (int index = 1; index <= num.length; index++) {
             // current element is max of prev 2 elements (first col and second col)
-            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1]);
-            dp[i][1] = num[i - 1] + dp[i - 1][0];
+            // take the max of take and not take, not taking the current cell
+            dp[index][0] = Math.max(dp[index - 1][0], dp[index - 1][1]);
+            // taking the current cell, so add num[index-1] to the sum so far (dp[index-1][0])
+            dp[index][1] = num[index - 1] + dp[index - 1][0];
         }
 
         for (int[] row : dp) {
@@ -69,14 +124,38 @@ public class HouseRobber {
     // func : r[i] = nr[i-1] + num
     //        nr[i] = max(nr[i-1],r[i-1])
 
-    private static int rob2(int[] nums) {
-        int rob = 0;
-        int notRob = 0;
+    private static int robTwoVars(int[] nums) {
+        int curRobSum = 0;
+        int prevRobSum = 0;
         for (int num : nums) {
-            int pre = Math.max(notRob, rob);
-            rob = notRob + num;
-            notRob = pre;
+            int maxRobNotRob = Math.max(prevRobSum, curRobSum);
+            // rob the current num
+            curRobSum = prevRobSum + num;
+            // not rob the current num
+            prevRobSum = maxRobNotRob;
         }
-        return Math.max(rob, notRob);
+        return Math.max(curRobSum, prevRobSum);
+    }
+
+    public static int robExplain(int[] nums)
+    {
+        int ifRobbedPrevious = 0; 	// max money can get if rob current house
+        int ifDidntRobPrevious = 0; // max money can get if not rob current house
+
+        // We go through all the values, we maintain two counts, 1) if we rob this cell, 2) if we didn't rob this cell
+        for(int i=0; i < nums.length; i++)
+        {
+            // If we rob current cell, previous cell shouldn't be robbed. So, add the current value to previous one.
+            int currRobbed = ifDidntRobPrevious + nums[i];
+
+            // If we don't rob current cell, then the count should be max of the previous cell robbed and not robbed
+            int currNotRobbed = Math.max(ifDidntRobPrevious, ifRobbedPrevious);
+
+            // Update values for the next round
+            ifDidntRobPrevious  = currNotRobbed;
+            ifRobbedPrevious = currRobbed;
+        }
+
+        return Math.max(ifRobbedPrevious, ifDidntRobPrevious);
     }
 }

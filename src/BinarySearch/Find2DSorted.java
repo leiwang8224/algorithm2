@@ -20,12 +20,13 @@ package BinarySearch;
 //        Output: true
 
 //
-//1) Start with top right element
+        //1) Start with top right element
 //        2) Loop: compare this element e with x
 //        ….i) if they are equal then return its position
 //        …ii) e < x then move it to down (if out of bound of matrix then break return false) ..
 //        iii) e > x then move it to left (if out of bound of matrix then break return false)
 //        3) repeat the i), ii) and iii) till you find element or returned false
+    // time complexity O(m+n)
 public class Find2DSorted {
     public static void main (String args[]) {
         int[][] array = new int[][] { {1,2,3,4},
@@ -51,5 +52,23 @@ public class Find2DSorted {
 
         System.out.println(key + " not found");
         return;
+    }
+
+    public static boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix == null || matrix.length < 1 || matrix[0].length <1) {
+            return false;
+        }
+        int col = matrix[0].length-1;
+        int row = 0;
+        while(col >= 0 && row <= matrix.length-1) {
+            if(target == matrix[row][col]) {
+                return true;
+            } else if(target < matrix[row][col]) {
+                col--;
+            } else if(target > matrix[row][col]) {
+                row++;
+            }
+        }
+        return false;
     }
 }
