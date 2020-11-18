@@ -1,6 +1,8 @@
 package DP;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 public class MinCostForTickets {
@@ -35,17 +37,34 @@ public class MinCostForTickets {
      days is in strictly increasing order.
      costs.length == 3
      1 <= costs[i] <= 1000
-     * @param days
-     * @param costs
-     * @return
+     * For each travel day, we can buy a one-day ticket, or use 7-day
+     * or 30-day pass as if we would have purchased it 7 or 30 days ago.
+     * We need to track rolling costs for at least 30 days back, and
+     * use them to pick the cheapest option for the next travel day.
+     *
+     * Here, we can use two approaches: track cost for all calendar days,
+     * or process only travel days. The first approach is simpler to
+     * implement, but it's slower. Since the problem is limited to one calendar
+     * year, it does not make much of a difference; for a generalized problem
+     * I would recommend the second approach.
+     *
+     * 1. Track calendar days
+     *
+     * We track the minimum cost for all calendar days in dp. For non-travel days,
+     * the cost stays the same as for the previous day. For travel days,
+     * it's a minimum of yesterday's cost plus single-day ticket, or cost for
+     * 8 days ago plus 7-day pass, or cost 31 days ago plus 30-day pass.
+     * time: O(W), where W is 365 is the max numbered days
+     * space: O(W)
      */
     private static int minCostTicketsRecurse(int[] days, int[] costs) {
         Integer[] allPossibleDaysToTravel = new Integer[366];
-        Set<Integer> possibleDaysToTravel = new HashSet();
-        for (int day: days) possibleDaysToTravel.add(day);
+        Set<Integer> setOfPossibleDaysTravel = new HashSet();
+        // move days into a set
+        for (int day: days) setOfPossibleDaysTravel.add(day);
 
         // recurse from day 1
-        return findMinCostToTravel(1, costs, allPossibleDaysToTravel, possibleDaysToTravel);
+        return findMinCostToTravel(1, costs, allPossibleDaysToTravel, setOfPossibleDaysTravel);
     }
 
     private static int findMinCostToTravel(int whichDayToTravel, int[] costs, Integer[] memoWhichDayToTravel, Set<Integer> possibleDaysToTravel) {
@@ -68,14 +87,21 @@ public class MinCostForTickets {
         return minCostToTravel;
     }
 
+    /**
+     * time: O(N) where N is the number of unique days in travel plan
+     * space: O(N)
+     * @param days
+     * @param costs
+     * @return
+     */
     public static int minCostTicketsDP(int[] days, int[] costs) {
         Integer[] memo = new Integer[days.length];
         int[] durations = new int[]{1, 7, 30};
 
-        return dp(0, costs, memo, days, durations);
+        return findMinCostDP(0, costs, memo, days, durations);
     }
 
-    public static int dp(int memoIndex, int[] costs, Integer[] memo, int[] days, int[] durations) {
+    public static int findMinCostDP(int memoIndex, int[] costs, Integer[] memo, int[] days, int[] durations) {
         if (memoIndex >= days.length)
             return 0;
         if (memo[memoIndex] != null)
@@ -89,10 +115,47 @@ public class MinCostForTickets {
                 daysToTravel++;
             }
             minCostToTravel = Math.min(minCostToTravel,
-                    dp(daysToTravel, costs, memo, days, durations) + costs[indexDurations]);
+                    findMinCostDP(daysToTravel, costs, memo, days, durations) + costs[indexDurations]);
         }
 
         memo[memoIndex] = minCostToTravel;
         return minCostToTravel;
+    }
+
+    /**
+     * We track the minimum cost for each travel day. We process only travel days and store
+     * {day, cost} for 7-and 30-day passes in the last7 and last30 queues. After a pass
+     * 'expires', we remove it from the queue. This way, our queues only contains travel
+     * days for the last 7 and 30 days, and the cheapest pass prices are in the front
+     * of the queues.
+     * @param days
+     * @param costs
+     * @return
+     */
+    public static int mincostTickets(int[] days, int[] costs) {
+        // using queue so that the oldest ticket is at the top.
+        Queue<int[]> last7days = new LinkedList<>(), last30days = new LinkedList<>();
+
+        int totalCost = 0;
+        for(int i=0; i < days.length; i++){
+            // discarding expired 7days pass
+            while(!last7days.isEmpty() && last7days.peek()[0] + 7 <= days[i]){
+                last7days.poll();
+            }
+
+            last7days.offer(new int[]{days[i], totalCost + costs[1]});
+
+            // discarding expired 30 days pass.
+            while(!last30days.isEmpty() && last30days.peek()[0] + 30 <= days[i]){
+                last30days.poll();
+            }
+
+            last30days.offer(new int[]{days[i], totalCost + costs[2]});
+
+            // taking the min of daily pass and current valid 7 days or 30 days pass.
+            totalCost = Math.min(totalCost + costs[0], Math.min(last30days.peek()[1], last7days.peek()[1]));
+        }
+
+        return totalCost;
     }
 }
