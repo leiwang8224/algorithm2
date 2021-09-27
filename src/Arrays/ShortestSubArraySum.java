@@ -6,6 +6,7 @@ import java.util.Deque;
 public class ShortestSubArraySum {
     public static void main(String[] args) {
         System.out.println(shortestSubarray(new int[] {2, -1, 2},3));
+        System.out.println(shortestSubarray(new int[]{1}, 1));
     }
 
 
@@ -54,27 +55,30 @@ public class ShortestSubArraySum {
         return shortestSubArrayLength == cumulativeSum.length ? -1: shortestSubArrayLength;
     }
 
-    private int shrotestSubArray(int[] A, int K) {
+    private static int shortestSubArray(int[] A, int K) {
         int N = A.length;
-        long[] P = new long[N+1];
+        long[] cumSum = new long[N+1];
         for (int i = 0; i < N; ++i)
-            P[i+1] = P[i] + (long) A[i];
+            cumSum[i+1] = cumSum[i] + (long) A[i];
 
-        // Want smallest y-x with P[y] - P[x] >= K
-        int ans = N+1; // N+1 is impossible
-        Deque<Integer> monoq = new java.util.LinkedList(); //opt(y) candidates, as indices of P
+        // Want smallest endIndex-startIndex with P[endIndex] - P[startIndex] >= K
+        int shortestLen = N+1; // N+1 is impossible
+        Deque<Integer> monotonicallyIncQueue = new java.util.LinkedList(); //start index candidates
 
-        for (int y = 0; y < P.length; ++y) {
-            // Want opt(y) = largest x with P[x] <= P[y] - K;
-            while (!monoq.isEmpty() && P[y] <= P[monoq.getLast()])
-                monoq.removeLast();
-            while (!monoq.isEmpty() && P[y] >= P[monoq.getFirst()] + K)
-                ans = Math.min(ans, y - monoq.removeFirst());
+        for (int endIndex = 0; endIndex < cumSum.length; ++endIndex) {
+            // Want opt(y) = largest x with cumSum[x] <= cumSum[y] - K;
+            while (!monotonicallyIncQueue.isEmpty() && cumSum[endIndex] <=
+                    cumSum[monotonicallyIncQueue.peekLast()])
+                monotonicallyIncQueue.pollLast();
+            while (!monotonicallyIncQueue.isEmpty() && cumSum[endIndex] >=
+                    cumSum[monotonicallyIncQueue.peek()] + K)
+                // or cumSum[endIndex] - cumSum[monotonicallyIncQueue.peek()] >= K
+                shortestLen = Math.min(shortestLen, endIndex - monotonicallyIncQueue.poll());
 
-            monoq.addLast(y);
+            monotonicallyIncQueue.addLast(endIndex);
         }
 
-        return ans < N+1 ? ans : -1;
+        return shortestLen < N+1 ? shortestLen : -1;
     }
 
     public int shortestSubarray3(int[] A, int K) {

@@ -20,9 +20,11 @@ public class LongestCommonPrefix {
     private static String longestCommonPrefix(String[] strs) {
         if (strs.length == 0) return "";
         String strToFind = strs[0];
+        // iterate through the array of strings to find index of first string
         for (int arrayIndex = 1; arrayIndex < strs.length; arrayIndex++) {
             // keep searching till we find the string
             // in the case we reach empty string we simply return empty string
+            // indexOf should return 0 if strToFind is in the prefix
             while (strs[arrayIndex].indexOf(strToFind) != 0) {
                 // NOTE the substring Java API includes 0th
                 // beginning index and ends with endIndex-1 (strToFind.length() - 2)

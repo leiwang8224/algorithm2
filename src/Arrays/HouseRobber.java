@@ -101,13 +101,15 @@ public class HouseRobber {
 
     private static int robDP(int[] num) {
         // n+1 rows and 2 columns, first row is 0
+//        dp[i][1] means we rob the current house and dp[i][0] means we don't,
         int[][] dp = new int[num.length + 1][2];
-        for (int index = 1; index <= num.length; index++) {
+        for (int row = 1; row <= num.length; row++) {
             // current element is max of prev 2 elements (first col and second col)
             // take the max of take and not take, not taking the current cell
-            dp[index][0] = Math.max(dp[index - 1][0], dp[index - 1][1]);
-            // taking the current cell, so add num[index-1] to the sum so far (dp[index-1][0])
-            dp[index][1] = num[index - 1] + dp[index - 1][0];
+            dp[row][0] = Math.max(dp[row - 1][0], dp[row - 1][1]);
+            // taking the current cell, so add num[row-1] to the sum so far (dp[row-1][0])
+            // rob current house = do not rob prev house + current house
+            dp[row][1] =  dp[row - 1][0] + num[row - 1];
         }
 
         for (int[] row : dp) {

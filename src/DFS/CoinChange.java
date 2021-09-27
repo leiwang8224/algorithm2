@@ -85,36 +85,36 @@ public class CoinChange {
      * also assume there are infinite number of coins for 1,5,10,25
      * @param coins
      * @param amount
-     * @param currentIndex
+     * @param curCoinIdx
      * @return
      */
-    private static int makeChange(int[] coins, int amount, int currentIndex,int depth) {
+    private static int makeChange(int[] coins, int amount, int curCoinIdx,int depth) {
         int nextCoinIndex;
         System.out.println(getDepthString(depth) + "remaining amount is " + amount);
         // if current index is not at the end increment one
-        if (currentIndex < coins.length-1) {
-            nextCoinIndex = currentIndex + 1;
+        if (curCoinIdx < coins.length-1) {
+            nextCoinIndex = curCoinIdx + 1;
             System.out.println(getDepthString(depth) + "increment coin index to " + nextCoinIndex);
         } else { // else we are at the end, return 1 for one cent
             // at the last coin which is 1 cent, return that 1 cent
-            System.out.println(getDepthString(depth) + "returning current coin amount " + coins[currentIndex] + " current Index = " + currentIndex);
+            System.out.println(getDepthString(depth) + "returning current coin amount " + coins[curCoinIdx] + " current Index = " + curCoinIdx);
             return 1;
 //            return coins[currentIndex]; // if the last coin is not one cent use this statement
         }
 
         int res = 0;
         for (int numberOfCoinsForCurrentIndex = 0;
-             numberOfCoinsForCurrentIndex * coins[currentIndex] <= amount;
+             numberOfCoinsForCurrentIndex * coins[curCoinIdx] <= amount;
              numberOfCoinsForCurrentIndex++) {
-            System.out.println(getDepthString(depth) + "call recursion making changes with " + coins[currentIndex] +
+            System.out.println(getDepthString(depth) + "call recursion making changes with " + coins[curCoinIdx] +
                                " with the number of coins = " + numberOfCoinsForCurrentIndex + " res = " + res +
-                               " currentIdx = " + currentIndex + " nextIdx = " + nextCoinIndex);
+                               " currentIdx = " + curCoinIdx + " nextIdx = " + nextCoinIndex);
             res += makeChange(coins,
-                              amount - numberOfCoinsForCurrentIndex * coins[currentIndex],
+                              amount - numberOfCoinsForCurrentIndex * coins[curCoinIdx],
                               nextCoinIndex,
                               depth + 1);
-            System.out.println(getDepthString(depth) + "return from recursion making changes with " + coins[currentIndex] +
-                    " with the number of coins = " + numberOfCoinsForCurrentIndex + " res = " + res + " currentIdx = " + currentIndex
+            System.out.println(getDepthString(depth) + "return from recursion making changes with " + coins[curCoinIdx] +
+                    " with the number of coins = " + numberOfCoinsForCurrentIndex + " res = " + res + " currentIdx = " + curCoinIdx
                                + " nextIdx = " + nextCoinIndex);
         }
         return res;

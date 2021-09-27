@@ -30,12 +30,12 @@ public class MaxLengthRepeatedSubArray {
 
         // iterate through each element and add one to count
         // if the element is the same
-        for (int i = 1; i < m+1; i++) {
-            for (int j = 1; j < n+1; j++) {
-                if (A[i-1] == B[j-1]) {
-                    dp[i][j] = dp[i-1][j-1]+1;
+        for (int row = 1; row < m+1; row++) {
+            for (int col = 1; col < n+1; col++) {
+                if (A[row-1] == B[col-1]) {
+                    dp[row][col] = dp[row-1][col-1]+1;
                 }
-                max = Math.max(dp[i][j], max);
+                max = Math.max(dp[row][col], max);
             }
         }
         //[0, 0, 0, 0, 0, 0]

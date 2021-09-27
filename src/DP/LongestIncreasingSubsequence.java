@@ -69,6 +69,23 @@ public class LongestIncreasingSubsequence {
         return memo[prevIndex+1][curIndex];
     }
 
+    public static int lengthOfLISSimple(int[] nums) {
+        if(nums == null || nums.length==0)
+            return 0;
+        int[] dpLongest = new int[nums.length];
+        java.util.Arrays.fill(dpLongest,1);
+        int result = 1;
+        for(int index=1; index<nums.length; index++){
+            for(int indexUpTo=0; indexUpTo<index; indexUpTo++){
+                if(nums[index]>nums[indexUpTo]){
+                    dpLongest[index]=Math.max(dpLongest[indexUpTo]+1,dpLongest[index]);
+                }
+            }
+            result=Math.max(result, dpLongest[index]);
+        }
+        return result;
+    }
+
     //O(n^2) time
     //O(n) space
     // This method relies on the fact that the longest increasing subsequence possible up to the ith index
@@ -163,5 +180,39 @@ public class LongestIncreasingSubsequence {
             }
         }
         return longestIncSubLength;
+    }
+
+    public static int findPositionToReplace(int[] a, int low, int high, int x) {
+        int mid;
+        while (low <= high) {
+            mid = low + (high - low) / 2;
+            if (a[mid] == x)
+                return mid;
+            else if (a[mid] > x)
+                high = mid - 1;
+            else
+                low = mid + 1;
+        }
+        return low;
+    }
+
+    public static int lengthOfLIS3(int[] nums) {
+        if (nums == null | nums.length == 0)
+            return 0;
+        int n = nums.length, len = 0;
+        int[] increasingSequence = new int[n];
+        increasingSequence[len++] = nums[0];
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > increasingSequence[len - 1])
+                // move the num into the incSequence
+                increasingSequence[len++] = nums[i];
+            else {
+                // found a smaller element in nums array that is bigger than
+                // the biggest element in increasingSeq array
+                int position = findPositionToReplace(increasingSequence, 0, len - 1, nums[i]);
+                increasingSequence[position] = nums[i];
+            }
+        }
+        return len;
     }
 }

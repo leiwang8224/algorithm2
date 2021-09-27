@@ -25,6 +25,7 @@ public class DjikstraShortestPath {
 //            v4 = Pville
 //
 //    Shortest Path to V3 from V0 = [Rville, Oville]
+    // assumptions: all positive edges and no self loops
     public static void main(String[] args) {
         Vertex V2 = new Vertex("Gville");
         Vertex V0 = new Vertex("Rville");
@@ -82,13 +83,15 @@ public class DjikstraShortestPath {
     // helper function to compute shortest path and store in each vertex
     private static void computePaths(Vertex source) {
         source.minDistance = 0;
+        // retrieves with log(n) time
         PriorityQueue<Vertex> vertexPriorityQueue = new PriorityQueue<>();
 
         //BFS traversal
         vertexPriorityQueue.add(source);
 
+        // O((v + e) * log(v))
         while (!vertexPriorityQueue.isEmpty()) {
-            // this poll always returns the shortest distance vertex (priority Q)
+            // this poll always returns the shortest distance vertex at log(v) time
             Vertex vertex = vertexPriorityQueue.poll();
 
             //visit each edge exiting vertex (adjacencies)
@@ -104,7 +107,7 @@ public class DjikstraShortestPath {
                     targetVertex.minDistance = distanceThruVertex;
                     // update previous with the shortest distance vertex
                     targetVertex.previous = vertex;
-                    vertexPriorityQueue.add(targetVertex);
+                    vertexPriorityQueue.add(targetVertex);// adding takes log(v) time because needs to heapify
                 }
             }
         }

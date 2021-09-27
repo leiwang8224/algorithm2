@@ -86,6 +86,11 @@ public class CanIWin {
 
 //    Map<Integer, Boolean> map;
 //    boolean[] used;
+
+    /**
+     * form map for corresponding plays and win or lose
+     * form boolean array for the play configurations
+     */
     public static boolean canIWin(int maxChoosableInteger, int desiredTotal) {
         Map<Integer, Boolean> playConfigurationMap;
         boolean[] playConfigurationBool;
@@ -121,6 +126,19 @@ public class CanIWin {
 //    First Player unchoose 1 and chooses 2
 //    Second Player find that desiredTotal <= 0, so the helper method return false
 //    First Player receives this false with a ! before it, so the condition is true now and Player 1 Wins
+
+    /**
+     * 1. get the current play configuration by converting the play config into integer
+     * 2. if the map does not contain the play config:
+     *    - for loop to iterate through all plays
+     *    - if the current play has not played yet, play the current configuration
+     *    - call recurse on the method and subtract from desiredTotal
+     * 3. if opponent does not win
+     *    - put the winning configuration in map
+     *    - reset the play configuration and return true for I win (unchoose)
+     *    - reset the play configuration (unchoose) for opponent win
+     * 4. for loop exhausted all plays and no win so I lose, put in map
+     */
     public static boolean checkIfWin(int desiredTotal, Map<Integer, Boolean> playConfigurationMap, boolean[] curPlayConfigBoolArray){
         // total is already less than or equal to 0, game over I lose
         if(desiredTotal <= 0) return false;

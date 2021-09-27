@@ -28,41 +28,43 @@ public class NumberLongestIncSubsequence {
         int numsLength = nums.length;
         if (numsLength <= 1) return numsLength;
         // lengths[i] = length of longest ending in nums[i]
-        int[] lengthsLongestEndingInI = new int[numsLength];
+        int[] dpLengthsLongestEndingInI = new int[numsLength];
         //count[i] = number of longest ending in nums[i]
-        int[] numberOfLongestEndingInI_DP = new int[numsLength];
+        int[] dpNumberOfLongestEndingInI = new int[numsLength];
         // initially there is 1 LIS and the number of LIS is 1
         // because it's always LIS up to index i plus 1
-        java.util.Arrays.fill(numberOfLongestEndingInI_DP, 1);
-        java.util.Arrays.fill(lengthsLongestEndingInI, 1);
+        java.util.Arrays.fill(dpNumberOfLongestEndingInI, 1);
+        java.util.Arrays.fill(dpLengthsLongestEndingInI, 1);
 
         int longestLen = 1;
         for (int index = 1; index < numsLength; index++) {
             for (int indexUpTo = 0; indexUpTo < index; indexUpTo++) {
                 if (nums[index] > nums[indexUpTo]) {
                     // check for two things
-                    // - the element at index after is greater than the element at index before
-                    // - the element at index after is equal to the element at index before
-                    if (lengthsLongestEndingInI[indexUpTo] + 1 > lengthsLongestEndingInI[index]) {
-                        //since greater we replace the element at index with the larger number
-                        lengthsLongestEndingInI[index] = lengthsLongestEndingInI[indexUpTo] + 1;
-                        //update the number of LIS
-                        numberOfLongestEndingInI_DP[index] = numberOfLongestEndingInI_DP[indexUpTo];
+                    // - (if combining with index makes a longer inc subsequence)
+                    // - (if combining with index makes another longest inc subsequence)
+                    if (dpLengthsLongestEndingInI[indexUpTo] + 1 > dpLengthsLongestEndingInI[index]) {
+                        // need to update the longest length AND the number of the longest
+                        dpLengthsLongestEndingInI[index] = dpLengthsLongestEndingInI[indexUpTo] + 1;
+                        // move number of longest from the previous index to current index
+                        dpNumberOfLongestEndingInI[index] = dpNumberOfLongestEndingInI[indexUpTo];
                         // this is the case when there is a new longest candidate so we will need to add it
-                    } else if (lengthsLongestEndingInI[index] == lengthsLongestEndingInI[indexUpTo] + 1) {
-                        numberOfLongestEndingInI_DP[index] += numberOfLongestEndingInI_DP[indexUpTo];
+                    } else if (dpLengthsLongestEndingInI[index] == dpLengthsLongestEndingInI[indexUpTo] + 1) {
+                        // only need to update the number of the longest
+                        // since we have filled the array with 1's just add existing count to 1
+                        dpNumberOfLongestEndingInI[index] += dpNumberOfLongestEndingInI[indexUpTo];
                     }
                 }
             }
             // find longestLength
-            longestLen = Math.max(longestLen, lengthsLongestEndingInI[index]);
+            longestLen = Math.max(longestLen, dpLengthsLongestEndingInI[index]);
         }
 
         int numberOfLongestLen = 0;
         // given longestLength find the number of subsequence with longest length
-        for (int i = 0; i < lengthsLongestEndingInI.length; ++i) {
-            if (lengthsLongestEndingInI[i] == longestLen) {
-                numberOfLongestLen += numberOfLongestEndingInI_DP[i];
+        for (int i = 0; i < dpLengthsLongestEndingInI.length; ++i) {
+            if (dpLengthsLongestEndingInI[i] == longestLen) {
+                numberOfLongestLen += dpNumberOfLongestEndingInI[i];
             }
         }
         return numberOfLongestLen;

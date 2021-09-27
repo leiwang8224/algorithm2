@@ -34,7 +34,7 @@ public class MaxProductSubarray {
             localMin = Math.min(Math.min(localMaxBefore * A[index],
                     localMinBefore * A[index]),
                     A[index]);
-            // update globalMax
+            // update globalMax using localMax and previous globalMax
             globalMax = Math.max(localMax, globalMax);
             // update localMaxBefore and localMinBefore for next iteration
             localMaxBefore = localMax;

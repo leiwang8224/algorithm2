@@ -19,19 +19,30 @@ public class PredictWinner {
     // if it's player 1's turn, we add the current number's score to the total score
     // otherwise we need to subtract the same.
     public static boolean predictWinnerBruteForce(int[] nums) {
-        return winner(nums, 0, nums.length -1, 1) >= 0;
+        return getOpponentMaxScore(nums, 0, nums.length -1, 1) >= 0;
     }
 
-    private static int winner(int[] nums, int startIndex, int endIndex, int turn) {
+    private static int getOpponentMaxScore(int[] nums, int startIndex, int endIndex, int turn) {
         if (startIndex == endIndex) return turn * nums[startIndex];
 
         // pick start and recurse, (start +1) or end will be selected by opponent
         // apply negative sign for turn to indicate opponent's turn
-        int pickStartIndex = turn * nums[startIndex] + winner(nums, startIndex + 1, endIndex, -turn);
+        int pickStartIndex = turn * nums[startIndex] + getOpponentMaxScore(nums, startIndex + 1, endIndex, -turn);
         // pick end and recurse, (end-1) or start will be selected by opponent
-        int pickEndIndex = turn * nums[endIndex] + winner(nums, startIndex, endIndex-1, -turn);
+        int pickEndIndex = turn * nums[endIndex] + getOpponentMaxScore(nums, startIndex, endIndex-1, -turn);
         // this represent max(a, b) for player 1 and min(a,b) for player 2
         return turn * Math.max(turn * pickStartIndex, turn * pickEndIndex);
+    }
+
+    public static boolean predictWinnerBruteForce3(int[] nums) {
+        // find if your play will end up with a score greater than or equal to 0
+        return getOpponentMaxScore2(nums, 0, nums.length-1) >= 0;
+    }
+
+    private static int getOpponentMaxScore2(int[] nums, int left, int right) {
+        if (left == right) return nums[left];
+        return Math.max(nums[left] - getOpponentMaxScore2(nums, left + 1, right),
+                        nums[right] - getOpponentMaxScore2(nums, left, right-1));
     }
 
     // O(n ^ 2) time
@@ -40,19 +51,30 @@ public class PredictWinner {
     // starts from start and ends to end
     private static boolean predictWinnerMemo(int[] nums) {
         Integer[][] memo = new Integer[nums.length][nums.length];
-        return winnerMemo(nums, 0, nums.length -1, memo) >= 0;
+        // if the result is greater than 0 then I have more score than my opponent
+        // this essentially returns the difference in score between me and my opponent
+        return getOpponentMaxScoreMemo(nums, 0, nums.length -1, memo) >= 0;
     }
 
     // lose the concept of the turn
-    private static int winnerMemo(int[] nums, int start, int end, Integer[][] memo) {
+
+    /**
+     * 1. if start is equal to end then return one of the elements
+     * 2. if memo is not null return that element
+     * 3. calculate how much more score I get if I pick Left
+     * 4. calculate how much more score I get if I pick right
+     * 5. take max of the two and store in memo
+     * 6. return memo element
+     */
+    private static int getOpponentMaxScoreMemo(int[] nums, int start, int end, Integer[][] memo) {
         // no longer need to calculate, just return
         if (start == end) return nums[end]; //only one choice left to choose from
         if (memo[start][end] != null) return memo[start][end];
 
-        int playStartIndex = nums[start] - winnerMemo(nums, start + 1, end, memo);
-        int playEndIndex = nums[end] - winnerMemo(nums, start, end -1, memo);
-        // keep track of the max of the subarray max and min index in memo[start][end]
-        memo[start][end] = Math.max(playStartIndex, playEndIndex);
+        int diffScoreIfIPickStart = nums[start] - getOpponentMaxScoreMemo(nums, start + 1, end, memo);
+        int diffScoreIfIPickEnd = nums[end] - getOpponentMaxScoreMemo(nums, start, end -1, memo);
+        // keep track of the max score the first player can earn by playing the either sides of the array
+        memo[start][end] = Math.max(diffScoreIfIPickStart, diffScoreIfIPickEnd);
         return memo[start][end];
     }
 
@@ -90,24 +112,25 @@ public class PredictWinner {
 //             1  2
 //                1
     private static boolean predictWinnerDP(int[] nums) {
-        int[][] dp = new int[nums.length][nums.length];
+        int[][] dpMaxScore = new int[nums.length][nums.length];
         for (int index = 0; index < nums.length; index++) {
             // populate diagonals with the numbers from the array
-            dp[index][index] = nums[index];
+            dpMaxScore[index][index] = nums[index];
         }
-        for (int colOffsetFromRow = 1; colOffsetFromRow < nums.length; colOffsetFromRow++) {
-            for(int row = 0; row < nums.length - colOffsetFromRow; row++) {
-                int col = row + colOffsetFromRow;
-                System.out.println("evaluating row = " + row + " col = " + col +
-                        " dp[row+1][col] = " + dp[row+1][col] + " dp[row][col-1] = " + dp[row][col-1]);
-                dp[row][col] = Math.max(nums[row] - dp[row+1][col],
-                                        nums[col] - dp[row][col-1]);
+        for (int windowSize = 1; windowSize < nums.length; windowSize++) {
+            for(int startIndex = 0; startIndex < nums.length - windowSize; startIndex++) {
+                int endIndex = startIndex + windowSize;
+                // take the max of how much more score I needed from start to end than the other player
+                // dp[start + 1][end] already saves how much more score that
+                // the first-in-action player will get from start + 1 to end than the second player.
+                // So if player A picks position start, eventually player A will get
+                // nums[start] - dp[start + 1][end] more score than player B after they pick up all numbers.
+                // dpMaxScore[startIndex+1][endIndex] and dpMaxScore[startIndex][endIndex-1] are max score for opponent
+                dpMaxScore[startIndex][endIndex] = Math.max(nums[startIndex] - dpMaxScore[startIndex+1][endIndex],
+                                        nums[endIndex] - dpMaxScore[startIndex][endIndex-1]);
             }
         }
-        for (int[] row : dp) {
-            System.out.println(java.util.Arrays.toString(row));
-        }
-        return dp[0][nums.length-1] >= 0;
+        return dpMaxScore[0][nums.length-1] >= 0;
     }
 
     // O(n ^ 2) time

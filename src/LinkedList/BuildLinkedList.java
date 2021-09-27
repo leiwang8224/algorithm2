@@ -209,6 +209,8 @@ public class BuildLinkedList {
 //    Time complexity : O(n). There are total n nodes and we
 //    visit each node once.
 //    Space complexity : O(1). All we need is the four pointers.
+    // use 3 pointers to traverse the list, odd, even, evenhead
+    // use even pointer to do the actual traversing
     public static ListNode makeOddEvenList(ListNode head) {
         System.out.println("entering makeOddEvenList");
         ListNode odd = head;

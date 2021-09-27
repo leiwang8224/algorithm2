@@ -19,6 +19,12 @@ public class LongestNonRepeatingSubstring {
 
     /**
      * Sliding window that leverages the hashmap
+     * 1. iterate through the string and put in hashmap if not exist <element, index>
+     * 2. if element already exist in the hashmap
+     *    - take the max of length so far (hashmap size)
+     *    - get the index of the previous duplicate and set it to the for loop index
+     *    - clear the map to start over again
+     * 3. return the max of the size of hashmap and the max of length so far
      * @param input
      * @return
      */
@@ -171,6 +177,7 @@ public class LongestNonRepeatingSubstring {
             } else {
                 System.out.println("index = " + index + " iteration = " + iterate + " char = " + c);
                 while (index < iterate) {
+                    // found duplicate so break
                     if (str.charAt(index) == c) {
                         index++;
                         System.out.println("break and index = " + index);

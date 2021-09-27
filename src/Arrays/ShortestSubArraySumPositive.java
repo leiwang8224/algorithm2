@@ -62,7 +62,7 @@ public class ShortestSubArraySumPositive {
 
         while (endIndex < a.length) {
             // add to cumSum first before evaluating minWindowLength
-            cumSum += a[endIndex++];
+            cumSum += a[endIndex++]; // NOTE the endIndex is incremented before calculating the shortest window
 
             while (cumSum >= target) {
                 // get the min window length first before moving the start pointer

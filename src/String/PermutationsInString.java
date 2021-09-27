@@ -19,17 +19,17 @@ public class PermutationsInString {
 //    Space complexity : O(1). hashmap contains atmost 26 key-value pairs.
 
 
-    private static boolean checkInclusion(String s1, String s2) {
-        if (s1.length() > s2.length()) return false;
-        int[] s1map = new int[26];
-        for (int i = 0; i < s1.length(); i++)
-            s1map[s1.charAt(i) - 'a']++;
-        for (int diffIndex = 0; diffIndex <= s2.length() - s1.length(); diffIndex++) {
-            int[] s2map = new int[26];
-            for (int s1Index = 0; s1Index < s1.length(); s1Index++) {
-                s2map[s2.charAt(diffIndex + s1Index) - 'a']++;
+    private static boolean checkInclusion(String shorterString, String longerString) {
+        if (shorterString.length() > longerString.length()) return false;
+        int[] shorterStringMap = new int[26];
+        for (int i = 0; i < shorterString.length(); i++)
+            shorterStringMap[shorterString.charAt(i) - 'a']++;
+        for (int diffIndex = 0; diffIndex <= longerString.length() - shorterString.length(); diffIndex++) {
+            int[] longerStringMap = new int[26];
+            for (int shorterStringIndex = 0; shorterStringIndex < shorterString.length(); shorterStringIndex++) {
+                longerStringMap[longerString.charAt(diffIndex + shorterStringIndex) - 'a']++;
             }
-            if (matches(s1map, s2map))
+            if (matches(shorterStringMap, longerStringMap))
                 return true;
         }
         return false;
@@ -59,23 +59,37 @@ public class PermutationsInString {
 //    So once we see all zeros in the map, meaning equal numbers
 //    of every characters between s1 and the substring in the
 //    sliding window, we know the answer is true.
+    //1. form hash for both strings
+    //2. iterate through the longer string and adjust window size based on:
+        //- character moves in from the right side, subtract 1 from hash for that char
+        //- character moves out from the left side, add 1 to the hash for that char
     private static boolean checkInclusionSlidingWindow(String shorterString, String longerString) {
         if (shorterString.length() > longerString.length())
             return false;
         int[] shorterStrHash = new int[26];
         int[] longerStrHash = new int[26];
+        // setup two hashes with only the first n chars of both strings
+        // where n = shorterString.length
         for (int i = 0; i < shorterString.length(); i++) {
             shorterStrHash[shorterString.charAt(i) - 'a']++;
             longerStrHash[longerString.charAt(i) - 'a']++;
         }
-        for (int index = shorterString.length(); index < longerString.length(); index++) {
+        System.out.println(java.util.Arrays.toString(shorterStrHash));
+        // continue traversing through rest of the longer string
+        // iterate till we find the map matches
+        for (int index = shorterString.length();
+             index < longerString.length();
+             index++) {
             if (matches(shorterStrHash, longerStrHash))
                 return true;
-            // index at beginning window add
-            longerStrHash[longerString.charAt(index - shorterString.length()) - 'a']++;
-            // index at end window subtract
-            longerStrHash[longerString.charAt(index) - 'a']--;
+            // index at beginning window subtract, update map
+            longerStrHash[longerString.charAt(index - shorterString.length()) - 'a']--;
+            // index at end window add, update map
+            longerStrHash[longerString.charAt(index) - 'a']++;
+            System.out.println(java.util.Arrays.toString(longerStrHash));
         }
+
+        // check for matches at the end of the loop (after last char added to map)
         return matches(shorterStrHash, longerStrHash);
     }
 

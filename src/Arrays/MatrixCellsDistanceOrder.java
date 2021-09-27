@@ -63,19 +63,19 @@ public class MatrixCellsDistanceOrder {
 
     // use count sort, given that the range for dist is small
     public static int[][] allCellsDistOrder(int R, int C, int r0, int c0) {
-        int[] counter = new int[R + C + 1];
+        int[] hashDistances = new int[R + C + 1];
         for (int row = 0; row < R; row++) {
             for (int col = 0; col < C; col++) {
                 // find distance for each cell with respect to r0, c0
-                int dist = Math.abs(row - r0) + Math.abs(col - c0);
+                int distCurRowCol = Math.abs(row - r0) + Math.abs(col - c0);
                 // store the dist into hash, dist is not 0 indexed so add 1
-                counter[dist + 1] += 1;
+                hashDistances[distCurRowCol + 1] += 1;
             }
         }
 
         // sum accumulate, counter[i] = counter[i-1] + counter[i]
-        for (int i = 1; i < counter.length; i++) {
-            counter[i] += counter[i - 1];
+        for (int i = 1; i < hashDistances.length; i++) {
+            hashDistances[i] += hashDistances[i - 1];
         }
 
         // second dimension does not have to be specified(dynamic)
@@ -83,8 +83,8 @@ public class MatrixCellsDistanceOrder {
         for (int row = 0; row < R; row++) {
             for (int col = 0; col < C; col++) {
                 int dist = Math.abs(row - r0) + Math.abs(col - c0);
-                result[counter[dist]] = new int[] { row, col };
-                counter[dist]++;
+                result[hashDistances[dist]] = new int[] { row, col };
+                hashDistances[dist]++;
             }
         }
 

@@ -15,27 +15,82 @@ public class WordSearch {
         wordExists(board, "SEE");
     }
 
+    /**
+     * DFS method
+     * 1. iterate through the board and recurse from start index of 0
+     * 2. recursion base conditions
+     *      - array index has reached the end, return true
+     *      - if reached outside of board or the letter is not in the word
+     *      - set the board position
+     *      - recurse on all 4 directions from the cell and set the exist var
+     *      - unset the board position
+     *      - return the exist var
+     *
+     */
     private static boolean wordExists(char[][] board, String word) {
-        char[] w = word.toCharArray();
+        char[] charArray = word.toCharArray();
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
-                if (exist(board, row, col, w, 0)) return true;
+                if (exist(board, row, col, charArray, 0)) return true;
             }
         }
         return false;
     }
 
-    private static boolean exist(char[][] board, int y, int x, char[] word, int i) {
-        if (i == word.length) return true;
-        if (y<0 || x<0 || y == board.length || x == board[y].length) return false;
-        if (board[y][x] != word[i]) return false;
-        board[y][x] ^= 256;
-        boolean exist = exist(board, y, x+1, word, i+1)
-                || exist(board, y, x-1, word, i+1)
-                || exist(board, y+1, x, word, i+1)
-                || exist(board, y-1, x, word, i+1);
-        board[y][x] ^= 256;
+    private static boolean exist(char[][] board, int row, int col, char[] charArray, int charArrayIndex) {
+        if (charArrayIndex == charArray.length) return true;
+        if (row<0 || col<0 || row == board.length || col == board[row].length) return false;
+        if (board[row][col] != charArray[charArrayIndex]) return false;
+        // mask is used to set the element at board[row][col]
+        board[row][col] ^= 256; // board[row][col] = '*';
+        boolean exist = exist(board, row, col+1, charArray, charArrayIndex+1)
+                || exist(board, row, col-1, charArray, charArrayIndex+1)
+                || exist(board, row+1, col, charArray, charArrayIndex+1)
+                || exist(board, row-1, col, charArray, charArrayIndex+1);
+        // mask is used to unset the element at board[row][col]
+        board[row][col] ^= 256; // charArray[charArrayIndex]
         return exist;
+    }
+
+    public static boolean findWordExist(char[][] board, String wordToLookFor) {
+        /*Find word's first letter.  Then call method to check it's surroundings */
+        for(int row=0; row<board.length; row++)
+            for(int col=0; col<board[0].length; col++)
+                if(board[row][col]==wordToLookFor.charAt(0) && help(board,wordToLookFor,0,row,col))
+                    return true;
+
+        return false;
+    }
+
+    public static boolean help(char[][] b, String word, int start, int row, int col){
+        /* once we get past word.length, we are done. */
+        if(word.length() <= start)
+            return true;
+
+        /* if off bounds, letter is seen, letter is unequal to word.charAt(start) return false */
+        if(row<0 ||
+                col<0 ||
+                row>=b.length ||
+                col>=b[0].length ||
+                b[row][col]=='0' ||
+                b[row][col]!=word.charAt(start))
+            return false;
+
+        /* set this board position to seen. (Because we can use this postion) */
+        char tmp = b[row][col];
+        b[row][col] = '0';
+
+        /* recursion on all 4 sides for next letter, if works: return true */
+        if(help(b,word,start+1,row+1,col) ||
+                help(b,word,start+1,row-1,col) ||
+                help(b,word,start+1,row,col+1) ||
+                help(b,word,start+1,row,col-1))
+            return true;
+
+        //Set back to unseen
+        b[row][col] = tmp;
+
+        return false;
     }
 
     static boolean[][] visited;
