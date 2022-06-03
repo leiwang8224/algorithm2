@@ -36,9 +36,9 @@ public class RecurseSubset {
         for (ArrayList<Integer> list : newList) {
             System.out.println(Arrays.toString(list.toArray()));
         }
-
-        ArrayList<String> result = getCombPerms("ABC",0);
-        System.out.println(result);
+//
+//        ArrayList<String> result = getCombPerms("ABC",0);
+//        System.out.println(result);
     }
 
     /**
@@ -50,7 +50,10 @@ public class RecurseSubset {
      * @param origArray
      * @param startIndex
      */
-    private static void createSubset(ArrayList<ArrayList<Integer>> list, ArrayList<Integer> subList, int[] origArray, int startIndex) {
+    private static void createSubset(ArrayList<ArrayList<Integer>> list,
+                                     ArrayList<Integer> subList,
+                                     int[] origArray,
+                                     int startIndex) {
         System.out.println("enter createPermutation start = " + startIndex);
         list.add(new ArrayList<>(subList));
         System.out.println("list added new subList");
@@ -66,6 +69,21 @@ public class RecurseSubset {
             subList.remove(subList.size()-1);
             System.out.println("end of for loop after removal subList = " + subList);
         }
+    }
+
+    private static void createSubsetSimple(ArrayList<ArrayList<Integer>> result,
+                                           ArrayList<Integer> subList,
+                                           int[] origArray,
+                                           int idx) {
+        if (idx == origArray.length) {
+            result.add(new ArrayList<>(subList));
+            return;
+        }
+
+        subList.add(origArray[idx]);
+        createSubsetSimple(result, subList, origArray, idx+1);
+        subList.remove(subList.size()-1);
+        createSubsetSimple(result, subList, origArray, idx + 1);
     }
 
 

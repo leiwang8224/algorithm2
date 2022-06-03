@@ -63,4 +63,22 @@ public class LongestSubstringWithouDup {
         // Write your code here
         return str.substring(indices[0], indices[1] + 1);
     }
+
+    public static int longestSubstringLen(String s) {
+        Map<Character, Integer> map= new HashMap<>();
+        int start=0, len=0;
+
+        // abba
+        for(int curIdx=0; curIdx<s.length(); curIdx++) {
+            char curChar = s.charAt(curIdx);
+            if (map.containsKey(curChar)) {
+                if (map.get(curChar) >= start)
+                    start = map.get(curChar) + 1;
+            }
+            len = Math.max(len, curIdx-start+1);
+            map.put(curChar, curIdx);
+        }
+
+        return len;
+    }
 }

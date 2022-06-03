@@ -88,8 +88,7 @@ public class Trie4 {
                     cur = node;
                 }
 
-                // TODO what is this for?
-//                children = cur.children;
+                children = cur.children;
 
                 // if at the end of trie, set leaf to true
                 if (i == word.length() - 1) {

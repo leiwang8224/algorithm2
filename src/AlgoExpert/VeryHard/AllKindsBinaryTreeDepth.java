@@ -118,7 +118,7 @@ public class AllKindsBinaryTreeDepth {
     private int sumAllNodeDepths(ListNode root, Map<ListNode, Integer> nodeDepthsMap) {
         if (root == null) return 0;
         return sumAllNodeDepths(root.left, nodeDepthsMap) +
-                sumAllNodeDepths((root.right, nodeDepthsMap) + nodeDepthsMap.get(root);
+                sumAllNodeDepths(root.right, nodeDepthsMap) + nodeDepthsMap.get(root);
     }
 
     // O(n) time | O(h) space
